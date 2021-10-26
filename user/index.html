@@ -10,18 +10,18 @@
 	<script type="text/javascript" src="../js/slide.js"></script>
 </head>
 <body>
-	<div class="header_con">
+	<!-- <div class="header_con">
 		<div class="header">
 			<div class="welcome fl">欢迎来到鲜生活!</div>
 			<div class="fr">
 				<div class="login_btn fl">
-				    <!-- 判断是否登入   没登入显示登入按钮 -->
-				    <c:if test="${user.username  == null}">
+				    判断是否登入   没登入显示登入按钮 -->
+				    <!-- <c:if test="${user.username  == null}">
 					<a href="login.html">登录</a>
 					<span>|</span>
 					</c:if>
-					<!-- 登入显示用户名 -->
-					 <c:if test="${user.username  != null}">
+					 登入显示用户名 -->
+					 <!-- <c:if test="${user.username  != null}">
 					<a href="login.html">欢迎您：<em>${user.username}</em></a>
 					<span>|</span>
 					</c:if>
@@ -37,13 +37,35 @@
 				</div>
 			</div>
 		</div>		
+	</div> -->
+
+	<div class="header_con">
+		<div class="header">
+			<div class="welcome fl">欢迎来到鲜生活!</div>
+			<div class="fr">
+				<div class="login_btn fl">
+						<p id="hello">你好,</p>
+						<span>|</span>
+				</div>
+				<div class="user_link fl">
+					<span>|</span>
+					<a href="user_center_info.html">用户中心</a>
+					<span>|</span>
+					<a href="cart.html">我的购物车</a>
+					<span>|</span>
+					<a href="user_center_order.html">我的订单</a>
+				</div>
+			</div>
+		</div>
 	</div>
+
+
 
 	<div class="search_bar clearfix">
 		<a href="index.html" class="logo fl"><img src="../images/logo.png"></a>
 		<div class="search_con fl">
-			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
-			<input type="button" class="input_btn fr" name="" value="搜索">
+			<input type="text" class="input_text fl" name="" id="searchBar" placeholder="搜索商品">
+			<input type="button" class="input_btn fr" name="" id="searchBarBtn" value="搜索">
 		</div>
 		<div class="guest_cart fr">
 			<a href="cart.html" class="cart_name fl">我的购物车</a>
@@ -66,18 +88,12 @@
 
 	<div class="center_con clearfix">
 		<ul class="subnav fl">
-		    <!-- foreach循环   items属性指定需要迭代的集合或数组，var属性指定迭代的当前元素 
-		       等价于 for(CategoryEntity c : categories){c.getCategoryName}
-		      ${categories}  等价于  request.getAttribute("categories")
-		    -->
-		    <!-- <c:forEach items="${categories}" var="c" > -->
-			<li><a href="#" class="fruit">新鲜水果</a></li>
-			<li><a href="#" class="fruit">新鲜水果</a></li>
-			<li><a href="#" class="fruit">新鲜水果</a></li>
-			<li><a href="#" class="fruit">新鲜水果</a></li>
-			<li><a href="#" class="fruit">新鲜水果</a></li>
-			<li><a href="#" class="fruit">新鲜水果</a></li>
-			<!-- </c:forEach> -->
+			<li><a href="#model01" class="fruit">新鲜水果</a></li>
+			<li><a href="#model02" class="seafood">海鲜水产</a></li>
+			<li><a href="#model03" class="meet">猪肉牛羊</a></li>
+			<li><a href="#model04" class="egg">禽类蛋品</a></li>
+			<li><a href="#model05" class="vegetables">新鲜蔬菜</a></li>
+			<li><a href="#model06" class="ice">速冻食品</a></li>
 		</ul>
 		<div class="slide fl">
 			<ul class="slide_pics">
@@ -105,20 +121,15 @@
 				<a href="#">加州提子</a>
 				<a href="#">亚马逊牛油果</a>
 			</div>
-			<a href="list.html" class="goods_more fr" id="fruit_more">查看更多 ></a>
+			<a href="" class="goods_more fr" id="fruit_more">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="../images/banner01.jpg"></div>
-			<ul class="goods_list fl">
-				<c:forEach items="${goods1}" var="g1" >
-				<li>
-					<h4><a href="../FindGoodsDeatilSvl?goodsid=${g1.goodsid}">${g1.goodsname}</a></h4>
-					<a href="../FindGoodsDeatilSvl?goodsid=${g1.goodsid}"><img src="${g1.mainimgurl}"></a>
-					<div class="prize">¥ ${g1.price}</div>
-				</li>
-				</c:forEach>
+			<ul class="goods_list fl" id="goods_fruit">
+				
 			</ul>
+			
 		</div>
 	</div>
 
@@ -130,19 +141,13 @@
 				<a href="#">河虾</a>
 				<a href="#">扇贝</a>				
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="" class="goods_more fr" id="seafood_more">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="../images/banner02.jpg"></div>
-			<ul class="goods_list fl">
-					<c:forEach items="${goods2}" var="g2" >
-				<li>
-					<h4><a href="detail.jsp">${g2.goodsname}</a></h4>
-					<a href="#"><img src="${g2.mainimgurl}"></a>
-					<div class="prize">¥ ${g2.price}</div>
-				</li>
-				</c:forEach>
+			<ul class="goods_list fl" id="goods_seafood">
+				
 			</ul>
 		</div>
 	</div>
@@ -156,20 +161,13 @@
 				<a href="#">加州提子</a>
 				<a href="#">亚马逊牛油果</a>
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="" class="goods_more fr" id="meet_more">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="../images/banner03.jpg"></div>
-			<ul class="goods_list fl">
-			<c:forEach items="${goods3}" var="g3" >
-				<li>
-					<h4><a href="detail.html">${g3.goodsname}</a></h4>
-					<a href="#"><img src="${g3.mainimgurl}"></a>
-					<div class="prize">¥ ${g3.price}</div>
-				</li>
-				</c:forEach>
-			</ul>
+			<ul class="goods_list fl" id="goods_meet">
+			
 		</div>
 	</div>
 
@@ -182,19 +180,13 @@
 				<a href="#">加州提子</a>
 				<a href="#">亚马逊牛油果</a>
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="" class="goods_more fr" id="egg_more">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="../images/banner04.jpg"></div>
-			<ul class="goods_list fl">
-					<c:forEach items="${goods4}" var="g4" >
-				<li>
-					<h4><a href="detail.html">${g4.goodsname}</a></h4>
-					<a href="#"><img src="${g4.mainimgurl}"></a>
-					<div class="prize">¥ ${g4.price}</div>
-				</li>
-				</c:forEach>
+			<ul class="goods_list fl" id="goods_egg">
+				
 			</ul>
 		</div>
 	</div>
@@ -208,19 +200,13 @@
 				<a href="#">加州提子</a>
 				<a href="#">亚马逊牛油果</a>
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="" class="goods_more fr" id="vegetables_more">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="../images/banner05.jpg"></div>
-			<ul class="goods_list fl">
-					<c:forEach items="${goods5}" var="g5" >
-				<li>
-					<h4><a href="detail.html">${g5.goodsname}</a></h4>
-					<a href="#"><img src="${g5.mainimgurl}"></a>
-					<div class="prize">¥ ${g5.price}</div>
-				</li>
-				</c:forEach>
+			<ul class="goods_list fl" id="goods_vegetables">
+					
 			</ul>
 		</div>
 	</div>
@@ -234,19 +220,13 @@
 				<a href="#">加州提子</a>
 				<a href="#">亚马逊牛油果</a>
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="" class="goods_more fr" id="ice_more">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="../images/banner06.jpg"></div>
-			<ul class="goods_list fl">
-				<c:forEach items="${goods6}" var="g6" >
-				<li>
-					<h4><a href="detail.html">${g6.goodsname}</a></h4>
-					<a href="#"><img src="${g6.mainimgurl}"></a>
-					<div class="prize">¥ ${g6.price}</div>
-				</li>
-				</c:forEach>
+			<ul class="goods_list fl" id="goods_ice">
+				
 			</ul>
 		</div>
 	</div>
@@ -280,6 +260,103 @@
 		oFruit.onclick = function(){
 			window.location.href = 'list.html';
 		}
+	</script>
+	
+	<!-- <script src="../js/jquery-3.6.0.js"></script> -->
+	<script>
+		$("body").on("click","#searchBarBtn",function(){
+			var url1 = encodeURI("searchList.html?searchString="+$("#searchBar").val())
+			location.href=url1;
+			// alert(hr2)
+		})
+
+
+		$(function(){
+			//==SGP---Started==//
+			var username=localStorage.getItem("username");
+			localStorage.setItem("username",username);
+			$("#hello").html("你好" + username);
+			//==SGP---Ended==//
+
+
+			var token = localStorage.getItem("token")
+			// alert(token)
+			//新鲜水果
+			goods(1,"#goods_fruit");
+			//海鲜水产
+			goods(1,"#goods_seafood");
+			//猪肉牛羊
+			goods(1,"#goods_meet");
+			//禽类蛋品
+			goods(1,"#goods_egg");
+			//新鲜蔬菜
+			goods(1,"#goods_vegetables");
+			//速冻食品
+			goods(1,"#goods_ice");
+
+			function goods(cId,ulid){
+				$.ajax({
+				headers: {
+                    token: token
+                },
+				url: "http://localhost/VegetableMarket/goods/cId/"+cId,
+				type: "get",
+				data: {
+					pageNum:1,
+				},
+					success: function (respText) {
+						// alert(respText.code+" : "+respText.message+" : "+respText.data)
+						var goodsList = respText.data.list;
+						var i = 0;
+						//只显示前四个就够了
+						for (var goods of goodsList) {
+							var goods = "<li>"+
+											"<h4 style='color:red'>"+ goods.gname +"</h4>"+
+											//跳转商品详情
+											"<a href='detail.html?g_id="+ goods.gid +"'><img src="+ "http://localhost:8080/images/goods001.jpg" +"></a>"+
+											"<div class='prize'>¥"+ goods.gprice +"</div>"+
+										"</li>"
+							$(ulid).append(goods);
+							i++;
+							if(i >= 4){
+								break;
+							}
+						}
+					}
+				})
+			}
+		})
+
+		$("body").on("click","#fruit_more",function(event){
+            //取消默认行为
+            event.preventDefault();
+            location.href="list.html?c_id="+1;
+        })
+		$("body").on("click","#seafood_more",function(event){
+            //取消默认行为
+            event.preventDefault();
+            location.href="list.html?c_id="+2;
+        })
+		$("body").on("click","#meet_more",function(event){
+            //取消默认行为
+            event.preventDefault();
+            location.href="list.html?c_id="+3;
+        })
+		$("body").on("click","#egg_more",function(event){
+            //取消默认行为
+            event.preventDefault();
+            location.href="list.html?c_id="+4;
+        })
+		$("body").on("click","#vegetables_more",function(event){
+            //取消默认行为
+            event.preventDefault();
+            location.href="list.html?c_id="+5;
+        })
+		$("body").on("click","#ice_more",function(event){
+            //取消默认行为
+            event.preventDefault();
+            location.href="list.html?c_id="+6;
+        })
 	</script>
 </body>
 </html>
