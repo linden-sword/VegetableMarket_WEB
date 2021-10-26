@@ -73,13 +73,26 @@
 				url: "http://localhost/VegetableMarket/User",
 				type: "get",
 				data: { username: username, passwd: passwd },
-				success: function (respTxt) {
-					if (respTxt.code == 1000) {
-						alert(respTxt.message);
-						
+
+				success: function (respTxt,status,xhr) {
+					var respToken = xhr.getResponseHeader("token");
+                    if (!(respToken == null || respToken == "" || respToken == undefined)) {
+                        localStorage.setItem("token", respToken);
+                    }
+
+					if (respTxt.code === 1000) {
+						alert(respTxt.code+","+respTxt.message+","+respTxt.data);
+						//==SGP---Started==//
 						localStorage.setItem("username",respTxt.data.username);
+						//==SGP---Ended==//
 						location.href = "index.html";
+					} else {
+						alert(respTxt.code+","+respTxt.message+","+respTxt.data);
+						return;
 					}
+				},
+				error: function (respTxt) {
+					alert("??????");
 				}
 			});
 		});
