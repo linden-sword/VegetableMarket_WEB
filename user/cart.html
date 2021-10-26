@@ -1,11 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>天天生鲜-购物车</title>
-	<link rel="stylesheet" type="text/css" href="../css/reset.css">
-	<link rel="stylesheet" type="text/css" href="../css/main.css">
+	<link rel="stylesheet" type="text/css" href="../css/reset1.css">
+	<link rel="stylesheet" type="text/css" href="../css/main1.css">
 </head>
+
 <body>
 	<div class="header_con">
 		<div class="header">
@@ -14,12 +17,9 @@
 				<div class="login_info fl">
 					欢迎您：<em>张 山</em>
 				</div>
-				<div class="login_btn fl">
-					<a href="login.html">登录</a>
-					<span>|</span>
-					<a href="register.html">注册</a>
-				</div>
+
 				<div class="user_link fl">
+					<span id="hello">nihao,</span>
 					<span>|</span>
 					<a href="user_center_info.html">用户中心</a>
 					<span>|</span>
@@ -28,7 +28,7 @@
 					<a href="user_center_order.html">我的订单</a>
 				</div>
 			</div>
-		</div>		
+		</div>
 	</div>
 
 	<div class="search_bar clearfix">
@@ -37,10 +37,10 @@
 		<div class="search_con fr">
 			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
 			<input type="button" class="input_btn fr" name="" value="搜索">
-		</div>		
+		</div>
 	</div>
 
-	<div class="total_count">全部商品<em>2</em>件</div>	
+	<div class="total_count">全部商品<em id="totalB">2</em>件</div>
 	<ul class="cart_list_th clearfix">
 		<li class="col01">商品名称</li>
 		<li class="col02">商品单位</li>
@@ -49,24 +49,9 @@
 		<li class="col05">小计</li>
 		<li class="col06">操作</li>
 	</ul>
-	<ul class="cart_list_td clearfix">
-		<li class="col01"><input type="checkbox" name="" checked></li>
-		<li class="col02"><img src="../images/goods/goods012.jpg"></li>
-		<li class="col03">奇异果<br><em>25.80元/500g</em></li>
-		<li class="col04">500g</li>
-		<li class="col05">25.80元</li>
-		<li class="col06">
-			<div class="num_add">
-				<a href="javascript:;" class="add fl">+</a>
-				<input type="text" class="num_show fl" value="1">	
-				<a href="javascript:;" class="minus fl">-</a>	
-			</div>
-		</li>
-		<li class="col07">25.80元</li>
-		<li class="col08"><a href="javascript:;">删除</a></li>
-	</ul>
+	<!-- ------------------------------------------------------ -->
 
-	<ul class="cart_list_td clearfix">
+	<!-- <ul class="cart_list_td clearfix">
 		<li class="col01"><input type="checkbox" name="" checked></li>
 		<li class="col02"><img src="../images/goods/goods003.jpg"></li>
 		<li class="col03">大兴大棚草莓<br><em>16.80元/500g</em></li>
@@ -75,19 +60,20 @@
 		<li class="col06">
 			<div class="num_add">
 				<a href="javascript:;" class="add fl">+</a>
-				<input type="text" class="num_show fl" value="1">	
-				<a href="javascript:;" class="minus fl">-</a>	
+				<input type="text" class="num_show fl" value="1">
+				<a href="javascript:;" class="minus fl">-</a>
 			</div>
 		</li>
 		<li class="col07">16.80元</li>
 		<li class="col08"><a href="javascript:;">删除</a></li>
-	</ul>
-	
+	</ul> -->
 
+
+	<span id="total_count_find"></span>
 	<ul class="settlements">
 		<li class="col01"><input type="checkbox" name="" checked=""></li>
 		<li class="col02">全选</li>
-		<li class="col03">合计(不含运费)：<span>¥</span><em>42.60</em><br>共计<b>2</b>件商品</li>
+		<li class="col03">合计(不含运费)：<span>¥</span><em id="totalA">42.60</em><br>共计<b id="totalC">2</b>件商品</li>
 		<li class="col04"><a href="place_order.html">去结算</a></li>
 	</ul>
 
@@ -99,11 +85,120 @@
 			<span>|</span>
 			<a href="#">招聘人才</a>
 			<span>|</span>
-			<a href="#">友情链接</a>		
+			<a href="#">友情链接</a>
 		</div>
 		<p>CopyRight © 2020 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
-		<p>电话：010-****888    京ICP备*******8号</p>
+		<p>电话：010-****888 京ICP备*******8号</p>
 	</div>
-	
+
+
+	<script src="../js/jquery-3.6.0.js"></script>
+	<script>
+		var total_money = 0;
+		var i = 0;
+		var username = localStorage.getItem("username");
+		$("#hello").html("你好" + username);
+		$.ajax({
+		
+			url: "http://localhost/VegetableMarket/ShoppingcartFind",
+			type: "get",
+			data: { username: username },
+			success: function (respTxt) {
+				var shoppingcarts = respTxt.data;
+				for (var sc of shoppingcarts) {
+					i++;
+					total_money += sc.scWeight * sc.g_price;
+
+					var li1 = "<ul class=\"cart_list_td clearfix\">" +
+						"<li class=\"col01\"><input type=\"checkbox\" name=\"\" checked></li>" +
+						"<li class=\"col02\"><img src=\"../images/goods/goods012.jpg\"></li>" +
+						"<li class=\"col03\">" + sc.g_name + "<br><em>" + sc.g_price + "元/500g</em></li>" +
+						"<li class=\"col04\">500g</li>" +
+						"<li class=\"col05\">" + sc.g_price + "元</li>" +
+						"<li class=\"col06\">" +
+						"<div class=\"num_add\">" +
+						"<a href=\"javascript:;\" class=\"add fl\"  onclick=\"AddWeightCount(" + sc.scId + ")\">+</a>" +
+						"<input type=\"text\" class=\"num_show fl\" id='sc" + sc.scId + "' value=\"" + sc.scWeight + "\">" +
+						"<a href=\"javascript:;\" class=\"minus fl\" onclick=\"MulWeightCount(" + sc.scId + ")\">-</a>" +
+						"</div>" +
+						"</li>" +
+						"<li class=\"col07\" onclick=\"updateNow()\">" + (sc.scWeight * sc.g_price).toFixed(2) + "元</li>" +
+						"<li class=\"col08\"><a href=\"javascript:;\" onclick=\"deleteCount(" + sc.scId + ")\">删除</a></li>" +
+						"</ul>"
+					$("#total_count_find").append(li1);
+				}
+				total_money=total_money.toFixed(2);
+				$("#totalA").html(total_money);
+				$("#totalB").html(i);
+				$("#totalC").html(i);
+			}
+		});
+		function deleteCount(scId) {
+			$.ajax({
+				url: "http://localhost/VegetableMarket/ShoppingcartDe",
+				type: "get",
+				data: { scId: scId },
+				success: function (respTxt) {
+					if (respTxt.code == 1000) {
+						//		alert(respTxt.message);
+					}
+				}
+			});
+		}
+		
+		function AddWeightCount(scId) {
+			$.ajax({
+				url: "http://localhost/VegetableMarket/ShoppingcartUp",
+				type: "get",
+				data: { scId: scId },
+				success: function (respTxt) {
+					if (respTxt.code == 1000) {
+						//	alert(respTxt.message);
+						var scIdd = "#sc" + scId;
+						var num1 = $(scIdd).val();
+						num2 = num1++;
+						$(scIdd).val(num1);
+						window.location.reload();
+
+					}
+				}
+			});
+		}
+		function MulWeightCount(scId) {
+			$.ajax({
+				url: "http://localhost/VegetableMarket/ShoppingcartDown",
+				type: "get",
+				data: { scId: scId },
+				success: function (respTxt) {
+					if (respTxt.code == 1000) {
+						//alert(respTxt.message);
+						var scIdd = "#sc" + scId;
+						var num1 = $(scIdd).val();
+						num2 = num1--;
+						if (num1 < 1) {
+							num1 = 1;
+						}
+						$(scIdd).val(num1);
+						window.location.reload()
+					}
+
+				}
+			});
+		}
+
+
+
+
+
+
+
+
+
+
+
+	</script>
+
+
 </body>
+
 </html>

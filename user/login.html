@@ -59,42 +59,31 @@
 		<p>电话：010-****888 京ICP备*******8号</p>
 	</div>
 	<script src="../js/jquery-3.6.0.js"></script>
+
+	
 	<script>
-		// $("#input_submit").click(function () {
-		$("body").on("click", "#input_submit", function () {
-			var username = $("#username").val();
-			var passwd = $("#passwd").val();
-
-			var token = localStorage.getItem("token");
-
-			// alert(username);
+		var token=localStorage.getItem("token");
+		$(".input_submit").click(function () {
+			let username = $(".name_input").val();
+			let passwd = $(".pass_input").val();
 			$.ajax({
-				headers: {
-                    token: token
-                },
+				headers:{
+					token:token
+				},
 				url: "http://localhost/VegetableMarket/User",
 				type: "get",
 				data: { username: username, passwd: passwd },
-				success: function (result,status,xhr) {
-					var respToken = xhr.getResponseHeader("token");
-                    if (!(respToken == null || respToken == "" || respToken == undefined)) {
-                        localStorage.setItem("token", respToken);
-                    }
-
-					if (result.code === 1000) {
-						alert(result.code+","+result.message+","+result.data);
-						alert("tiaozhuan")
+				success: function (respTxt) {
+					if (respTxt.code == 1000) {
+						alert(respTxt.message);
+						
+						localStorage.setItem("username",respTxt.data.username);
 						location.href = "index.html";
-					} else {
-						alert(result.code+","+result.message+","+result.data);
-						return;
 					}
-				},
-				error: function (result) {
-					alert("??????");
 				}
 			});
 		});
+	
 	</script>
 </body>
 

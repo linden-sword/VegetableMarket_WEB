@@ -1,69 +1,130 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title></title>
-	<meta charset="utf-8">
+    <title></title>
+    <meta charset="utf-8">
     <link href="../css/admin_main.css" rel="stylesheet">
 </head>
+
 <body>
-<!-- 食品管理 -->
-            <div class="AccountManagement_c" id="NewsManagement_c">
-                <h3>食品管理 
-                   
-                </h3>
-                <div class="list" id="release_news">
-                    <ul class="list_h">
-                        <li class="b80"><label>添加食品</label></li>
-                    </ul>
-                    <div class="list_b_c" id="release_news_in">
-                        <div class="release_news">
-                            <div class="news_title">
-                                <label class="text_center">名字</label>
-                                <input type="text" placeholder="填写食品名" name="">
-                            </div>
-                            <br>
-                            <div class="news_title">
-                                <label class="text_center">单价</label>
-                                <input type="text" placeholder="填写单价" name="">
-                            </div>
-                             
-                             <div class="column_name">
-                                <label class="text_center">口味</label>
-                                <input type="checkbox" >麻辣 &nbsp; &nbsp;<input type="checkbox" >番茄
-                            </div>
-                            <div class="column_name">
-                                <label class="text_center">类型</label>
-                                <select class="column_name_release">
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
-                                </select>
-                            </div>
-                            <div class="column_name">
-                                <label class="text_center">品牌</label>
-                                <select class="column_name_release">
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="news_title">
-                                <label class="text_center">图片</label>
-                                <input type="file" placeholder="选择图片" name="">
-                            </div>
-                           
-                            <div class="release_news_ok_btn text_center">保存</div>
-                        </div>
+    <!-- 食品管理 -->
+    <div class="AccountManagement_c" id="NewsManagement_c">
+        <h3>食品管理</h3>
+        <div class="list" id="release_news">
+            <ul class="list_h">
+                <li class="b80"><label>添加食品</label></li>
+            </ul>
+            <div class="list_b_c" id="release_news_in">
+                <div class="release_news">
+                    <div class="news_title">
+                        <label class="text_center">名字</label>
+                        <input type="text" placeholder="填写食品名" name="" id="gName">
                     </div>
+                    <br>
+                    <div class="news_title">
+                        <label class="text_center">单价</label>
+                        <input type="text" placeholder="填写单价" name="" id="gPrice">
+                    </div>
+                    <br>
+                    <div class="news_title">
+                        <label class="text_center">描述</label>
+                        <input type="text" placeholder="口味" name="" id="gDescribe">
+                    </div>
+
+                    <div class="news_title">
+                        <label class="text_center">库存</label>
+                        <input type="text" placeholder="库存" name="" id="gStock">
+                    </div>
+                    <br>
+                    <label class="text_center">是否特价</label>
+                    <div id="news_title">
+                        <input type="radio" name="discount" value="1" checked>是
+                        <input type="radio" name="discount" value="0">否
+                    </div>
+
+                    <label class="text_center">是否上架</label>
+                    <div id="news_title">
+                        <input type="radio" name="status" value="1" checked>是
+                        <input type="radio" name="status" value="0">否
+                    </div>
+                    <div class="column_name" id="column_name">
+                        <label class="text_center">类型</label>
+                        <select class="column_name_release" id="cName">
+
+                        </select>
+                    </div> <br>
+
+                    <div class="release_news_ok_btn text_center" id="Goodsbtn">保存</div>
                 </div>
             </div>
+        </div>
+    </div>
+    <script src="../js/jquery-3.6.0.js"></script>
+    <script>
+        var cId = 0;
+        $.ajax({
+            url: "http://localhost/VegetableMarket/FindClassification",
+            type: "get",
+            success: function (respTxt) {
+                if (respTxt.code == 1000) {
+                    var classifications = respTxt.data;
+                    for (var c of classifications) {
+                        var li = " <option value=\""+c.cid+"\" name=\"typeT\">" + c.cname + "</option>";
+                        $("#cName").append(li);
+                    }
+                }
+            }
+        });
+
+
+    
+
+
+        
+        
+
+
+        $("#Goodsbtn").click(function () {
+            var gName = $("#gName").val();
+            var gPrice = $("#gPrice").val();
+            var gDescribe = $("#gDescribe").val();
+            var gStock = $("#gStock").val();
+            var gIsdiscount = $("input[name='discount']:checked").val();
+            var gStatus = $("input[name='status']:checked").val();
+
+            var cid = $("#cName option:selected").val();
+            
+alert(cid);
+
+            $.ajax({
+                url: "http://localhost/VegetableMarket/AddGoods",
+                type: "get",
+                data: {
+                    gName: gName,
+                    cId: cid,
+                    gPrice: gPrice,
+                    gStock: gStock,
+                    gDescribe: gDescribe,
+                    gIsdiscount: gIsdiscount,
+                    gStatus: gStatus
+                },
+
+                success: function (respTxt) {
+                    if (respTxt.code == 1000) {
+                        alert(respTxt.message);
+                        //      localStorage.setItem("username", respTxt.data.username);
+                        //      location.href = "index.html";
+                    }
+                }
+            });
+
+    
+        });
+
+
+
+    </script>
 </body>
+
 </html>

@@ -1,46 +1,166 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title></title>
-	<meta charset="utf-8">
-	<link href="../css/admin_main.css" rel="stylesheet">
-</head>
-<body>
-			<div class="AccountManagement_c " id="AccountManagement_c">
-                <h3>账户管理 
-                </h3>
 
-                <div class="list">
-                    <ul class="list_h">
-                        <li class="b20"><label><input type="checkbox" name=""><span>用户名</span></label></li>
-                        <li class="b20"><label>密码</label></li>
-                        <li class="b60"><label>操作</label></li>
-                    </ul>
-                    <div class="list_b_c">
-                            
-                        <ul class="list_b">
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <link href="../css/admin_main.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="AccountManagement_c " id="AccountManagement_c">
+        <h3>账户管理
+        </h3>
+
+        <div class="list">
+            <ul class="list_h">
+                <li class="b20"><label><input type="checkbox" name=""><span>用户名</span></label></li>
+                <li class="b20"><label>密码</label></li>
+                <li class="b60"><label>操作</label></li>
+            </ul>
+            <div class="list_b_c" id="list_b_c">
+
+                <!-- <ul class="list_b">
                             <li class="b20"><label><input type="checkbox" name=""><span>ahh</span></label></li>
                             <li class="b20"><label>abc123456</label></li>
                             <li class="b60"> 
                             		<a href="accountedit.html" ><div class="edit_btn df_btn fl text_center">编辑</div></a>
                         			<a href=""><div class="delete_btn df_btn fl text_center">删除</div></a>
                             </li>
-                        </ul>
-
-                       
-                        
-                    </div>
-
-                   
-                    
-                </div>
+                        </ul> -->
             </div>
+            <div class="pagenation">
+                <a href="" id="prePage" class="active">上一页</a>
+                <a id="pageNow">第x页</a>
+                <a id="goodsTotal">共x个商品</a>
+                <a id="pageTotal">共x页</a>
+                <a href="" id="nextPage" class="active">下一页</a>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/main.js"></script>
+    <script src="../js/jquery-3.6.0.js"></script>
+    <script>
+        // $.ajax({
+        //     url: "http://localhost/VegetableMarket/customer",
+        //     type: "get",
+        //     data: { uRole: 1 },
+        //     success: function (respTxt) {
+        //         var i = 0;
+        //         var cus = respTxt.data;
+        //         for (var c of cus) {
+        //             var li = "<ul class=\"list_b\">" +
+        //                 "<li class=\"b20\"><label><input type=\"checkbox\"><span>" + c.username + "</span></label></li>" +
+        //                 "<li class=\"b20\"><label>" + c.passwd + "</label></li>" +
+        //                 "<li class=\"b60\">" +
+        //                 "<a href=\"accountedit.html\" ><div class=\"edit_btn df_btn fl text_center\">编辑</div></a>" +
+        //                 "<a href=\"\"><div class=\"delete_btn df_btn fl text_center\" onclick=\"DeleteUser("+c.uid+")\">删除</div></a>" +
+        //                 "</li>" +
+        //                 "</ul>";
+        //             $("#list_b_c").append(li);
+        //         }
+        //     }
+        // });
+        var urole = 1;
+        var pageNum = 1;
+        var isLastPage = false;
+        //  alert("pageNum1" + pageNum);
+        Find();
+
+
+        $("#nextPage").click(function (event) {
+            //取消默认行为
+            event.preventDefault();
+            if (isLastPage == true) {
+                alert("已经是最后一页了！");
+                return;
+            } else {
+                pageNum = pageNum + 1;
+                //    alert("pageNumN" + pageNum);
+
+                //删除上一页的行
+                $("#AddP").remove();
+                Find();
+            }
+        });
+
+
+        //上一页
+        $("#prePage").click(function (event) {
+            //取消默认行为
+            event.preventDefault();
+            if (pageNum == 1) {
+                alert("已经是第一页了！");
+                return;
+            } else {
+                pageNum = pageNum - 1;
+                //     alert("pageNumS" + pageNum);
+
+                //删除上一页的行
+                $("#AddP").remove();
+                Find();
+            }
+        });
+
+        function Find() {
+            $.ajax({
+                url: "http://localhost/VegetableMarket/UsersPage",
+                type: "get",
+                data: { uRole: 1, pageNum: pageNum, },
+                success: function (respTxt) {
+                    $("#pageNow").html("第" + respTxt.data.pageNum + "页");
+                    $("#pageTotal").html("共" + respTxt.data.pages + "页");
+                    $("#goodsTotal").html("共" + respTxt.data.total + "个用户");
+
+                    isLastPage = respTxt.data.isLastPage;
+                    last = respTxt.data.pages;
+                    var i = 0;
+                    var cus = respTxt.data.list;
+                    var div = "<div id=\"AddP\"></div>";
+                    $("#list_b_c").append(div);
+
+                    for (var c of cus) {
+                        var li = "<ul class=\"list_b\">" +
+                            "<li class=\"b20\"><label><input type=\"checkbox\"><span>" + c.username + "</span></label></li>" +
+                            "<li class=\"b20\"><label>" + c.passwd + "</label></li>" +
+                            "<li class=\"b60\">" +
+                            "<a href=\"accountedit.html\" ><div class=\"edit_btn df_btn fl text_center\" onclick=\"UpdatePasswd("+c.uid+")\">编辑</div></a>" +
+                            "<a href=\"\"><div class=\"delete_btn df_btn fl text_center\" onclick=\"DeleteUser(" + c.uid + ")\">删除</div></a>" +
+                            "</li>" +
+                            "</ul>";
+                        $("#AddP").append(li);
+                    }
+                }
+            });
+        }
+
+
+        function UpdatePasswd(uId) {
+            localStorage.setItem("uId", uId);
+            alert("uid"+uId);
+        }
+
+
+        function DeleteUser(uId) {
+            $.ajax({
+                url: "http://localhost/VegetableMarket/UserDelete",
+                type: "get",
+                data: { uId: uId },
+                success: function (respTxt) {
+                    if (respTxt.code == 1000) {
+                        alert(respTxt.message);
+                    }
+                }
+            });
+        }
 
 
 
-   
-    
+
+    </script>
+
+
 </body>
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" src="../js/main.js"></script>
+
 </html>

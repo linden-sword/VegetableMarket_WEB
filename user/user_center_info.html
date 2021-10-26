@@ -14,12 +14,9 @@
 				<div class="login_info fl">
 					欢迎您：<em>张 山</em>
 				</div>
-				<div class="login_btn fl">
-					<a href="login.html">登录</a>
-					<span>|</span>
-					<a href="register.html">注册</a>
-				</div>
+		
 				<div class="user_link fl">
+					<span id="hello">nihao,</span>
 					<span>|</span>
 					<a href="user_center_info.html">用户中心</a>
 					<span>|</span>
@@ -50,13 +47,9 @@
 			</ul>
 		</div>
 		<div class="right_content clearfix">
-				<div class="info_con clearfix">
+				<div class="info_con clearfix" id="info_con">
 				<h3 class="common_title2">基本信息</h3>
-						<ul class="user_info_list">
-							<li><span>用户名：</span>18210569700</li>
-							<li><span>联系方式：</span>18210569700</li>
-							<li><span>联系地址：</span>北京市昌平区</li>			
-						</ul>
+					<!-- ---- -->
 				</div>
 				
 				<h3 class="common_title2">最近浏览</h3>
@@ -131,6 +124,35 @@
 		<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
 		<p>电话：010-****888    京ICP备*******8号</p>
 	</div>
+
 	
+	<script src="../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {	
+			var username= localStorage.getItem("username");	
+			$("#hello").html("你好" + username);
+			$.ajax({
+				url: "http://localhost/VegetableMarket/Address",
+				type: "get",
+				data: {username:username},
+				success: function (respTxt) {			
+					var ul = $("<ul class='user_info_list' id='user_info_list'></ul>");
+					var li1 = $("<li><span>用户名：</span>" + respTxt.data.adName + "</li>");
+					var li2 = $("<li><span>联系方式：</span>" +respTxt.data.adTel + "</li>");
+					var li3 = $("<li><span>联系地址：</span>" + respTxt.data.adAddress + "</li>");
+					var li4 = $("<input type='button'  value='登录'  id='user_update'>");
+					ul.append(li1);
+					ul.append(li2);
+					ul.append(li3);
+					$("#info_con").append(ul);	
+					localStorage.setItem("username",username);	
+					localStorage.setItem("adName",respTxt.data.adName);
+					localStorage.setItem("adTel",respTxt.data.adTel);
+					localStorage.setItem("adAddress",respTxt.data.adAddress);
+
+				}
+			})
+		});
+	</script>
 </body>
 </html>

@@ -1,5 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>鲜生活-首页</title>
@@ -9,23 +11,15 @@
 	<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="../js/slide.js"></script>
 </head>
+
 <body>
 	<div class="header_con">
 		<div class="header">
 			<div class="welcome fl">欢迎来到鲜生活!</div>
 			<div class="fr">
 				<div class="login_btn fl">
-				    <!-- 判断是否登入   没登入显示登入按钮 -->
-				    <c:if test="${user.username  == null}">
-					<a href="login.html">登录</a>
-					<span>|</span>
-					</c:if>
-					<!-- 登入显示用户名 -->
-					 <c:if test="${user.username  != null}">
-					<a href="login.html">欢迎您：<em>${user.username}</em></a>
-					<span>|</span>
-					</c:if>
-					<a href="register.html">注册</a>
+						<p id="hello">你好,</p>
+						<span>|</span>
 				</div>
 				<div class="user_link fl">
 					<span>|</span>
@@ -36,7 +30,7 @@
 					<a href="user_center_order.html">我的订单</a>
 				</div>
 			</div>
-		</div>		
+		</div>
 	</div>
 
 	<div class="search_bar clearfix">
@@ -66,11 +60,7 @@
 
 	<div class="center_con clearfix">
 		<ul class="subnav fl">
-		    <!-- foreach循环   items属性指定需要迭代的集合或数组，var属性指定迭代的当前元素 
-		       等价于 for(CategoryEntity c : categories){c.getCategoryName}
-		      ${categories}  等价于  request.getAttribute("categories")
-		    -->
-		    <!-- <c:forEach items="${categories}" var="c" > -->
+
 			<li><a href="#" class="fruit">新鲜水果</a></li>
 			<li><a href="#" class="fruit">新鲜水果</a></li>
 			<li><a href="#" class="fruit">新鲜水果</a></li>
@@ -111,12 +101,12 @@
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="../images/banner01.jpg"></div>
 			<ul class="goods_list fl">
-				<c:forEach items="${goods1}" var="g1" >
-				<li>
-					<h4><a href="../FindGoodsDeatilSvl?goodsid=${g1.goodsid}">${g1.goodsname}</a></h4>
-					<a href="../FindGoodsDeatilSvl?goodsid=${g1.goodsid}"><img src="${g1.mainimgurl}"></a>
-					<div class="prize">¥ ${g1.price}</div>
-				</li>
+				<c:forEach items="${goods1}" var="g1">
+					<li>
+						<h4><a href="../FindGoodsDeatilSvl?goodsid=${g1.goodsid}">${g1.goodsname}</a></h4>
+						<a href="../FindGoodsDeatilSvl?goodsid=${g1.goodsid}"><img src="${g1.mainimgurl}"></a>
+						<div class="prize">¥ ${g1.price}</div>
+					</li>
 				</c:forEach>
 			</ul>
 		</div>
@@ -128,7 +118,7 @@
 			<div class="subtitle fl">
 				<span>|</span>
 				<a href="#">河虾</a>
-				<a href="#">扇贝</a>				
+				<a href="#">扇贝</a>
 			</div>
 			<a href="#" class="goods_more fr">查看更多 ></a>
 		</div>
@@ -136,12 +126,12 @@
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="../images/banner02.jpg"></div>
 			<ul class="goods_list fl">
-					<c:forEach items="${goods2}" var="g2" >
-				<li>
-					<h4><a href="detail.jsp">${g2.goodsname}</a></h4>
-					<a href="#"><img src="${g2.mainimgurl}"></a>
-					<div class="prize">¥ ${g2.price}</div>
-				</li>
+				<c:forEach items="${goods2}" var="g2">
+					<li>
+						<h4><a href="detail.jsp">${g2.goodsname}</a></h4>
+						<a href="#"><img src="${g2.mainimgurl}"></a>
+						<div class="prize">¥ ${g2.price}</div>
+					</li>
 				</c:forEach>
 			</ul>
 		</div>
@@ -162,12 +152,12 @@
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="../images/banner03.jpg"></div>
 			<ul class="goods_list fl">
-			<c:forEach items="${goods3}" var="g3" >
-				<li>
-					<h4><a href="detail.html">${g3.goodsname}</a></h4>
-					<a href="#"><img src="${g3.mainimgurl}"></a>
-					<div class="prize">¥ ${g3.price}</div>
-				</li>
+				<c:forEach items="${goods3}" var="g3">
+					<li>
+						<h4><a href="detail.html">${g3.goodsname}</a></h4>
+						<a href="#"><img src="${g3.mainimgurl}"></a>
+						<div class="prize">¥ ${g3.price}</div>
+					</li>
 				</c:forEach>
 			</ul>
 		</div>
@@ -188,12 +178,12 @@
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="../images/banner04.jpg"></div>
 			<ul class="goods_list fl">
-					<c:forEach items="${goods4}" var="g4" >
-				<li>
-					<h4><a href="detail.html">${g4.goodsname}</a></h4>
-					<a href="#"><img src="${g4.mainimgurl}"></a>
-					<div class="prize">¥ ${g4.price}</div>
-				</li>
+				<c:forEach items="${goods4}" var="g4">
+					<li>
+						<h4><a href="detail.html">${g4.goodsname}</a></h4>
+						<a href="#"><img src="${g4.mainimgurl}"></a>
+						<div class="prize">¥ ${g4.price}</div>
+					</li>
 				</c:forEach>
 			</ul>
 		</div>
@@ -214,12 +204,12 @@
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="../images/banner05.jpg"></div>
 			<ul class="goods_list fl">
-					<c:forEach items="${goods5}" var="g5" >
-				<li>
-					<h4><a href="detail.html">${g5.goodsname}</a></h4>
-					<a href="#"><img src="${g5.mainimgurl}"></a>
-					<div class="prize">¥ ${g5.price}</div>
-				</li>
+				<c:forEach items="${goods5}" var="g5">
+					<li>
+						<h4><a href="detail.html">${g5.goodsname}</a></h4>
+						<a href="#"><img src="${g5.mainimgurl}"></a>
+						<div class="prize">¥ ${g5.price}</div>
+					</li>
 				</c:forEach>
 			</ul>
 		</div>
@@ -240,12 +230,12 @@
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="../images/banner06.jpg"></div>
 			<ul class="goods_list fl">
-				<c:forEach items="${goods6}" var="g6" >
-				<li>
-					<h4><a href="detail.html">${g6.goodsname}</a></h4>
-					<a href="#"><img src="${g6.mainimgurl}"></a>
-					<div class="prize">¥ ${g6.price}</div>
-				</li>
+				<c:forEach items="${goods6}" var="g6">
+					<li>
+						<h4><a href="detail.html">${g6.goodsname}</a></h4>
+						<a href="#"><img src="${g6.mainimgurl}"></a>
+						<div class="prize">¥ ${g6.price}</div>
+					</li>
 				</c:forEach>
 			</ul>
 		</div>
@@ -259,10 +249,10 @@
 			<span>|</span>
 			<a href="#">招聘人才</a>
 			<span>|</span>
-			<a href="#">友情链接</a>		
+			<a href="#">友情链接</a>
 		</div>
 		<p>CopyRight © 2020 北京鲜生活信息技术有限公司 All Rights Reserved</p>
-		<p>电话：010-****888    京ICP备*******8号</p>
+		<p>电话：010-****888 京ICP备*******8号</p>
 	</div>
 	<script type="text/javascript" src="../js/slideshow.js"></script>
 	<script type="text/javascript">
@@ -272,14 +262,27 @@
 
 		var hasorder = localStorage.getItem('order_finish');
 
-		if(hasorder)
-		{
+		if (hasorder) {
 			oShownum.innerHTML = '2';
 		}
 
-		oFruit.onclick = function(){
+		oFruit.onclick = function () {
 			window.location.href = 'list.html';
 		}
 	</script>
+	<script src="../js/jquery-3.6.0.js"></script>
+	<script>
+		var username=localStorage.getItem("username");
+		
+		localStorage.setItem("username",username);
+		$(function () {
+			$("#hello").html("你好" + username);	
+		});
+
+
+
+
+	</script>
 </body>
+
 </html>

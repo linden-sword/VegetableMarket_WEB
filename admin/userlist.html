@@ -1,70 +1,46 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title></title>
-	<meta charset="utf-8">
-	<link href="../css/admin_main.css" rel="stylesheet">
+    <title></title>
+    <meta charset="utf-8">
+    <link href="../css/admin_main.css" rel="stylesheet">
 </head>
+
 <body>
-			<div class="AccountManagement_c " id="AccountManagement_c">
-                <h3>用户管理 
-                    <div class="amcl fr">
-                        <input type="text" placeholder="用户名" class="fl" name="">
-                        <div class="search fl"><img src="../images/search.png"></div>
-                    </div> 
-                </h3>
-             
+    <div class="AccountManagement_c " id="AccountManagement_c">
+        <h3>用户管理
+            <div class="amcl fr">
+                <input type="text" id="searchUsername" placeholder="" class="fl">
+                <div class="search fl" onclick="search_user()"><img src="../images/search.png"></div>
 
-                <div class="list">
-                    <ul class="list_h">
-                        <li class="b20"><label><input type="checkbox" name=""><span>用户名</span></label></li>
-                        <li class="b20"><label>性别</label></li>
-                        <li class="b20"><label>生日</label></li>
-                        <li class="b20"><label>电话</label></li>
-                        <li class="b20"><label>邮箱</label></li>
-                        <li class="b60"><label>操作</label></li>
-                    </ul>
-                    <div class="list_b_c">
-                        <ul class="list_b">
-                            <li class="b20"><label><input type="checkbox" name=""><span>ahh</span></label></li>
-                            <li class="b20"><label>男</label></li>
-                            <li class="b20"><label>2012-12-12</label></li>
-                                   <li class="b20"><label>13212341234</label></li> <li class="b20"><label>23243342@qq.com</label></li>
-                            <li class="b60"> 
-                            		<a href="userdetail.html" ><div class="edit_btn df_btn fl text_center">详情</div></a>
-                        			<a href=""><div class="delete_btn df_btn fl text_center">禁用</div></a>
-                            </li>
-                        </ul>
-
-            <ul class="list_b">
-                            <li class="b20"><label><input type="checkbox" name=""><span>ahh</span></label></li>
-                            <li class="b20"><label>男</label></li>
-                            <li class="b20"><label>2012-12-12</label></li>
-                                   <li class="b20"><label>13212341234</label></li> <li class="b20"><label>23243342@qq.com</label></li>
-                            <li class="b60"> 
-                            		<a href="userdetail.html" ><div class="edit_btn df_btn fl text_center">详情</div></a>
-                        			<a href=""><div class="delete_btn df_btn fl text_center">启用</div></a>
-                            </li>
-                        </ul>
-                        
-                    </div>
-
-                    <div class="pull_page">
-                        <div class="fl pull_page_up">上一页</div>
-                            <ul>
-                                <li class="on">1</li>
-                                <li>2</li>
-                                <li>3</li>
-                                <li>4</li>
-                                <li class="pull_page_df_btn">…</li>
-                                <li>12</li>
-                            </ul>
-                        <div class="fl pull_page_down">下一页</div>
-                    </div>
-                </div>
             </div>
+        </h3>
 
-            <!-- 弹窗 -->
+
+        <div class="list" id="list">
+            <ul class="list_h">
+                <li class="b20"><label><input type="checkbox" name=""><span>用户名</span></label></li>
+                <li class="b20"><label>性别</label></li>
+                <li class="b20"><label>生日</label></li>
+                <li class="b20"><label>电话</label></li>
+                <li class="b20"><label>邮箱</label></li>
+                <li class="b60"><label>操作</label></li>
+            </ul>
+            <div class="list_b_c" id="list_b_c">
+
+            </div>
+            <div class="pagenation">
+                <a href="" id="prePage" class="active">上一页</a>
+                <a id="pageNow">第x页</a>
+                <a id="goodsTotal">共x个商品</a>
+                <a id="pageTotal">共x页</a>
+                <a href="" id="nextPage" class="active">下一页</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗 -->
     <!-- 添加账户 -->
     <div class="add_Account dn" id="add_Account">
         <div class="add_Account_c">
@@ -75,10 +51,10 @@
                 </div>
             </div>
             <div class="user_name user_i">
-                <label>用户名</label> <input type="text" placeholder="输入用户名" name="">     
+                <label>用户名</label> <input type="text" placeholder="输入用户名" name="">
             </div>
             <div class="user_password user_i">
-                <label>密<i>调</i>码</label> <input type="password" placeholder="输入密码" name="">     
+                <label>密<i>调</i>码</label> <input type="password" placeholder="输入密码" name="">
             </div>
             <div class="add_Account_ok_btn text_center" id="add_Account_ok_btn">确<i>皮</i>定</div>
         </div>
@@ -95,10 +71,10 @@
             </div>
             <div class="column_now ">正在编辑 “<span>jiaowuchu</span>”账户</div>
             <div class="user_name user_i">
-                <label>用户名</label> <input type="text" placeholder="输入用户名" name="">     
+                <label>用户名</label> <input type="text" placeholder="输入用户名" name="">
             </div>
             <div class="user_password user_i">
-                <label>密<i>调</i>码</label> <input type="password" placeholder="输入密码" name="">     
+                <label>密<i>调</i>码</label> <input type="password" placeholder="输入密码" name="">
             </div>
             <div class="add_Account_ok_btn text_center" id="user_column_ok_btn">确<i>皮</i>定</div>
         </div>
@@ -118,9 +94,183 @@
         </div>
     </div>
 
-  
-    
+
+
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/main.js"></script>
+<script src="../js/jquery-3.6.0.js"></script>
+<script>
+    // var flag = "true";
+ //   var t = 0;
+    var urole = 1;
+    var pageNum = 1;
+    var isLastPage = false;
+    //  alert("pageNum1" + pageNum);
+    findAll2(pageNum);
+
+    $("#nextPage").click(function (event) {
+        //取消默认行为
+        event.preventDefault();
+        if (isLastPage == true) {
+            alert("已经是最后一页了！");
+            return;
+        } else {
+            pageNum = pageNum + 1;
+            alert("pageNumN" + pageNum);
+
+            //删除上一页的行
+            $("#AddP").remove();
+            findAll2(pageNum);
+        }
+    });
+
+
+    //上一页
+    $("#prePage").click(function (event) {
+        //取消默认行为
+        event.preventDefault();
+        if (pageNum == 1) {
+            alert("已经是第一页了！");
+            return;
+        } else {
+            pageNum = pageNum - 1;
+            alert("pageNumS" + pageNum);
+
+            //删除上一页的行
+            $("#AddP").remove();
+            findAll2(pageNum);
+        }
+    });
+
+    function closeUser(uid, ustatus) {
+        $.ajax({
+            async: false,
+            url: "http://localhost/VegetableMarket/UserUp",
+            type: "get",
+            data: { uid: uid, uStatus: ustatus },
+            success: function (respTxt) {
+                if (respTxt.code == 1000) {
+
+                    alert(respTxt.message);
+                }
+            }
+        });
+    }
+    function detailed(uId) {
+        localStorage.setItem("uId", uId);
+    }
+   
+    function search_user() {
+        if ($("#searchUsername").val() == "") {
+            var div2 = document.getElementById("AddP");
+                div2.remove();
+            findAll2(pageNum);
+        } else {
+            var div2 = document.getElementById("AddP");
+                div2.remove();
+            var username = $("#searchUsername").val();
+            $.ajax({
+                async: false,
+                url: "http://localhost/VegetableMarket/UserFindAnyusername",
+                type: "get",
+                data: { username: username },
+                success: function (respTxt) {
+                    if (respTxt.code == 1000) {
+                        var i = 0;
+                        var div = "<div id=\"AddP\"></div>";
+                        $("#list_b_c").append(div);
+                        var cus = respTxt.data;
+                        alert(cus)
+                        for (var c of cus) {
+                            alert(c)
+                            var li = "<ul class=\"list_b\" id=\"list_b\">" +
+                                "<li class=\"b20\"><label><input type=\"checkbox\"><span>" + c.username + "</span></label></li>" +
+                                "<li class=\"b20\"><label>" + c.usex + "</label></li>" +
+                                "<li class=\"b20\"><label>" + c.uDatetime + "</label></li>" +
+                                "<li class=\"b20\"><label>" + c.utel + "</label></li>" +
+                                "<li class=\"b20\"><label>" + c.uemail + "</label></li>" +
+                                "<li class=\"b60\">" +
+                                "<a href=\"userdetail.html\" onclick=\"detailed(" + c.uid + ")\">" +
+                                // "<div class=\"edit_btn df_btn fl text_center\">详情</div>" +
+                                "<div class=\"edit_btn df_btn fl text_center\" onclick=\"Btntt(" + c.uid + ")\">详情</div>" +
+                                "</a>" +
+                                "<a href=\"\">" +
+                                "<div class=\"delete_btn df_btn fl text_center\" id=\"statusC" + i + "\" onclick=\"closeUser(" + c.uid + "," + c.ustatus + ")\" value=\"禁用启用\"></div>" +
+                                "</a>" +
+                                "</li></ul>";
+                            $("#AddP").append(li);
+                            if (c.ustatus == 1) {
+                                $("#statusC" + i).html("禁用");
+                            } else if (c.ustatus == 0) {
+                                $("#statusC" + i).html("启用");
+                            }
+                            i++;
+                        }
+             //           t = i;
+                    }
+                }
+            });
+
+        }
+
+    }
+
+    function findAll2() {
+        // if (flag == "true") {
+        $.ajax({
+            //async: false,
+            url: "http://localhost/VegetableMarket/UsersPage",
+            type: "get",
+            data: {
+                uRole: 1,
+                pageNum: pageNum,
+            },
+            success: function (respTxt) {
+                $("#pageNow").html("第" + respTxt.data.pageNum + "页");
+                $("#pageTotal").html("共" + respTxt.data.pages + "页");
+                $("#goodsTotal").html("共" + respTxt.data.total + "个用户");
+
+                isLastPage = respTxt.data.isLastPage;
+                last = respTxt.data.pages;
+                var i = 0;
+                var cus = respTxt.data.list;
+
+                var div = "<div id=\"AddP\"></div>";
+                $("#list_b_c").append(div);
+
+                for (var c of cus) {
+
+                    var li = "<ul class=\"list_b\" id=\"list_b\">" +
+                        "<li class=\"b20\"><label><input type=\"checkbox\"><span>" + c.username + "</span></label></li>" +
+                        "<li class=\"b20\"><label>" + c.usex + "</label></li>" +
+                        "<li class=\"b20\"><label>" + c.uDatetime + "</label></li>" +
+                        "<li class=\"b20\"><label>" + c.utel + "</label></li>" +
+                        "<li class=\"b20\"><label>" + c.uemail + "</label></li>" +
+                        "<li class=\"b60\">" +
+                        "<a href=\"userdetail.html\" onclick=\"detailed(" + c.uid + ")\">" +
+                        // "<div class=\"edit_btn df_btn fl text_center\">详情</div>" +
+                        "<div class=\"edit_btn df_btn fl text_center\" onclick=\"Btntt(" + c.uid + ")\">详情</div>" +
+                        "</a>" +
+                        "<a href=\"\">" +
+                        "<div class=\"delete_btn df_btn fl text_center\" id=\"statusC" + i + "\" onclick=\"closeUser(" + c.uid + "," + c.ustatus + ")\" value=\"禁用启用\"></div>" +
+                        "</a>" +
+                        "</li></ul>";
+                    $("#AddP").append(li);
+                    if (c.ustatus == 1) {
+                        $("#statusC" + i).html("禁用");
+                    } else if (c.ustatus == 0) {
+                        $("#statusC" + i).html("启用");
+                    }
+                    i++;
+                }
+                //      flag = "false";
+           //     t = i;
+            }
+        });
+        //   }
+    }
+
+</script>
+
 </html>
