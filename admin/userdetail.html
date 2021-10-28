@@ -1,52 +1,100 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title></title>
-	<meta charset="utf-8">
+    <title></title>
+    <meta charset="utf-8">
     <link href="../css/admin_main.css" rel="stylesheet">
 </head>
+
 <body>
-<!-- 用户管理 -->
-            <div class="AccountManagement_c" id="NewsManagement_c">
-                <h3>用户管理 
-                    <div class="amcl fr">
-                        <input type="text" placeholder="用户名" class="fl" name="">
-                        <div class="search fl"><img src="images/search.png"></div>
-                    </div> 
-                </h3>
-                <div class="list" id="release_news">
-                    <ul class="list_h">
-                        <li class="b80"><label>用户</label>
-                        信息</li>
-                    </ul>
-                    <div class="list_b_c" id="release_news_in">
-                        <div class="release_news">
-                            <div class="news_title">
-                                <label class="text_center">用户名</label>
-                            </div>
-                            <div class="news_title">
-                                <label class="text_center">昵称</label>
-                            </div>
-                             <div class="news_title">
-                                <label class="text_center">真实姓名</label>
-                            </div>
-                            <div class="news_title">
-                               <label class="text_center">性别</label>
-                            </div>
-                             <div class="news_title">
-                               <label class="text_center">生日</label>
-                            </div>
-                             <div class="news_title">
-                               <label class="text_center">手机号</label>
-                            </div>
-                             <div class="news_title">
-                               <label class="text_center">邮箱</label>
-                            </div>  
-                            <div class="release_news_ok_btn text_center"><a href="javascript:history.go(-1)">返回</a></div>
-                        </div>
+    <!-- 用户管理 -->
+    <div class="AccountManagement_c" id="NewsManagement_c">
+        <h3>用户管理
+            <div class="amcl fr">
+                <input type="text" placeholder="用户名" class="fl" name="">
+                <div class="search fl"><img src="images/search.png"></div>
+            </div>
+        </h3>
+        <div class="list" id="release_news">
+            <ul class="list_h">
+                <li class="b80"><label>用户</label>
+                    信息</li>
+            </ul>
+            <div class="list_b_c" id="release_news_in">
+                <div class="release_news">
+                    <div class="news_title">
+                        <label class="text_center">用户ID</label>
+                        <span id="span1"></span>
                     </div>
+                    <div class="news_title">
+                        <label class="text_center">用户名</label>
+                        <span id="span2"></span>
+                    </div>
+                    <div class="news_title">
+                        <label class="text_center">密码</label>
+                        <span id="span3"></span>
+                    </div>
+                    <div class="news_title">
+                        <label class="text_center">邮箱</label>
+                        <span id="span4"></span>
+                    </div>
+                    <div class="news_title">
+                        <label class="text_center">手机号</label>
+                        <span id="span5"></span>
+                    </div>
+                    <div class="news_title">
+                        <label class="text_center">性别</label>
+                        <span id="span6"></span>
+                    </div>
+                    <div class="news_title">
+                        <label class="text_center">生日</label>
+                        <span id="span7"></span>
+                    </div>
+                    <div class="news_title">
+                        <label class="text_center">头像</label>
+                        <span id="span8"></span>
+                    </div>
+                    <div class="news_title">
+                        <label class="text_center">角色</label>
+                        <span id="span9"></span>
+                    </div>
+                    <div class="news_title">
+                        <label class="text_center">账户状态</label>
+                        <span id="span10"></span>
+                    </div>
+                    <div class="release_news_ok_btn text_center"><a href="javascript:history.go(-1)">返回</a></div>
                 </div>
             </div>
+        </div>
+    </div>
+    <script src="../js/jquery-3.6.0.js"></script>
+    <script>
+        $(function () {
+            var uid = localStorage.getItem("uId");
+            $.ajax({
+                url: "http://localhost/VegetableMarket/UserFindID",
+                type: "get",
+                data: { uId: uid },
+                success: function (respTxt) {
+                    //  alert(respTxt.message);
+                    var re = respTxt.data;
+                    if (respTxt.code == 1000) {
+                        $("#span1").html(re.uid);
+                        $("#span2").html(re.username);
+                        $("#span3").html(re.passwd);
+                        $("#span4").html(re.uemail);
+                        $("#span5").html(re.utel);
+                        $("#span6").html(re.usex);
+                        $("#span7").html(re.udatetime);
+                        $("#span8").html(re.uphoto);
+                        $("#span9").html(re.urole);
+                        $("#span10").html(re.ustatus);
+                    }
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>

@@ -57,6 +57,10 @@
     })
     //===============================手风琴菜单//===============================手风琴菜单
 
+    $(".BossManagement").click(function(){
+        $(".AccountManagement_c_iframe iframe").attr("src","bosslist.html")
+    })
+
 
     $(".OrdersManagement").click(function () {
         $(".AccountManagement_c_iframe iframe").attr("src", "orderlist.html")

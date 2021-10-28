@@ -1,48 +1,46 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title></title>
     <meta charset="utf-8">
     <link href="../css/admin_main.css" rel="stylesheet">
 </head>
+
 <body>
     <!-- 类型管理 -->
-            <div class="AccountManagement_c" id="ColumnManagement_c">
-                <h3>类型管理 
-                    <div class="amcl fr">
-                        <input type="text" placeholder="类型名" class="fl" name="">
-                        <div class="search fl"><img src="../images/search.png"></div>
-                    </div> 
-                </h3>
-                <div class="AM_ct text_center">
-                    <div class="AM_ct_in">
-                        <a href="categoryadd.html"><div class="add_btn df_btn fl" id="add_column_btn">添加</div></a>
-                    </div>
-                </div>
+    <div class="AccountManagement_c" id="ColumnManagement_c">
+        <h3>类型管理
+            <div class="amcl fr">
+                <input type="text" placeholder="类型名" class="fl" name="">
+                <div class="search fl"><img src="../images/search.png"></div>
+            </div>
+        </h3>
+        <div class="AM_ct text_center">
+            <div class="AM_ct_in">
+                <a href="categoryadd.html">
+                    <div class="add_btn df_btn fl" id="add_column_btn">添加</div>
+                </a>
+            </div>
+        </div>
 
-                <div class="list">
-                    <ul class="list_h">
-                        <li class="b20"><label><input type="checkbox" name="newsId"><span>序号</span></label></li>
-                        <li class="b20"><label>类型名称</label></li>
-                       
-                        <li class="b60"><label>操作</label></li>
-                    </ul>
-                    <div class="list_b_c">
-                       
-                            <ul class="list_b">
-                                <li class="b20"><label><input type="checkbox" name=""><span>1</span></label></li> 
-                                 <li class="b20"><label>烧烤</label></li>
-                                  
-                                <li class="b60">
-                            	<a href="categoryedit.html"><div class="edit_btn df_btn fl text_center">编辑</div></a>
-                        		<a href=""><div class="delete_btn df_btn fl text_center">删除</div></a>
-                        		</li>
-                            </ul>
-                      
-                       
-                    </div>
+        <div class="list">
+            <ul class="list_h">
+                <li class="b20"><label><input type="checkbox" name="newsId"><span>序号</span></label></li>
+                <li class="b20"  ><label>类型名称</label></li>
 
-                    <div class="pull_page">
+                <li class="b60"><label>操作</label></li>
+            </ul>
+
+            <div class="list_b_c">
+
+
+
+
+            </div>
+
+
+            <!-- <div class="pull_page">
                         <div class="fl pull_page_up">上一页</div>
                             <ul>
                                 <li class="on">1</li>
@@ -53,18 +51,161 @@
                                 <li>12</li>
                             </ul>
                         <div class="fl pull_page_down">下一页</div>
-                    </div>
-
-                    
-                </div>
+                    </div> -->
+            <div class="pull_page">
+                <div class="fl pull_page_up">上一页</div>
+                <ul>
+                    <li class="on"><a id="pageNow">第x页</a></li>
+                    <li class="pull_page_df_btn">…</li>
+                    <li><a id="cftTotal">共x类商品</a></li>
+                    <li><a id="pageTotal">共x页</a></li>
+                </ul>
+                <div class="fl pull_page_down">下一页</div>
             </div>
-            <script src="../js/jquery-3.6.0.js"></script>
-            <script>
-                $(".edit_btn").click(function(){
-                    alert("00000")
+
+
+
+
+        </div>
+    </div>
+
+
+    <script src="../js/jquery-3.6.0.js"></script>
+
+    <script>
+        $("body").on("click", "#del_btn", function (event) {
+            //取消默认行为
+            event.preventDefault();
+            var flag = window.confirm("真的要删除吗？");
+            if (!flag) {
+                return;
+            }
+            var cid = $(this).parent().parent().prevAll().last().children().last().children("span").html();
+            var div = $(this).parent().parent().parent();
+            $.ajax({
+                url: "http://localhost/VegetableMarket/FindClassification",
+                type: "POST",
+                data: {
+                    _method: "delete", id: cid
+                },
+                success: function (resp) {
+                    if (resp == true) {
+                        alert("删除成功！");
+                        div.remove();
+                    } else {
+                        alert("删除出错");
+                    }
+                }
+            })
+        })
+
+
+
+
+
+        $(function () {
+            var token = localStorage.getItem("token")
+            // alert(token)
+            var pageNumH = 1;
+            var isLastPage = false;
+
+            classification(1);
+
+            //下一页
+            $(".pull_page_down").click(function (event) {
+                //取消默认行为
+                event.preventDefault();
+                if (isLastPage == true) {
+                    alert("已经是最后一页了！");
+                    return;
+                } else {
+                    pageNumH = pageNumH + 1;
+                    //删除上一页的行
+                    $(".list_b").remove();
+                    classification(pageNumH);
+                }
+            });
+
+
+            //上一页
+            $(".pull_page_up").click(function (event) {
+                //取消默认行为
+                event.preventDefault();
+                if (pageNumH == 1) {
+                    alert("已经是第一页了！");
+                    return;
+                } else {
+                    pageNumH = pageNumH - 1;
+                    //删除上一页的行
+                    $(".list_b").remove();
+                    classification(pageNumH);
+                }
+            });
+
+
+            function classification(pageNum) {
+                $.ajax({
+                    headers: {
+                        token: token
+                    },
+                    url: "http://localhost/VegetableMarket/FindClassification/cf/" + pageNum,
+                    type: "get",
+
+                    success: function (respText) {
+                        // alert(respText.code+" : "+respText.message+" : "+respText.data)
+                        $("#pageNow").html("第" + respText.data.pageNum + "页");
+                        $("#pageTotal").html("共" + respText.data.pages + "页");
+                        $("#cftTotal").html("共" + respText.data.total + "类商品");
+
+                        isLastPage = respText.data.isLastPage;
+                        last = respText.data.pages;
+                        // $(".list_b_c").empty();
+                        var cftList = respText.data.list;
+                        for (var classfy of cftList) {
+                            var goods = "<ul class='list_b'>" +
+                                "<li class='b10'><label><input type='checkbox' name=''><span>" + classfy.cid + "</span></label></li>" +
+                                //商品名称
+                                "<li class='b20'><label>" + classfy.cname + "</label></li>" +
+                                "<li class='b60'>" +
+                                "<a href='javascript:;'>" +
+                                
+                                "<div class='edit_btn df_btn fl text_center'>编辑</div>" +
+                                "</a>" +
+                                "<a href=''>" +
+                                "<div class='delete_btn df_btn fl text_center' id='del_btn'>删除</div>" +
+                                "</a>" +
+                                "</li>" +
+                                "</ul>"
+                            $(".list_b_c").append(goods);
+                        }
+                    }
                 })
-            </script>
+            }
+            // $(".edit_btn").click(function(){
+            // $("body").on("click", "#updatebtn", function (event) {
+            //     event.preventDefault();
+            //     alert(1111);
+
+            //     var cid = this.parent().parent().parent().first().first().first().first().html();
+            //     alert(cid);
+            // })
+        })
+        // $(".edit_btn").click(function () {
+        $("body").on("click", ".edit_btn", function () {
+           
+            var cid =  $(this).parent().parent().parent().first().children().children().children("span").html();
+            
+            location.href="categoryedit.html?cid="+cid;
+        })
+    </script>
+
+
+
+
+
+
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/main.js"></script>
+
 </html>

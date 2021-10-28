@@ -26,49 +26,6 @@
                 <div class="search fl"><img src="../images/search.png"></div>
             </div>
         </h3>
-
-        <!-- ========================商品分类管理 Zanson Add 10/27 15:47 Started============================== -->
-        <span class="goodsClassSelect">按分类管理商品：</span>
-        <select id="goodsClass" class="goodsClass">
-            <option value="1">1--新鲜水果</option>
-            <option value="2">2--海鲜水产</option>
-            <option value="3">3--猪肉牛羊</option>
-            <option value="4">4--禽类蛋品</option>
-            <option value="5">5--新鲜蔬菜</option>
-            <option value="6">6--速冻食品</option>
-        </select>
-
-        <input type="button" id="b21212" class="b21212" value="Select">
-
-        <style>
-            .goodsClassSelect {
-                font-size: 16px;
-            }
-
-            #goodsClass {
-                font-size: 16px;
-                border: 1px solid rgb(41, 128, 182);
-                color: rgb(41, 128, 182);
-                margin-bottom: 6px;
-                border-radius: 6px;
-            }
-
-            #b21212 {
-                font-size: 16px;
-                background-color: rgb(245, 95, 44);
-                border: 0;
-                border-radius: 6px;
-                color: white;
-                display: inline-block;
-                width: 100px;
-                height: 25px;
-                margin-bottom: 5px;
-            }
-        </style>
-
-        <!-- ========================商品分类管理 Zanson Add 10/27 15:47 Ended============================== -->
-
-
         <div class="AM_ct text_center">
             <div class="AM_ct_in">
                 <a href="goodsadd.html">
@@ -79,23 +36,157 @@
 
         <div class="list">
             <ul class="list_h">
-                <li class="b10"><label><input type="checkbox" name="newsId"><span>编号</span></label></li>
+                <li class="b10"><label><input type="checkbox" name="newsId"><span>序号</span></label></li>
                 <li class="b20"><label>食品名称</label></li>
                 <li class="b20"><label>单价</label></li>
-                <li class="b20"><label>促销价</label></li>
-                <li class="b20"><label>类型</label></li>
+                <li class="b20"><label>库存</label></li>
+                <li class="b20"><label>商品状态</label></li>
                 <li class="b60"><label>操作</label></li>
             </ul>
             <div class="list_b_c">
-                
-            </div>
 
-            <div class="pull_page">
 
             </div>
         </div>
     </div>
 
+    <div class="pull_page">
+        <div class="fl pull_page_up">上一页</div>
+        <ul>
+            <li class="on"><a id="pageNow">第x页</a></li>
+            <li><a id="goodsTotal">共x个商品</a></li>
+            <li><a id="pageTotal">共x页</a></li>
+        </ul>
+        <div class="fl pull_page_down">下一页</div>
+    </div>
+
+
+    </div>
+    </div>
+    <script src="../js/jquery-3.6.0.js"></script>
+
+    <script>
+        $("body").on("click", "#delete_btn", function (event) {
+            //取消默认行为
+            event.preventDefault();
+            var flag = window.confirm("真的要删除吗？");
+            if (!flag) {
+                return;
+            }
+            var gid = $(this).parent().parent().prevAll().last().children().last().children("span").html();
+            var div = $(this).parent().parent().parent();
+            $.ajax({
+                url: "http://localhost/VegetableMarket/goods/delete/" + gid,
+                type: "POST",
+                data: {
+                    _method: "delete"
+                },
+                success: function (resp) {
+                    if (resp == true) {
+                        alert("删除成功！");
+                        div.remove();
+                    } else {
+                        alert("删除出错");
+                    }
+                }
+            })
+        })
+
+        $(function () {
+            var token = localStorage.getItem("token")
+            // alert(token)
+            var pageNumH = 1;
+            var isLastPage = false;
+
+            goods(1, 1);
+
+            //下一页
+            $(".pull_page_down").click(function (event) {
+                //取消默认行为
+                event.preventDefault();
+                if (isLastPage == true) {
+                    alert("已经是最后一页了！");
+                    return;
+                } else {
+                    pageNumH = pageNumH + 1;
+                    //删除上一页的行
+                    $(".list_b_c").remove();
+                    goods(cId, pageNumH);
+                }
+            });
+
+
+            //上一页
+            $(".pull_page_up").click(function (event) {
+                //取消默认行为
+                event.preventDefault();
+                if (pageNumH == 1) {
+                    alert("已经是第一页了！");
+                    return;
+                } else {
+                    pageNumH = pageNumH - 1;
+                    //删除上一页的行
+                    $(".list_b_c").remove();
+                    goods(cId, pageNumH);
+                }
+            });
+
+
+            function goods(cId, pageNum) {
+                $.ajax({
+                    headers: {
+                        token: token
+                    },
+                    url: "http://localhost/VegetableMarket/goods/cId/" + cId,
+                    type: "get",
+                    data: {
+                        pageNum: pageNum,
+                    },
+                    success: function (respText) {
+                        // alert(respText.code+" : "+respText.message+" : "+respText.data)
+                        $("#pageNow").html("第" + respText.data.pageNum + "页");
+                        $("#pageTotal").html("共" + respText.data.pages + "页");
+                        $("#goodsTotal").html("共" + respText.data.total + "个商品");
+
+                        isLastPage = respText.data.isLastPage;
+                        last = respText.data.pages;
+
+                        var goodsList = respText.data.list;
+                        for (var goods of goodsList) {
+                            if (goods.gstatus = 1) {
+                                goods.gstatus = "上架中"
+                            } else {
+                                goods.gstatus = "已下架"
+                            }
+                            var goods =
+                                "<ul class='list_b'>" +
+                                "<li class='b10'><label><input type='checkbox' name=''><span>" +
+                                goods.gid + "</span></label></li>" +
+                                //商品名称
+                                "<li class='b20'><label>" + goods.gname + "</label></li>" +
+                                //价格
+                                "<li class='b20'><label>" + goods.gprice + "</label></li>" +
+                                "<li class='b20'><label>" + goods.gstock + "</label></li>" +
+
+                                "<li class='b20'><label>" + goods.gstatus + "</label></li>" +
+                                "<li class='b60'>" +
+                                "<a href='goodsedit.html'>" +
+                                "<div class='edit_btn df_btn fl text_center'>编辑</div>" +
+                                "</a>" +
+                                "<a href='goodsdetail.html?" + goods.gid + "'>" +
+                                "<div class='edit_btn df_btn fl text_center' id='edit_btn'>详情</div>" +
+                                "</a>" +
+                                "<a href=''>" +
+                                "<div class='delete_btn df_btn fl text_center' id='delete_btn'>删除</div>" +
+                                "</a>" +
+                                "</li></ul>"
+                            $(".list_b_c").append(goods);
+                        }
+                    }
+                })
+            }
+        })
+    </script>
 
     <script>
         var token = localStorage.getItem("token");
@@ -162,7 +253,7 @@
                 return;
             } else {
                 pageNumI = pageNumI - 1;
-                alert("goodsClass"+goodsClass)
+                alert("goodsClass" + goodsClass)
                 goods(goodsClass, pageNumI);
             }
         });
@@ -239,7 +330,7 @@
                     // alert(respText.code+" : "+respText.message+" : "+respText.data)
                     $(".pull_page").empty();
                     $(".list_b_c").empty();
-                    if(respText.data == null){
+                    if (respText.data == null) {
                         $(".list_b").remove();
                         $(".list_b_c").append("<h3 id='noneGoods'>【该分类没有商品】</h3>");
                     }

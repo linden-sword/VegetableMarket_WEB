@@ -1,32 +1,80 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title></title>
-	<meta charset="utf-8">
+    <title></title>
+    <meta charset="utf-8">
     <link href="../css/admin_main.css" rel="stylesheet">
 </head>
+
 <body>
-<!-- 类型管理 -->
-            <div class="AccountManagement_c" id="NewsManagement_c">
-                <h3>类型管理 
-                   
-                </h3>
-                <div class="list" id="release_news">
-                    <ul class="list_h">
-                        <li class="b80"><label>编辑类型</label></li>
-                    </ul>
-                    <div class="list_b_c" id="release_news_in">
-                        <div class="release_news">
-                        	<div class="news_title">
-                                <label class="text_center">类型名称：</label>
-                                <input type="text" placeholder="填写类型名称" name="" value="麻辣">
-                            </div>
-                           
-                            <div class="release_news_ok_btn text_center">保存</div>
-                        </div>
+    <!-- 类型管理 -->
+    <div class="AccountManagement_c" id="NewsManagement_c">
+        <h3>类型管理
+
+        </h3>
+        <div class="list" id="release_news">
+            <ul class="list_h">
+                <li class="b80"><label>编辑类型</label></li>
+            </ul>
+            <div class="list_b_c" id="release_news_in">
+                <div class="release_news">
+                    <div class="news_title">
+                        <label class="text_center">类型名称：</label>
+                        <input type="text" id="huitian" placeholder="填写类型名称" name="" value="麻辣">
                     </div>
+
+                    <div class="release_news_ok_btn text_center">保存</div>
                 </div>
             </div>
+        </div>
+    </div>
+    <script src="../js/jquery-3.6.0.js"></script>
+    <script>
+        var url = location.href;
+        var cid = url.substring(url.lastIndexOf("=") + 1);
+        // alert(cid);
+
+        var token = localStorage.getItem("token");
+       
+        $.ajax({
+            headers: {
+                token: token
+            },
+            url: "http://localhost/VegetableMarket/FindClassification/"+cid,
+            type: "get",
+            data: {},
+            success: function (respText) {
+
+                // alert(respText.code + " : " + respText.message + " : " + respText.data);
+            //   alert(respText.cname)
+                $("#huitian").val(respText.cname);
+            }
+        })
+        $(".release_news_ok_btn").click(function(){
+            var cName= $("#huitian").val();
+            $.ajax({
+            headers: {
+                token: token
+            },
+            url: "http://localhost/VegetableMarket/FindClassification",
+            type: "post",
+            data: {
+                cId:cid,
+                cName:cName,
+                _method:"put",
+            },
+            success: function (respText) {
+
+                alert(respText.code + " : " + respText.message + " : " + respText.data);
+                location.href="categorylist.html";
+             
+            }
+        })
+        })
+
+
+    </script>
 </body>
+
 </html>

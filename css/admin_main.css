@@ -31,11 +31,13 @@ img {
 	width: 50px;
 	height: 50px;
 }
-#wz{
+
+#wz {
 	color: white;
-	margin:auto;
+	margin: auto;
 	font-size: x-large;
 }
+
 body {
 	min-width: 1000px;
 	color: #000;
@@ -372,7 +374,7 @@ select {
 	left: 9px;
 	top: 7px;
 	width: 18px;
-	height:18px;
+	height: 18px;
 }
 
 .AM_ct {
@@ -473,11 +475,37 @@ select {
 	width: 80%;
 }
 
-.list_b_c {
-	height: 500px;
-	/*overflow: hidden;*/
+.pagenation {
+	height: 32px;
+	text-align: center;
+	font-size: 0;
+	margin: 30px auto;
+}
+/* 
+.pagenation a {
+	display: inline-block;
+	border: 1px solid #d2d2d2;
+	background-color: #f8f6f7;
+	font-size: 12px;
+	padding: 7px 10px;
+	color: #666;
+	margin: 5px
 }
 
+.pagenation .active {
+	background-color: #fff;
+	color: #43a200
+} */
+
+.list_b_c {
+	height: 270px;
+	/*overflow: hidden;*/
+}
+/* 分页样式 */
+
+.pagenation{height:32px;text-align:center;font-size:0;margin:30px auto;}
+.pagenation a{display:inline-block;border:1px solid #d2d2d2;background-color:#f8f6f7;font-size:12px;padding:7px 10px;color:#666;margin:5px}
+.pagenation .active{background-color:#fff;color:#43a200}
 .list_b {
 	overflow: hidden;
 	border-bottom: 1px solid #ddd;

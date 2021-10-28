@@ -114,8 +114,7 @@ html,body{height:100%}
 .points li.active{background-color:#cecece}
 
 .adv{width:240px;height:270px; overflow:hidden; background-color:gold;}
-.adv a{display:block;float:left;border-right: gray 1px solid;border-bottom: gray 1px solid;}
-.adv a img{width: 100%;height: 100%;}
+.adv a{display:block;float:left;}
 
 
 /* 商品列表样式 */
@@ -223,6 +222,7 @@ html,body{height:100%}
 
 .pagenation{height:32px;text-align:center;font-size:0;margin:30px auto;}
 .pagenation a{display:inline-block;border:1px solid #d2d2d2;background-color:#f8f6f7;font-size:12px;padding:7px 10px;color:#666;margin:5px}
+
 .pagenation .active{background-color:#fff;color:#43a200}
 
 
@@ -360,13 +360,13 @@ html,body{height:100%}
 .cart_list_td li{height:120px;line-height:120px;float:left;text-align:center;}
 
 .cart_list_td .col01{width:4%;}
-.cart_list_td .col02{width:8%;}
-.cart_list_td .col03{width:8%;}
-.cart_list_td .col04{width:14%;}
-.cart_list_td .col05{width:11%;}
-.cart_list_td .col06{width:10%;}
-.cart_list_td .col07{width:13%;}
-.cart_list_td .col08{width:15%;}
+.cart_list_td .col02{width:12%;}
+.cart_list_td .col03{width:10%;}
+.cart_list_td .col04{width:16%;}
+.cart_list_td .col05{width:13%;}
+.cart_list_td .col06{width:12%;}
+.cart_list_td .col07{width:15%;}
+.cart_list_td .col08{width:18%;}
 
 .cart_list_td .col02 img{width:100px;height:100px;border:1px solid #ddd;display:block;margin:10px auto 0;}
 .cart_list_td .col03{height:48px;text-align:left;line-height:24px;margin-top:38px;}
@@ -447,8 +447,8 @@ html,body{height:100%}
 
 .order_list_th{width:1198px;border:1px solid #ddd;background-color:#f7f7f7;margin:20px auto 0;}
 .order_list_th li{float:left;height:30px;line-height:30px}
-.order_list_th .col01{width:13%;margin-left:10px}
-.order_list_th .col02{width:35%}
+.order_list_th .col01{width:20%;margin-left:20px}
+.order_list_th .col02{width:20%}
 
 
 .order_list_table{

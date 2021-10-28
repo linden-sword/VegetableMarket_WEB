@@ -1,53 +1,80 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title></title>
-	<meta charset="utf-8">
+    <title></title>
+    <meta charset="utf-8">
     <link href="../css/admin_main.css" rel="stylesheet">
 </head>
+
 <body>
-<!-- 食品管理 -->
-            <div class="AccountManagement_c" id="NewsManagement_c">
-                <h3>食品管理 
-                    <div class="amcl fr">
-                     
-                        <input type="text" placeholder="食品名" class="fl" name="">
-                        <div class="search fl"><img src="images/search.png"></div>
-                    </div> 
-                </h3>
-                <div class="list" id="release_news">
-                    <ul class="list_h">
-                        <li class="b80"><label>食品详情</label></li>
-                    </ul>
-                    <div class="list_b_c" id="release_news_in">
-                        <div class="release_news">
-                            <div class="news_title">
-                                <label class="text_center">名字</label>良品铺子 手剥松子218g 坚果炒货 巴西松子
-                            </div>
-                            <br>
-                            <div class="news_title">
-                                <label class="text_center">原价</label>54
-                            </div>
-                             <div class="news_title">
-                                <label class="text_center">促销价</label>34
-                            </div>
-                             
-                             <div class="column_name">
-                                <label class="text_center">口味</label>麻辣（20）|烧烤（209）
-                            </div>
-                            <div class="column_name">
-                                <label class="text_center">类型</label>休闲食品
-                            </div>
-                            <div class="column_name">
-                                <label class="text_center">上架时间</label>2012-12-12 12:21:00
-                            </div>
-                            <br>
-                            
-                            <div class="release_news_ok_btn text_center"><a href="javascript:history.go(-1)">返回</a></div>
-                        </div>
+    <!-- 食品管理 -->
+    <div class="AccountManagement_c" id="NewsManagement_c">
+        <h3>食品管理
+            <div class="amcl fr">
+
+                <input type="text" placeholder="食品名" class="fl" name="">
+                <div class="search fl"><img src="../images/search.png"></div>
+            </div>
+        </h3>
+        <div class="list" id="release_news">
+            <ul class="list_h">
+                <li class="b80"><label>食品详情</label></li>
+            </ul>
+            <div class="list_b_c" id="release_news_in">
+                <div class="release_news">
+                    <div class="news_title">
+                        <label class="text_center">许可证编号</label><span id="t1"></span>
                     </div>
+                    <div class="news_title">
+                        <label class="text_center">原料产地</label><span id="t2"></span>
+                    </div>
+                    <div class="news_title">
+                        <label class="text_center">产地</label><span id="t3"></span>
+
+                    </div>
+                    <div class="column_name">
+                        <label class="text_center">类型</label><span id="t4"></span>
+                    </div>
+                    <div class="column_name">
+                        <label class="text_center">保质期</label><span id="t5"></span>
+                    </div>
+                    <div class="column_name">
+                        <label class="text_center">食用方法</label><span id="t6"></span>
+                    </div>
+                    <br>
+
+                    <div class="release_news_ok_btn text_center"><a href="goodslist.html">返回</a></div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <script src="../js/jquery-3.6.0.js"></script>
+    <script>
+        $(function () {
+            //#解析URL获取gId
+            var url = location.href;
+            var gId = url.substring(url.lastIndexOf("?") + 1);
+
+            $.ajax({
+                url: "http://localhost/VegetableMarket/goodsparameters/gid/" + gId,
+                type: "get",
+                success: function (resp) {
+                    if (resp.code == 1000) {
+                        $("#t1").append(resp.data.pproductionLicenseNo)
+                        $("#t2").append(resp.data.pmaterialOrigin)
+                        $("#t3").append(resp.data.porigin)
+                        $("#t4").append(resp.data.ptype)
+                        $("#t5").append(resp.data.pweightTime)
+                        $("#t6").append(resp.data.pusage)
+                    } else {
+                        alert("查询失败")
+                    }
+                }
+            })
+        })
+    </script>
 </body>
+
 </html>

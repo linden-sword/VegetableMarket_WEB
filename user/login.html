@@ -36,7 +36,8 @@
 							<label>记住用户名</label>
 							<!-- request.getAttribute("msg"); -->
 							<!-- <font style="color: red" >${msg}</font> -->
-							<a href="#">忘记密码</a>
+							<a href="change.html">忘记密码</a>
+
 						</div>
 						<input type="button" name="" value="登录" class="input_submit" id="input_submit">
 					</form>
@@ -70,33 +71,36 @@
 			// alert(username);
 			$.ajax({
 				headers: {
-                    token: token
-                },
+					token: token
+				},
 				url: "http://localhost/VegetableMarket/User",
 				type: "get",
 				data: { username: username, passwd: passwd },
-				success: function (respTxt,status,xhr) {
+				success: function (respTxt, status, xhr) {
+
 					var respToken = xhr.getResponseHeader("token");
-                    if (!(respToken == null || respToken == "" || respToken == undefined)) {
-                        localStorage.setItem("token", respToken);
-                    }
+					if (!(respToken == null || respToken == "" || respToken == undefined)) {
+						localStorage.setItem("token", respToken);
+					}
 
 					if (respTxt.code === 1000) {
-						alert(respTxt.code+","+respTxt.message+","+respTxt.data);
+						//		alert(respTxt.code+","+respTxt.message+","+respTxt.data);
 						//==SGP---Started==//
-						localStorage.setItem("username",respTxt.data.username);
+						localStorage.setItem("username", respTxt.data.username);
+						localStorage.setItem("uid", respTxt.data.uid);
 						//==SGP---Ended==//
 						location.href = "index.html";
 					} else {
-						alert(respTxt.code+","+respTxt.message+","+respTxt.data);
+						alert(respTxt.code + "," + respTxt.message + "," + respTxt.data);
 						return;
 					}
 				},
 				error: function (respTxt) {
-					alert("??????");
+					alert("获取数据失败");
 				}
 			});
 		});
+
 	</script>
 </body>
 

@@ -73,10 +73,10 @@
 						<label>手机：</label>
 						<input type="text" name="" id="ad_tel">
 					</div>
+
 					<div class="form_group">
 						<input type="button" id="info_button" value="提交">
 					</div>
-
 				</form>
 			</div>
 		</div>
@@ -107,7 +107,7 @@
 		});
 
 
-		var username = localStorage.getItem("username");
+
 		var adName = localStorage.getItem("adName");
 		var adTel = localStorage.getItem("adTel");
 		var adAddress = localStorage.getItem("adAddress");
@@ -135,22 +135,24 @@
 				$("#ad_tel").val(addr.adTel);
 			}
 		});
+
 		// $("body").on("click", "#info_button", function () {
-			$("#info_button").click(function(){
+		$("#info_button").click(function () {
 			var adName = $("#ad_name").val();
 			var adAddress = $("#ad_address").val();
 			var adZipcode = $("#ad_zipCode").val();
 			var adTel = $("#ad_tel").val();
 			$.ajax({
 				url: "http://localhost/VegetableMarket/AddressUpdate",
+
 				type: "post",
-				data: { 
-					adName: adName, 
-					adAddress: adAddress, 
-					adZipcode: adZipcode, 
-					adTel: adTel, 
+				data: {
+					adName: adName,
+					adAddress: adAddress,
+					adZipcode: adZipcode,
+					adTel: adTel,
 					username: username,
-					_method:"put",
+					_method: "put",
 				},
 				success: function (respTxt) {
 					if (respTxt.code === 1000) {
