@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>天天生鲜管理平台</title>
+    <title>鲜生活管理平台</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
     <link href="../css/admin_main.css" rel="stylesheet">
@@ -14,7 +14,7 @@
     <div class="header">
         <div class="header_in">
             <img src="../img/ss.ico">
-            <font id="wz">天天生鲜管理平台</font>
+            <font id="wz">鲜生活管理平台</font>
             <div class="quit text_center">安全退出</div>
         </div>
     </div>
@@ -31,11 +31,13 @@
             <!--  $(".AccountManagement_c_iframe iframe").attr("src","categorylist.html")-->
             <div class="nav categoryManagement">类型管理</div>
             <!--  $(".AccountManagement_c_iframe iframe").attr("src","goodslist.html")-->
-            <div class="nav goodsManagement">食品管理</div>
+            <div class="nav goodsManagement">商品管理</div>
             <!--  $(".AccountManagement_c_iframe iframe").attr("src","orderlist.html")-->
             <div class="nav OrdersManagement">订单管理</div>
             <!--  $(".AccountManagement_c_iframe iframe").attr("src","accountlist.html")-->
             <div class="nav AccountManagement">账户管理</div>
+               <!--  $(".AccountManagement_c_iframe iframe").attr("src","accountlist.html")-->
+               <div class="nav BossManagement">管理员管理</div>
         </div>
         <div class="main_fx">
             <div class="AccountManagement_c_iframe">
@@ -50,8 +52,11 @@
 <script>
     $(function () {
         // var username=localStorage.getItem("username");
-        var username = "text001";
+        var username = "1";
         $("#Boss").html("管理员:" + username);
+
+
+
     });
 
 

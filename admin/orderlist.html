@@ -57,7 +57,7 @@
             <div class="pagenation">
                 <a href="" id="prePage" class="active">上一页</a>
                 <a id="pageNow">第x页</a>
-                <a id="goodsTotal">共x个商品</a>
+                <a id="goodsTotal">共x个订单</a>
                 <a id="pageTotal">共x页</a>
                 <a href="" id="nextPage" class="active">下一页</a>
             </div>
@@ -119,7 +119,7 @@
                     //  alert(4);
                     $("#pageNow").html("第" + respTxt.data.pageNum + "页");
                     $("#pageTotal").html("共" + respTxt.data.pages + "页");
-                    $("#goodsTotal").html("共" + respTxt.data.total + "个用户");
+                    $("#goodsTotal").html("共" + respTxt.data.total + "个订单");
 
                     isLastPage = respTxt.data.isLastPage;
                     last = respTxt.data.pages;
@@ -158,29 +158,6 @@
                 }
             });
         }
-
-
-    // function UpdatePasswd(uId) {
-    //     localStorage.setItem("uId", uId);
-    // }
-
-
-    // function DeleteUser(uId) {
-    //     $.ajax({
-    //         url: "http://localhost/VegetableMarket/UserDelete",
-    //         type: "get",
-    //         data: { uId: uId },
-    //         success: function (respTxt) {
-    //             if (respTxt.code == 1000) {
-    //                 alert(respTxt.message);
-    //             }
-    //         }
-    //     });
-    // }
-
-
-
-
     </script>
 </body>
 

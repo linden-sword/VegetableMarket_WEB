@@ -14,9 +14,9 @@
 </style>
 </head>
 <body>
-    <!-- 食品管理 -->
+    <!-- 商品管理 -->
             <div class="AccountManagement_c" id="ColumnManagement_c">
-                <h3>食品管理 
+                <h3>商品管理 
                     <div class="amcl fr">
                         <input type="text" placeholder="食品名" class="fl" name="">
                         <div class="search fl"><img src="../images/search.png"></div>
@@ -31,7 +31,7 @@
                 <div class="list">
                     <ul class="list_h">
                         <li class="b10"><label><input type="checkbox" name="newsId"><span>序号</span></label></li>
-                        <li class="b20"><label>食品名称</label></li>
+                        <li class="b20"><label>商品名称</label></li>
                          <li class="b20"><label>单价</label></li>
                          <li class="b20"><label>促销价</label></li>
                           <li class="b20"><label>类型</label></li>
@@ -80,4 +80,115 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/main.js"></script>
+   <script src="../js/jquery-3.6.0.js"></script>
+    <script>
+        var urole = 1;
+        var pageNum = 1;
+        var isLastPage = false;
+        //  alert(1);
+        Find();
+        // alert(2);
+
+        $("#nextPage").click(function (event) {
+            //取消默认行为
+            event.preventDefault();
+            if (isLastPage == true) {
+                alert("已经是最后一页了！");
+                return;
+            } else {
+                pageNum = pageNum + 1;
+
+                $("#AddP").remove();
+                Find();
+            }
+        });
+
+
+        //上一页
+        $("#prePage").click(function (event) {
+            event.preventDefault();
+            if (pageNum == 1) {
+                alert("已经是第一页了！");
+                return;
+            } else {
+                pageNum = pageNum - 1;
+
+                $("#AddP").remove();
+                Find();
+            }
+        });
+        // alert(3);
+
+        function Find() {
+            $.ajax({
+                url: "http://localhost/VegetableMarket/OrdersPage",
+                type: "get",
+                data: { pageNum: pageNum },
+                success: function (respTxt) {
+                    //  alert(4);
+                    $("#pageNow").html("第" + respTxt.data.pageNum + "页");
+                    $("#pageTotal").html("共" + respTxt.data.pages + "页");
+                    $("#goodsTotal").html("共" + respTxt.data.total + "个订单");
+
+                    isLastPage = respTxt.data.isLastPage;
+                    last = respTxt.data.pages;
+                    var i = 0;
+                    var orders = respTxt.data.list;
+                    var div = "<div id=\"AddP\"></div>";
+                    $("#list_b_c").append(div);
+                    //alert(5);
+
+                    for (var o of orders) {
+                    //    alert(o.oTotalPrice)
+                  //      alert(o.ototalprice)
+                 //       alert(o);
+                        //   alert(o.oid);
+                        var li = "<ul class=\"list_b\">" +
+                            "<li class=\"b10\"><label><input type=\"checkbox\"><span>" + o.opayType + "</span></label></li>" +
+                            "<li class=\"b20\"><label>" + o.oid + "</label></li>" +
+                            "<li class=\"b20\"><label>" + o.ototalPrice + "</label></li>" +
+                            "<li class=\"b20\"><label>" + o.oTime + "</label></li>" +
+                            "<li class=\"b20\"><label>" + o.ostatus + "</label></li>" +
+                            "<li class=\"b60\">" +
+                            "<a href=\"orderdetail.html\">" +
+                            "<div class=\"edit_btn df_btn fl text_center\">详情</div>" +
+                            "</a>" +
+                            "<a href=\"orderedit.html\">" +
+                            "<div class=\"edit_btn df_btn fl text_center\">编辑</div>" +
+                            "</a>" +
+
+                            "<a href=\"\">" +
+                            "<div class=\"delete_btn df_btn fl text_center\">删除</div>" +
+                            "</a>" +
+                            "</li>" +
+                            "</ul>";
+                        $("#AddP").append(li);
+                    }
+                }
+            });
+        }
+
+
+    // function UpdatePasswd(uId) {
+    //     localStorage.setItem("uId", uId);
+    // }
+
+
+    // function DeleteUser(uId) {
+    //     $.ajax({
+    //         url: "http://localhost/VegetableMarket/UserDelete",
+    //         type: "get",
+    //         data: { uId: uId },
+    //         success: function (respTxt) {
+    //             if (respTxt.code == 1000) {
+    //                 alert(respTxt.message);
+    //             }
+    //         }
+    //     });
+    // }
+
+
+
+
+    </script>
 </html>

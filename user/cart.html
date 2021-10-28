@@ -144,12 +144,10 @@
 						"<li class=\"col07\" onclick=\"updateNow()\">" + (sc.scWeight * sc.g_price).toFixed(2) + "元</li>" +
 						"<li class=\"col08\"><a href=\"javascript:;\" onclick=\"deleteCount(" + sc.scId + ")\">删除</a></li>" +
 						"</ul>"
-
 					ul.append(li1);
 					$("#total_count_find").append(ul);
 				}
 				total_money = total_money.toFixed(2);
-
 				$("#totalA").html(total_money);
 				$("#totalB").html(i);
 				$("#totalC").html(i);

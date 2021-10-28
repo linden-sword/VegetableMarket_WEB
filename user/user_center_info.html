@@ -129,7 +129,8 @@
 	<script src="../js/jquery-3.6.0.js"></script>
 	<script>
 		$(function () {	
-			var username= localStorage.getItem("username");	
+			var username= localStorage.getItem("username");
+		
 			$("#hello").html("你好" + username);
 			$.ajax({
 				url: "http://localhost/VegetableMarket/Address",
@@ -146,6 +147,7 @@
 					ul.append(li3);
 					$("#info_con").append(ul);	
 					localStorage.setItem("username",username);	
+			
 					localStorage.setItem("adName",respTxt.data.adName);
 					localStorage.setItem("adTel",respTxt.data.adTel);
 					localStorage.setItem("adAddress",respTxt.data.adAddress);

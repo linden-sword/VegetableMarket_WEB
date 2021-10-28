@@ -23,7 +23,9 @@
     $(".AccountManagement").click(function(){
         $(".AccountManagement_c_iframe iframe").attr("src","accountlist.html")
     })
-
+    $(".BossManagement").click(function(){
+        $(".AccountManagement_c_iframe iframe").attr("src","bosslist.html")
+    })
 	// pull page   翻页
 	$(".pull_page ul li").click(function(){
 		var index =$(this).index();
