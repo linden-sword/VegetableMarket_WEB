@@ -254,7 +254,8 @@ select {
 	top: 40px;
 	/*margin-left: -100%; */
 }
-
+/* ===================side 样式========================= *//* ===================side 样式========================= */
+/* ===================side 样式========================= *//* ===================side 样式========================= */
 .nav_side .nav {
 	height: 54px;
 	line-height: 55px;
@@ -263,8 +264,38 @@ select {
 	background: url(../images/icon_01.png) no-repeat 25px 20px;
 	cursor: pointer;
 }
+.nav_side .nav1 {
+	height: 44px;
+	line-height: 45px;
+	color: #3581b1;
+	width: 100%;
+	font-size: 16px;
+	border-bottom: 1px solid #ddd;
+	background: url(../images/icon_02.png) no-repeat 35px 12px #bbb;
+	cursor: pointer;
+}
 
-.nav_side .nav:hover {
+.nav_side .nav11 {
+	height: 44px;
+	line-height: 45px;
+	color: #3581b1;
+	width: 100%;
+	font-size: 16px;
+	color: #ddd;
+	border-bottom: 1px solid #ddd;
+	background: url(../images/icon_02.png) no-repeat 45px 12px #999;
+	cursor: pointer;
+}
+
+.nav_side .panel .nav1:hover {
+	background-color: #ddd;
+}
+
+.nav_side .nav11:hover {
+	color: #3581b1;
+}
+
+.nav_side .nav1:hover {
 	background-color: #fff;
 }
 
@@ -511,20 +542,20 @@ select {
 	cursor: default;
 }
 
-.pull_page ul li.on {
+/* .pull_page ul li.on {
 	background-color: #2980b6;
 	color: #fff;
-}
+} */
 
-.pull_page ul li:hover {
+/* .pull_page ul li:hover {
 	background-color: #2980b6;
 	color: #fff;
-}
+} */
 
-.pull_page ul li.pull_page_df_btn:hover {
+/* .pull_page ul li.pull_page_df_btn:hover {
 	background-color: #fff;
 	color: #2980b6;
-}
+} */
 
 
 /*账户管理 弹窗*/

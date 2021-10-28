@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <link href="../css/admin_main.css" rel="stylesheet">
+    <script src="../js/jquery-3.6.0.js"></script>
+    <style>
+        .b10 {
+            width: 10%;
+        }
+
+        .b60 {
+            width: 25%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 食品管理 -->
+    <div class="AccountManagement_c" id="ColumnManagement_c">
+        <h3>食品管理
+            <div class="amcl fr">
+                <input type="text" placeholder="食品名" class="fl" name="">
+                <div class="search fl"><img src="../images/search.png"></div>
+            </div>
+        </h3>
+
+        <div class="AM_ct text_center">
+            <div class="AM_ct_in">
+                <a href="goodsadd.html">
+                    <div class="add_btn df_btn fl" id="add_column_btn">添加</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="list">
+            <ul class="list_h">
+                <li class="b10"><label><input type="checkbox" name="newsId"><span>编号</span></label></li>
+                <li class="b20"><label>食品名称</label></li>
+                <li class="b20"><label>单价</label></li>
+                <li class="b20"><label>促销价</label></li>
+                <li class="b20"><label>类型</label></li>
+                <li class="b60"><label>操作</label></li>
+            </ul>
+            <div class="list_b_c">
+
+            </div>
+
+            <div class="pull_page">
+                <div class="fl pull_page_up" id="prePage2">上一页</div>
+                <ul>
+                    <li id="pageNow">第0页</li>
+                    <li id="goodsTotal">共0个商品</li>
+                    <li id="pageTotal">共0页</li>
+                </ul>
+                <div class="fl pull_page_down" id="nextPage2">下一页</div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        //#解析URL获取cId
+        var url = location.href;
+        var cId = url.substring(url.lastIndexOf("=") + 1);
+        // alert(cId)
+
+        var token = localStorage.getItem("token");
+        var pageNumI = 1;
+
+        goods(1);
+
+        //下一页
+        $("#nextPage2").click(function () {
+            // $("body").on("click", "#nextPage2", function () {
+            if (isLastPage == true) {
+                alert("已经是最后一页了！");
+                return;
+            } else {
+                pageNumI = pageNumI + 1;
+                // alert("goodsClass"+goodsClass)
+                goods(pageNumI);
+            }
+        });
+        //上一页
+        $("#prePage2").click(function () {
+            // $("body").on("click", "#prePage2", function () {
+            if (pageNumI == 1) {
+                alert("已经是第一页了！");
+                return;
+            } else {
+                pageNumI = pageNumI - 1;
+                goods(pageNumI);
+            }
+        });
+
+
+
+        //按分类分页查询
+        function goods(pageNum) {
+            $.ajax({
+                headers: {
+                    token: token
+                },
+                url: "http://localhost/VegetableMarket/goods/cId/"+cId,
+                type: "get",
+                data: {
+                    pageNum: pageNum,
+                },
+                async: false,
+                success: function (respText) {
+                    // alert(respText.code+" : "+respText.message+" : "+respText.data)
+                    if (respText.data == null) {
+                        $(".list_b").remove();
+                        $(".list_b_c").append("<h3 id='noneGoods'>【该分类没有商品】</h3>");
+                    }
+                    $("#pageNow").html("第" + respText.data.pageNum + "页");
+                    $("#goodsTotal").html("共" + respText.data.total + "个商品");
+                    $("#pageTotal").html("共" + respText.data.pages + "页");
+
+                    isLastPage = respText.data.isLastPage;
+                    // last = respText.data.pages;
+
+                    $(".list_b").remove();
+                    var goodsList = respText.data.list;
+                    for (var goods of goodsList) {
+                        var goods = "<ul class=\"list_b\">" +
+                            "<li class=\"b10\"><label><input type=\"checkbox\" name=\"\"><span>" + goods.gid + "</span></label></li>" +
+                            "<li class=\"b20\"><label>" + goods.gname + "</label></li>" +
+                            "<li class=\"b20\"><label>￥" + goods.gprice + "</label></li>" +
+                            "<li class=\"b20\"><label>￥" + goods.gprice + "</label></li>" +
+                            "<li class=\"b20\"><label>" + goods.cid + "</label></li>" +
+                            "<li class=\"b60\">" +
+                            "<a href=\"goodsedit.html\">" +
+                            "<div class=\"edit_btn df_btn fl text_center\">编辑</div>" +
+                            "</a>" +
+                            "<a href=\"goodsdetail.html\">" +
+                            "<div class=\"edit_btn df_btn fl text_center\">详情</div>" +
+                            "</a>" +
+                            "<a href=\"\">" +
+                            "<div class=\"delete_btn df_btn fl text_center\">删除</div>" +
+                            "</a>" +
+                            "</li>" +
+                            "</ul>";
+                        $(".list_b_c").append(goods);
+                    }
+                }
+            })
+        }
+    </script>
+
+</body>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/main.js"></script>
+
+</html>
