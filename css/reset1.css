@@ -25,9 +25,3 @@ img{border:0;}
 /* 浮动 */
 .fl{float:left}
 .fr{float:right}
-
-#info_button{
-margin-left: 20%;
-width: 100px;
-height: 30px;
-}

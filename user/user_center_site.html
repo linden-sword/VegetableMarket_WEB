@@ -1,25 +1,22 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>天天生鲜-用户中心</title>
 	<link rel="stylesheet" type="text/css" href="../css/reset.css">
 	<link rel="stylesheet" type="text/css" href="../css/main.css">
 </head>
+
 <body>
 	<div class="header_con">
 		<div class="header">
 			<div class="welcome fl">欢迎来到天天生鲜!</div>
 			<div class="fr">
-				<div class="login_info fl">
-					欢迎您：<em>张 山</em>
-				</div>
-				<div class="login_btn fl">
-					<a href="login.html">登录</a>
-					<span>|</span>
-					<a href="register.html">注册</a>
-				</div>
+
 				<div class="user_link fl">
+					<span id="hello">你好,</span>
 					<span>|</span>
 					<a href="user_center_info.html">用户中心</a>
 					<span>|</span>
@@ -28,7 +25,7 @@
 					<a href="user_center_order.html">我的订单</a>
 				</div>
 			</div>
-		</div>		
+		</div>
 	</div>
 
 	<div class="search_bar clearfix">
@@ -37,7 +34,7 @@
 		<div class="search_con fr">
 			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
 			<input type="button" class="input_btn fr" name="" value="搜索">
-		</div>		
+		</div>
 	</div>
 
 	<div class="main_con clearfix">
@@ -50,41 +47,40 @@
 			</ul>
 		</div>
 		<div class="right_content clearfix">
-				<h3 class="common_title2">收货地址</h3>
-				<div class="site_con">
-					<dl>
-						<dt>当前地址：</dt>
-						<dd>北京市 海淀区 东北旺西路8号中关村软件园 （李思 收） 182****7528</dd>
-					</dl>					
-				</div>
-				<h3 class="common_title2">编辑地址</h3>
-				<div class="site_con">
-					<form>
-						<div class="form_group">
-							<label>收件人：</label>
-							<input type="text" name="">
-						</div>
-						<div class="form_group form_group2">
-							<label>详细地址：</label>
-							<textarea class="site_area"></textarea>
-						</div>
-						<div class="form_group">
-							<label>邮编：</label>
-							<input type="text" name="">
-						</div>
-						<div class="form_group">
-							<label>手机：</label>
-							<input type="text" name="">
-						</div>
+			<h3 class="common_title2">收货地址</h3>
+			<div class="site_con">
+				<dl id="site_con_d1">
+					<dt>当前地址：</dt>
 
-						<input type="submit" name="" value="提交" class="info_submit">
-					</form>
-				</div>
+				</dl>
+			</div>
+			<h3 class="common_title2">编辑地址</h3>
+			<div class="site_con">
+				<form>
+					<div class="form_group">
+						<label>收件人：</label>
+						<input type="text" id="ad_name">
+					</div>
+					<div class="form_group form_group2">
+						<label>详细地址：</label>
+						<textarea class="site_area" id="ad_address"></textarea>
+					</div>
+					<div class="form_group">
+						<label>邮编：</label>
+						<input type="text" name="" id="ad_zipCode">
+					</div>
+					<div class="form_group">
+						<label>手机：</label>
+						<input type="text" name="" id="ad_tel">
+					</div>
+
+					<div class="form_group">
+						<input type="button" id="info_button" value="提交">
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
-
-
-
 	<div class="footer">
 		<div class="foot_link">
 			<a href="#">关于我们</a>
@@ -93,11 +89,81 @@
 			<span>|</span>
 			<a href="#">招聘人才</a>
 			<span>|</span>
-			<a href="#">友情链接</a>		
+			<a href="#">友情链接</a>
 		</div>
 		<p>CopyRight © 2020 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
-		<p>电话：010-****888    京ICP备*******8号</p>
+		<p>电话：010-****888 京ICP备*******8号</p>
 	</div>
-	
+
+
+	<script src="../js/jquery-3.6.0.js"></script>
+	<script>
+
+
+		var username = localStorage.getItem("username");
+		localStorage.setItem("username", username);
+		$(function () {
+			$("#hello").html("你好" + username);
+		});
+
+
+		
+		var adName = localStorage.getItem("adName");
+		var adTel = localStorage.getItem("adTel");
+		var adAddress = localStorage.getItem("adAddress");
+		$.ajax({
+			url: "http://localhost/VegetableMarket/Address",
+			type: "get",
+			data: { username: username },
+			success: function (respTxt) {
+
+				var dd1 = $("<dd>" + respTxt.data.adAddress + " （" + respTxt.data.adName + " 收） " + respTxt.data.adTel + "</dd>");
+				$("#site_con_d1").append(dd1);
+			}
+		});
+		$.ajax({
+			url: "http://localhost/VegetableMarket/Address",
+			type: "get",
+			data: { username: username },
+			success: function (respTxt) {
+				//获取客户信息回填
+
+				var addr = respTxt.data;
+				$("#ad_name").val(addr.adName);
+				$("#ad_address").val(addr.adAddress);
+				$("#ad_zipCode").val(addr.adZipcode);
+				$("#ad_tel").val(addr.adTel);
+			}
+		});
+
+		// $("body").on("click", "#info_button", function () {
+			$("#info_button").click(function(){
+			var adName = $("#ad_name").val();
+			var adAddress = $("#ad_address").val();
+			var adZipcode = $("#ad_zipCode").val();
+			var adTel = $("#ad_tel").val();
+			$.ajax({
+				url: "http://localhost/VegetableMarket/AddressUpdate",
+
+				type: "post",
+				data: { 
+					adName: adName, 
+					adAddress: adAddress, 
+					adZipcode: adZipcode, 
+					adTel: adTel, 
+					username: username,
+					_method:"put",
+				},
+				success: function (respTxt) {
+					if (respTxt.code === 1000) {
+						// location.href = "user_center_site.html";
+						alert(respTxt.message);
+						window.location.reload();
+					}
+				}
+			});
+		});
+	</script>
 </body>
+
 </html>

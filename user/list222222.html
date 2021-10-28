@@ -132,7 +132,6 @@
 	</div>
 
 	<script>
-
 		$("body").on("click","#searchBarBtn",function(){
 			var url1 = encodeURI("searchList.html?searchString="+$("#searchBar").val())
 			location.href=url1;
@@ -194,7 +193,7 @@
 					data: {
 						pageNum: pageNum,
 					},
-					success: function (respText) {
+					success: function (respTxt) {
 						// alert(respText.code+" : "+respText.message+" : "+respText.data)
 						$("#pageNow").html("第" + respText.data.pageNum + "页");
 						$("#pageTotal").html("共" + respText.data.pages + "页");

@@ -1,39 +1,83 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title></title>
-	<meta charset="utf-8">
+    <title></title>
+    <meta charset="utf-8">
     <link href="../css/admin_main.css" rel="stylesheet">
 </head>
+
 <body>
-<!-- 账户管理 -->
-            <div class="AccountManagement_c" id="NewsManagement_c">
-                <h3>账户管理 
-                    
-                </h3>
-                <div class="list" id="release_news">
-                    <ul class="list_h">
-                        <li class="b80"><label>账户编辑</label></li>
-                    </ul>
-                    <div class="list_b_c" id="release_news_in">
-                        <div class="release_news">
-                        	<div class="news_title">
-                                <label class="text_center">账户名：</label>
-                                <input type="text" placeholder="填写账户名" name="" value="张三">
-                            </div>
-                            <div class="news_title">
-                                <label class="text_center">密码：</label>
-                                <input type="password" placeholder="填写密码" name="" >
-                            </div>
-                            <div class="news_title">
-                                <label class="text_center">确认密码：</label>
-                                <input type="password" placeholder="填写确认密码" name="">
-                            </div>
-                            <div class="release_news_ok_btn text_center">保存</div>
-                        </div>
+    <!-- 账户管理 -->
+    <div class="AccountManagement_c" id="NewsManagement_c">
+        <h3>账户管理
+
+        </h3>
+        <div class="list" id="release_news">
+            <ul class="list_h">
+                <li class="b80"><label>账户编辑</label></li>
+            </ul>
+            <div class="list_b_c" id="release_news_in">
+                <div class="release_news">
+                    <div class="news_title">
+                        <label class="text_center">账户名：</label>
+                        <input type="text" placeholder="填写账户名" id="username">
                     </div>
+                    <div class="news_title">
+                        <label class="text_center">密码：</label>
+                        <input type="password" placeholder="填写密码" id="passwd1">
+                    </div>
+                    <div class="news_title">
+                        <label class="text_center">确认密码：</label>
+                        <input type="password" placeholder="填写确认密码" id="passwd2">
+                    </div>
+                    <div class="release_news_ok_btn text_center" id="btn">保存</div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <script src="../js/jquery-3.6.0.js"></script>
+    <script>
+        var uid = localStorage.getItem("uId");
+
+     //   alert(11);
+        $.ajax({
+            url: "http://localhost/VegetableMarket/UserFindID",
+            type: "get",
+            data: { uId: uid },
+            success: function (respTxt) {
+                //获取客户信息回填
+          //      alert(22);
+
+                $("#username").val(respTxt.data.username);
+            }
+        });
+        $("body").on("click", "#btn", function () {
+            let username = $("#username").val();
+            let passwd = $("#passwd1").val();
+            let passwd2 = $("#passwd2").val();
+          //  alert("username"+username);
+            if (passwd != passwd2) {
+                alert("两次密码不一致");
+                return;
+            }
+            //修改用户名和密码
+            $.ajax({
+                url: "http://localhost/VegetableMarket/UserUpPsw",
+                type: "get",
+                data: { uId: uid, username: username, passwd: passwd },
+                success: function (respTxt) {
+                    if (respTxt.code == 1000) {
+            //            alert(33);
+                        alert(respTxt.message);
+                        location.href="accountlist.html";
+                    }
+                }
+            });
+        });
+    </script>
+
 </body>
+
 </html>

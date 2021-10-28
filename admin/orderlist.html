@@ -32,8 +32,6 @@
                 <li class="b60"><label>操作</label></li>
             </ul>
             <div class="list_b_c" id="list_b_c">
-
-
                 <!-- <ul class="list_b">
                     <li class="b10"><label><input type="checkbox" name=""><span>1</span></label></li>
                     <li class="b20"><label>5435345342424</label></li>
@@ -52,8 +50,8 @@
                         </a>
                     </li>
                 </ul> -->
-
             </div>
+
             <div class="pull_page">
                 <div class="fl pull_page_up active" id="prePage">上一页</div>
                 <ul>
@@ -96,8 +94,7 @@
             })
         })
 
-
-
+  
         var urole = 1;
         var pageNum = 1;
         var isLastPage = false;
@@ -150,13 +147,13 @@
                     //  alert(4);
                     $("#pageNow").html("第" + respTxt.data.pageNum + "页");
                     $("#pageTotal").html("共" + respTxt.data.pages + "页");
-                    $("#goodsTotal").html("共" + respTxt.data.total + "个用户");
+                    $("#goodsTotal").html("共" + respTxt.data.total + "个订单");
 
                     isLastPage = respTxt.data.isLastPage;
                     last = respTxt.data.pages;
                     var i = 0;
                     var orders = respTxt.data.list;
-                    var div = "<div id='AddP'></div>";
+                    var div = "<div id=\"AddP\"></div>";
                     $("#list_b_c").append(div);
                     //alert(5);
 
@@ -185,6 +182,7 @@
                             "</a>" +
                             "<a href=''>" +
                             "<div class='delete_btn df_btn fl text_center' id='delete_btn'>取消订单</div>" +
+
                             "</a>" +
                             "</li>" +
                             "</ul>";
@@ -193,25 +191,6 @@
                 }
             });
         }
-
-
-        // function UpdatePasswd(uId) {
-        //     localStorage.setItem("uId", uId);
-        // }
-
-
-        // function DeleteUser(uId) {
-        //     $.ajax({
-        //         url: "http://localhost/VegetableMarket/UserDelete",
-        //         type: "get",
-        //         data: { uId: uId },
-        //         success: function (respTxt) {
-        //             if (respTxt.code == 1000) {
-        //                 alert(respTxt.message);
-        //             }
-        //         }
-        //     });
-        // }
     </script>
 </body>
 

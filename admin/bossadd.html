@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <link href="../css/admin_main.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="AccountManagement_c" id="NewsManagement_c">
+        <h3>管理员管理</h3>
+        <div class="list" id="release_news">
+            <ul class="list_h">
+                <li class="b80"><label>添加管理员</label></li>
+            </ul>
+            <div class="list_b_c" id="release_news_in">
+                <div class="release_news">
+                    <div class="news_title">
+                        <label class="text_center">用户名</label>
+                        <input type="text" placeholder="" name="" id="username">
+                    </div>
+                    <br>
+                    <div class="news_title">
+                        <label class="text_center">密码</label>
+                        <input type="text" placeholder="" name="" id="passwd">
+                    </div>
+                    <br>
+                    <div class="news_title">
+                        <label class="text_center">邮箱</label>
+                        <input type="text" placeholder="@qq.com" name="" id="u_email">
+                    </div>
+                    <br>
+                    <div class="news_title">
+                        <label class="text_center">电话</label>
+                        <input type="text" placeholder="" name="" id="u_tel">
+                    </div>
+
+
+                    <div id="news_title">
+                        <label class="text_center">性別</label>
+                        <input type="radio" name="sex" value="1" checked>男
+                        <input type="radio" name="sex" value="0">女
+                    </div>
+
+                    <div id="news_title">
+                        <label class="text_center">角色权限</label>
+                        <input type="radio" name="role" value="1" checked>用户
+                        <input type="radio" name="role" value="0">管理员
+                    </div>
+
+                    <div id="news_title">
+                        <label class="text_center">角色状态</label>
+                        <input type="radio" name="status" value="1" checked>正常
+                        <input type="radio" name="status" value="0">冻结
+                    </div>
+                    <br>
+                    <div class="release_news_ok_btn text_center" id="bossAdd">保存</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/jquery-3.6.0.js"></script>
+    <script>
+
+        $("#bossAdd").click(function () {
+
+            var username = $("#username").val();
+            var passwd = $("#passwd").val();
+            var u_email = $("#u_email").val();
+            var u_tel = $("#u_tel").val();
+            var username = $("#username").val();
+            var u_sex = $("input[name='sex']:checked").val();
+            if (u_sex = 0) {
+                u_sex = "女";
+            } else {
+                u_sex = "男";
+            }
+            var u_role = $("input[name='role']:checked").val();
+            if (u_role = 0) {
+                u_role = "管理員";
+            } else {
+                u_role = "用戶";
+            }
+
+            var u_status = $("input[name='status']:checked").val();
+            if (u_role = 0) {
+                u_role = "已凍結";
+            } else {
+                u_role = "未凍結";
+            }
+            $.ajax({
+                url: "http://localhost/VegetableMarket/UserAdd",
+                type: "get",
+                data: {
+                    username: username,
+                    passwd: passwd,
+                    uEmail: u_email,
+                    uTel: u_tel,
+                    uSex: u_sex,
+                    uRole: u_role,
+                    uStatus: u_status
+                },
+                success: function (respTxt) {
+                    if (respTxt.code == 1000) {
+                        alert(respTxt.message);
+                        location.href = "bosslist.html";
+                    }
+                }
+            });
+
+
+        });
+
+
+
+    </script>
+</body>
+
+</html>

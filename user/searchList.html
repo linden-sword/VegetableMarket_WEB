@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html
+<!DOCTYPE html
 	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 
@@ -50,31 +50,9 @@
 	<div class="navbar_con">
 		<div class="navbar clearfix">
 			<div class="subnav_con fl">
-				<h1>全部商品分类</h1>
-				<span></span>
-				<ul class="subnav">
-					<li><a href="#" class="fruit">新鲜水果</a></li>
-					<li><a href="#" class="seafood">海鲜水产</a></li>
-					<li><a href="#" class="meet">猪牛羊肉</a></li>
-					<li><a href="#" class="egg">禽类蛋品</a></li>
-					<li><a href="#" class="vegetables">新鲜蔬菜</a></li>
-					<li><a href="#" class="ice">速冻食品</a></li>
-				</ul>
+				<h1>搜索结果</h1>
 			</div>
-			<ul class="navlist fl">
-				<li><a href="">首页</a></li>
-				<li class="interval">|</li>
-				<li><a href="">手机生鲜</a></li>
-				<li class="interval">|</li>
-				<li><a href="">抽奖</a></li>
-			</ul>
 		</div>
-	</div>
-
-	<div class="breadcrumb">
-		<a href="#">全部分类</a>
-		<span>></span>
-		<a href="#" id="doodsClass">新鲜水果</a>
 	</div>
 
 	<div class="main_wrap clearfix">
@@ -132,25 +110,25 @@
 	</div>
 
 	<script>
-
 		$("body").on("click","#searchBarBtn",function(){
 			var url1 = encodeURI("searchList.html?searchString="+$("#searchBar").val())
 			location.href=url1;
 			// alert(hr2)
 		})
-		
+
 		$(function () {
 			//#解析URL获取cId
 			var url = location.href;
-			var cId = url.substring(url.lastIndexOf("=") + 1);
-			// alert(cId)
+            // alert(url)
+			var searchString = decodeURI(url.substring(url.lastIndexOf("=") + 1));
+			// alert(searchString)
 
 			var token = localStorage.getItem("token")
 			// alert(token)
 			var pageNumH = 1;
 			var isLastPage = false;
 
-			goods(cId, 1);
+			goods(searchString, 1);
 
 			//下一页
 			$("#nextPage").click(function (event) {
@@ -184,14 +162,15 @@
 			});
 
 
-			function goods(cId, pageNum) {
+			function goods(searchString, pageNum) {
 				$.ajax({
 					headers: {
 						token: token
 					},
-					url: "http://localhost/VegetableMarket/goods/cId/" + cId,
+					url: "http://localhost/VegetableMarket/goods",
 					type: "get",
 					data: {
+                        searchString:searchString,
 						pageNum: pageNum,
 					},
 					success: function (respText) {
@@ -207,7 +186,7 @@
 						for (var goods of goodsList) {
 							var goods = "<li class='gooddd'>" +
 								//商品图片
-								"<a href='detail.html?g_id="+ goods.gid +"'><img src='../images/goods/goods008.jpg'></a>" +
+								"<a href='#'><img src='../images/goods/goods008.jpg'></a>" +
 								//商品名称
 								"<h4><a href='#'>"+ goods.gname +"</a></h4>" +
 								"<div class='operate'>" +

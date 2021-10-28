@@ -1,5 +1,3 @@
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 
 <head>
@@ -82,29 +80,10 @@
 	<div class="goods_detail_con clearfix">
 		<div class="goods_detail_pic fl">
 
-			<!-- <c:forEach items="${goods.imgurls}" var ="i">
-		  <c:if test="${i.level == 0 }"> -->
 			<img src="../images/goods/goods005.jpg">
-			<!-- </c:if>
-		</c:forEach> -->
+
 		</div>
 
-		<!-- <script type="text/javascript">
-       //添加购物车 
-       function addCart(goodsid) {
-          $.ajax({
-        	  type:"post",   //发送请求的方式，默认请求方式为get
-        	  url:"../AddCartSvl",  //发送到什么位置
-        	  data:{"goodsid":goodsid},  //要传给服务器的参数
-        	  dataType:"json",   // 告知此次请求的返回值是json串
-        	  success:function(data){   //会在返回完整，请求成功时调用，其中的参数是返回值
-        		  alert(data);
-        	  }
-        	  
-          })			
-			
-		}
-      </script> -->
 		<div class="goods_detail_list fr">
 			<h3></h3>
 			<p></p>
@@ -124,7 +103,7 @@
 			<div class="total">总价：<em id="totalEM"><span class="show_pirzes">¥</span></em></div>
 			<div class="operate_btn">
 				<a href="javascript:;" class="buy_btn">立即购买</a>
-				<a href="javascript:;" class="add_cart" onclick="addCart()">加入购物车</a>
+				<a href="javascript:;" class="add_cart">加入购物车</a>
 			</div>
 		</div>
 	</div>
@@ -190,27 +169,6 @@
 	</div>
 	<div class="add_jump"></div>
 
-	<!-- <script type="text/javascript" src="js/jquery-1.12.2.js"></script>
-	<script type="text/javascript">
-		var $add_x = $('#add_cart').offset().top;
-		var $add_y = $('#add_cart').offset().left;
-
-		var $to_x = $('#show_count').offset().top;
-		var $to_y = $('#show_count').offset().left;
-
-		$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
-		$('#add_cart').click(function(){
-			$(".add_jump").stop().animate({
-				'left': $to_y+7,
-				'top': $to_x+7},
-				"fast", function() {
-					$(".add_jump").fadeOut('fast',function(){
-						$('#show_count').html(2);
-					});
-
-			});
-		})
-	</script> -->
 	<script>
 		function add() {
 			var num_show = $("#num_show").val();
@@ -221,7 +179,7 @@
 			$("#num_show").val(num_show);
 			var prize = $(".show_pirze").html().substring(1);
 
-			var prizes = Number(Number(prize * num_show).toFixed(2)+0).toFixed(2);
+			var prizes = Number(Number(prize * num_show).toFixed(2) + 0).toFixed(2);
 			$(".show_pirzes").remove();
 			var sp1 = "<span class='show_pirzes'>￥" + prizes + "</span>";
 			$("#totalEM").append(sp1);
@@ -231,13 +189,13 @@
 			var num_show = $("#num_show").val();
 			num_show--;
 			if (num_show <= 1) {
-				
+
 				num_show = 1;
 			}
 			$("#num_show").val(num_show);
 			var prize = $(".show_pirze").html().substring(1);
 
-			var prizes = Number(Number(prize * num_show).toFixed(2)+0).toFixed(2);
+			var prizes = Number(Number(prize * num_show).toFixed(2) + 0).toFixed(2);
 			$(".show_pirzes").remove();
 			var sp1 = "<span class='show_pirzes'>￥" + prizes + "</span>";
 			$("#totalEM").append(sp1);
@@ -254,8 +212,50 @@
 		})
 
 		$(function () {
+			//#解析URL获取gId
+			var url = location.href;
+			var gId = url.substring(url.lastIndexOf("=") + 1);
+			// alert(gId)
 			var token = localStorage.getItem("token");
-			good(1);
+
+			good(gId);
+
+			//buy_btn点击——立即购买
+			$(".buy_btn").click(function () {
+				//传商品gid和数量
+				var num_show = $("#num_show").val();
+				location.href = "place_order.html?gId=" + gId + "." + num_show + "_1";//_1表示从商品详情直接生成订单
+			})
+
+			//加入购物车
+			$(".add_cart").click(function () {
+				//传商品gid和数量
+				var num_show = $("#num_show").val();
+				//存入购物车表
+				$.ajax({
+					headers: {
+						token: token
+					},
+					url: "http://localhost/VegetableMarket/Shoppingcart",
+					type: "post",
+					data: {
+						gId: gId,
+						scWeight: num_show,
+					},
+					success: function (resp) {
+						alert(respTxt.code+","+respTxt.message+","+respTxt.data);
+					}
+				})
+
+
+
+				location.href = "cart.html";
+			})
+
+
+
+
+
 			function good(gId) {
 				$.ajax({
 					headers: {
@@ -273,56 +273,11 @@
 				})
 			}
 		})
-
-		// var num_jia = document.getElementById("add"); //加号
-		// var num_jian = document.getElementById("minus"); //减号
-		// var input_num = document.getElementById("num_show");  //数字显示
-		// var prizes = good.gprice * input_num;
-		// //加号按钮事件--鼠标按下
-		// num_jia.onmousedown = function () {
-		// 	var i = 0; //变量i
-		// 	mouseTime = setInterval(function () {  //setInterval可一直执行内部函数
-		// 		add();
-		// 		i++  //若过一秒，执行一次i++
-		// 	}, 100);
-		// 	if (i == 0) {  //i=0时证明无长按事件为单击事件
-		// 		add();
-		// 	}
-		// }
-		// function add() { //数字加1函数
-		// 	if (input_num.value >= 30) {
-		// 		input_num.value = 30;
-		// 	} else {
-		// 		input_num.value = parseInt(input_num.value) + 1;
-		// 	}
-		// }
-		// num_jia.onmouseup = function () {//鼠标抬起，执行清除
-		// 	clearInterval(mouseTime);   //清除setInterval的时间
-		// }
-		// //减号按钮事件（内容基本同上，不予注释）    
-		// num_jian.onmousedown = function () {
-		// 	var i = 0;
-		// 	mouseTime = setInterval(function () {
-		// 		minus();
-		// 		i++     //i=0时证明无长按事件为单击事件
-		// 	}, 500); //1000即1秒
-		// 	if (i == 0) {
-		// 		minus();
-		// 	}
-		// }
-		// function minus() {
-		// 	if (input_num.value <= 1) {
-		// 		input_num.value = 1;
-		// 	} else {
-		// 		input_num.value = parseInt(input_num.value) - 1;
-		// 	}
-		// }
-		// num_jian.onmouseup = function () {
-		// 	clearInterval(mouseTime);
-		// }
-
-		// function()
-
+		//buy_btn点击——立即购买
+		$(".buy_btn").click(function () {
+			//传商品id和数量
+			location.href = "place_order.html"
+		})
 	</script>
 </body>
 
