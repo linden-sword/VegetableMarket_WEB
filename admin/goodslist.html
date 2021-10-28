@@ -1,83 +1,194 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title></title>
     <meta charset="utf-8">
     <link href="../css/admin_main.css" rel="stylesheet">
     <style>
-	.b10{
-		width: 10%;
-	}
-	.b60{
-		width: 25%;
-	}
-</style>
+        .b10 {
+            width: 10%;
+        }
+
+        .b60 {
+            width: 25%;
+        }
+    </style>
 </head>
+
 <body>
     <!-- 食品管理 -->
-            <div class="AccountManagement_c" id="ColumnManagement_c">
-                <h3>食品管理 
-                    <div class="amcl fr">
-                        <input type="text" placeholder="食品名" class="fl" name="">
-                        <div class="search fl"><img src="../images/search.png"></div>
-                    </div> 
-                </h3>
-                <div class="AM_ct text_center">
-                    <div class="AM_ct_in">
-                        <a href="goodsadd.html"><div class="add_btn df_btn fl" id="add_column_btn">添加</div></a>
-                    </div>
-                </div>
+    <div class="AccountManagement_c" id="ColumnManagement_c">
+        <h3>食品管理
+            <div class="amcl fr">
+                <input type="text" placeholder="食品名" class="fl" name="">
+                <div class="search fl"><img src="../images/search.png"></div>
+            </div>
+        </h3>
+        <div class="AM_ct text_center">
+            <div class="AM_ct_in">
+                <a href="goodsadd.html">
+                    <div class="add_btn df_btn fl" id="add_column_btn">添加</div>
+                </a>
+            </div>
+        </div>
 
-                <div class="list">
-                    <ul class="list_h">
-                        <li class="b10"><label><input type="checkbox" name="newsId"><span>序号</span></label></li>
-                        <li class="b20"><label>食品名称</label></li>
-                         <li class="b20"><label>单价</label></li>
-                         <li class="b20"><label>促销价</label></li>
-                          <li class="b20"><label>类型</label></li>
-                        <li class="b60"><label>操作</label></li>
-                    </ul>
-                    <div class="list_b_c">
-                       
+        <div class="list">
+            <ul class="list_h">
+                <li class="b10"><label><input type="checkbox" name="newsId"><span>序号</span></label></li>
+                <li class="b20"><label>食品名称</label></li>
+                <li class="b20"><label>单价</label></li>
+                <li class="b20"><label>库存</label></li>
+                <li class="b20"><label>商品状态</label></li>
+                <li class="b60"><label>操作</label></li>
+            </ul>
+            <div class="list_b_c">
 
-                            <ul class="list_b">
-                                <li class="b10"><label><input type="checkbox" name=""><span>1</span></label></li>
-                                <li class="b20"><label>良品铺子 手剥松子218g 坚果炒货 巴西松子</label></li>
-                                 <li class="b20"><label>65</label></li>
-                                 <li class="b20"><label>35</label></li>
-                                  <li class="b20"><label>休闲零食</label></li>
-                                <li class="b60">
-                            	<a href="goodsedit.html"><div class="edit_btn df_btn fl text_center">编辑</div></a>
-                                <a href="goodsdetail.html"><div class="edit_btn df_btn fl text_center">详情</div></a>
-                        		<a href=""><div class="delete_btn df_btn fl text_center">删除</div></a>
-                        		</li>
-                            </ul>
-                      
-                     
-                       
-                    </div>
 
-                    <div class="pull_page">
-                        <div class="fl pull_page_up">上一页</div>
-                            <ul>
-                                <li class="on">1</li>
-                                <li>2</li>
-                                <li>3</li>
-                                <li>4</li>
-                                <li class="pull_page_df_btn">…</li>
-                                <li>12</li>
-                            </ul>
-                        <div class="fl pull_page_down">下一页</div>
-                    </div>
 
-                    
-                </div>
+            </div>
+
+            <div class="pull_page">
+                <div class="fl pull_page_up">上一页</div>
+                <ul>
+                    <li class="on"><a id="pageNow">第x页</a></li>
+                    <li><a id="goodsTotal">共x个商品</a></li>
+                    <li><a id="pageTotal">共x页</a></li>
+                </ul>
+                <div class="fl pull_page_down">下一页</div>
             </div>
 
 
-           
+        </div>
+    </div>
+    <script src="../js/jquery-3.6.0.js"></script>
+
+    <script>
+        $("body").on("click", "#delete_btn", function (event) {
+            //取消默认行为
+            event.preventDefault();
+            var flag = window.confirm("真的要删除吗？");
+            if (!flag) {
+                return;
+            }
+            var gid = $(this).parent().parent().prevAll().last().children().last().children("span").html();
+            var div = $(this).parent().parent().parent();
+            $.ajax({
+                url: "http://localhost/VegetableMarket/goods/delete/" + gid,
+                type: "POST",
+                data: {
+                    _method: "delete"
+                },
+                success: function (resp) {
+                    if (resp == true) {
+                        alert("删除成功！");
+                        div.remove();
+                    } else {
+                        alert("删除出错");
+                    }
+                }
+            })
+        })
+
+        $(function () {
+            var token = localStorage.getItem("token")
+            // alert(token)
+            var pageNumH = 1;
+            var isLastPage = false;
+
+            goods(1, 1);
+
+            //下一页
+            $(".pull_page_down").click(function (event) {
+                //取消默认行为
+                event.preventDefault();
+                if (isLastPage == true) {
+                    alert("已经是最后一页了！");
+                    return;
+                } else {
+                    pageNumH = pageNumH + 1;
+                    //删除上一页的行
+                    $(".list_b_c").remove();
+                    goods(cId, pageNumH);
+                }
+            });
+
+
+            //上一页
+            $(".pull_page_up").click(function (event) {
+                //取消默认行为
+                event.preventDefault();
+                if (pageNumH == 1) {
+                    alert("已经是第一页了！");
+                    return;
+                } else {
+                    pageNumH = pageNumH - 1;
+                    //删除上一页的行
+                    $(".list_b_c").remove();
+                    goods(cId, pageNumH);
+                }
+            });
+
+
+            function goods(cId, pageNum) {
+                $.ajax({
+                    headers: {
+                        token: token
+                    },
+                    url: "http://localhost/VegetableMarket/goods/cId/" + cId,
+                    type: "get",
+                    data: {
+                        pageNum: pageNum,
+                    },
+                    success: function (respText) {
+                        // alert(respText.code+" : "+respText.message+" : "+respText.data)
+                        $("#pageNow").html("第" + respText.data.pageNum + "页");
+                        $("#pageTotal").html("共" + respText.data.pages + "页");
+                        $("#goodsTotal").html("共" + respText.data.total + "个商品");
+
+                        isLastPage = respText.data.isLastPage;
+                        last = respText.data.pages;
+
+                        var goodsList = respText.data.list;
+                        for (var goods of goodsList) {
+                            if (goods.gstatus = 1) {
+                                goods.gstatus = "上架中"
+                            } else {
+                                goods.gstatus = "已下架"
+                            }
+                            var goods =
+                                "<ul class='list_b'>" +
+                                "<li class='b10'><label><input type='checkbox' name=''><span>" +
+                                goods.gid + "</span></label></li>" +
+                                //商品名称
+                                "<li class='b20'><label>" + goods.gname + "</label></li>" +
+                                //价格
+                                "<li class='b20'><label>" + goods.gprice + "</label></li>" +
+                                "<li class='b20'><label>" + goods.gstock + "</label></li>" +
+
+                                "<li class='b20'><label>" + goods.gstatus + "</label></li>" +
+                                "<li class='b60'>" +
+                                "<a href='goodsedit.html'>" +
+                                "<div class='edit_btn df_btn fl text_center'>编辑</div>" +
+                                "</a>" +
+                                "<a href='goodsdetail.html?" + goods.gid + "'>" +
+                                "<div class='edit_btn df_btn fl text_center' id='edit_btn'>详情</div>" +
+                                "</a>" +
+                                "<a href=''>" +
+                                "<div class='delete_btn df_btn fl text_center' id='delete_btn'>删除</div>" +
+                                "</a>" +
+                                "</li></ul>"
+                            $(".list_b_c").append(goods);
+                        }
+                    }
+                })
+            }
+        })
+    </script>
+
 
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/main.js"></script>
+
 </html>

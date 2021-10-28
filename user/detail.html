@@ -1,12 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>天天生鲜-商品详情</title>
 	<link rel="stylesheet" type="text/css" href="../css/reset.css">
 	<link rel="stylesheet" type="text/css" href="../css/main.css">
-     <script type="text/javascript" src="../js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
 </head>
+
 <body>
 	<div class="header_con">
 		<div class="header">
@@ -29,7 +32,7 @@
 					<a href="user_center_order.html">我的订单</a>
 				</div>
 			</div>
-		</div>		
+		</div>
 	</div>
 
 	<div class="search_bar clearfix">
@@ -47,8 +50,8 @@
 	<div class="navbar_con">
 		<div class="navbar clearfix">
 			<div class="subnav_con fl">
-				<h1>全部商品分类</h1>	
-				<span></span>			
+				<h1>全部商品分类</h1>
+				<span></span>
 				<ul class="subnav">
 					<li><a href="#" class="fruit">新鲜水果</a></li>
 					<li><a href="#" class="seafood">海鲜水产</a></li>
@@ -78,15 +81,15 @@
 
 	<div class="goods_detail_con clearfix">
 		<div class="goods_detail_pic fl">
-		
-		<c:forEach items="${goods.imgurls}" var ="i">
-		  <c:if test="${i.level == 0 }">
-		 <img src="${i.imgurl}">
-		 </c:if>
-		</c:forEach>
+
+			<!-- <c:forEach items="${goods.imgurls}" var ="i">
+		  <c:if test="${i.level == 0 }"> -->
+			<img src="../images/goods/goods005.jpg">
+			<!-- </c:if>
+		</c:forEach> -->
 		</div>
-      
-      <script type="text/javascript">
+
+		<!-- <script type="text/javascript">
        //添加购物车 
        function addCart(goodsid) {
           $.ajax({
@@ -101,26 +104,27 @@
           })			
 			
 		}
-      </script>
+      </script> -->
 		<div class="goods_detail_list fr">
-			<h3>${goods.goodsname}</h3>
-			<p>${goods.goodsinfo }</p>
+			<h3></h3>
+			<p></p>
 			<div class="prize_bar">
-				<span class="show_pirze">¥<em>${goods.price }</em></span>
-				<span class="show_unit">单  位：${goods.unit }</span>
+				<span class="show_goodname"></span>
+				<span class="show_pirze">¥</span>
+				<span class="show_unit">单 位：1 kg</span>
 			</div>
 			<div class="goods_num clearfix">
 				<div class="num_name fl">数 量：</div>
 				<div class="num_add fl">
-					<input type="text" class="num_show fl" value="1">
-					<a href="javascript:;" class="add fr">+</a>
-					<a href="javascript:;" class="minus fr">-</a>	
-				</div> 
+					<input type="text" id="num_show" class="num_show fl" value="1">
+					<a href="" id="add" class="add fr">+</a>
+					<a href="" id="minus" class="minus fr">-</a>
+				</div>
 			</div>
-			<div class="total">总价：<em>${goods.price}元</em></div>
+			<div class="total">总价：<em id="totalEM"><span class="show_pirzes">¥</span></em></div>
 			<div class="operate_btn">
 				<a href="javascript:;" class="buy_btn">立即购买</a>
-				<a href="javascript:;" class="add_cart" onclick="addCart()">加入购物车</a>				
+				<a href="javascript:;" class="add_cart" onclick="addCart()">加入购物车</a>
 			</div>
 		</div>
 	</div>
@@ -152,20 +156,20 @@
 
 			<div class="tab_content">
 				<dl>
-					<dt>商品详情：</dt>
-					<dd>${goods.goodsinfo }	</dd>
-				  	
+					<dt class="good_gdescribe">商品详情：</dt>
+					<dd></dd>
+
 				</dl>
-				
+
 				<dl>
 					<dt>详细图片：</dt>
-					<c:forEach items="${goods.imgurls}" var ="i">
-					<dd> <img src="${i.imgurl}"> </dd>
+					<c:forEach items="${goods.imgurls}" var="i">
+						<dd> <img src="../images/goods/goods005.jpg"> </dd>
 					</c:forEach>
-				  	
+
 				</dl>
-				
-				
+
+
 			</div>
 
 		</div>
@@ -179,14 +183,14 @@
 			<span>|</span>
 			<a href="#">招聘人才</a>
 			<span>|</span>
-			<a href="#">友情链接</a>		
+			<a href="#">友情链接</a>
 		</div>
 		<p>CopyRight © 2020 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
-		<p>电话：010-****888    京ICP备*******8号</p>
+		<p>电话：010-****888 京ICP备*******8号</p>
 	</div>
 	<div class="add_jump"></div>
 
-	<script type="text/javascript" src="js/jquery-1.12.2.js"></script>
+	<!-- <script type="text/javascript" src="js/jquery-1.12.2.js"></script>
 	<script type="text/javascript">
 		var $add_x = $('#add_cart').offset().top;
 		var $add_y = $('#add_cart').offset().left;
@@ -206,7 +210,120 @@
 
 			});
 		})
+	</script> -->
+	<script>
+		function add() {
+			var num_show = $("#num_show").val();
+			num_show++;
+			if (num_show >= 100) {
+				num_show = 100;
+			}
+			$("#num_show").val(num_show);
+			var prize = $(".show_pirze").html().substring(1);
+
+			var prizes = Number(Number(prize * num_show).toFixed(2)+0).toFixed(2);
+			$(".show_pirzes").remove();
+			var sp1 = "<span class='show_pirzes'>￥" + prizes + "</span>";
+			$("#totalEM").append(sp1);
+		}
+
+		function minus() {
+			var num_show = $("#num_show").val();
+			num_show--;
+			if (num_show <= 1) {
+				
+				num_show = 1;
+			}
+			$("#num_show").val(num_show);
+			var prize = $(".show_pirze").html().substring(1);
+
+			var prizes = Number(Number(prize * num_show).toFixed(2)+0).toFixed(2);
+			$(".show_pirzes").remove();
+			var sp1 = "<span class='show_pirzes'>￥" + prizes + "</span>";
+			$("#totalEM").append(sp1);
+		}
+
+		$("#add").click(function (event) {
+			event.preventDefault();
+			add();
+		})
+
+		$("#minus").click(function (event) {
+			event.preventDefault();
+			minus();
+		})
+
+		$(function () {
+			var token = localStorage.getItem("token");
+			good(1);
+			function good(gId) {
+				$.ajax({
+					headers: {
+						token: token
+					},
+					url: "http://localhost/VegetableMarket/goods/gId/" + gId,
+					type: "get",
+					success: function (resp) {
+						var good = resp.data;
+						$(".show_goodname").append(good.gname);
+						$(".show_pirze").append(good.gprice);
+						$(".show_pirzes").append(good.gprice);
+						$(".good_gdescribe").append(good.gdescribe);
+					}
+				})
+			}
+		})
+
+		// var num_jia = document.getElementById("add"); //加号
+		// var num_jian = document.getElementById("minus"); //减号
+		// var input_num = document.getElementById("num_show");  //数字显示
+		// var prizes = good.gprice * input_num;
+		// //加号按钮事件--鼠标按下
+		// num_jia.onmousedown = function () {
+		// 	var i = 0; //变量i
+		// 	mouseTime = setInterval(function () {  //setInterval可一直执行内部函数
+		// 		add();
+		// 		i++  //若过一秒，执行一次i++
+		// 	}, 100);
+		// 	if (i == 0) {  //i=0时证明无长按事件为单击事件
+		// 		add();
+		// 	}
+		// }
+		// function add() { //数字加1函数
+		// 	if (input_num.value >= 30) {
+		// 		input_num.value = 30;
+		// 	} else {
+		// 		input_num.value = parseInt(input_num.value) + 1;
+		// 	}
+		// }
+		// num_jia.onmouseup = function () {//鼠标抬起，执行清除
+		// 	clearInterval(mouseTime);   //清除setInterval的时间
+		// }
+		// //减号按钮事件（内容基本同上，不予注释）    
+		// num_jian.onmousedown = function () {
+		// 	var i = 0;
+		// 	mouseTime = setInterval(function () {
+		// 		minus();
+		// 		i++     //i=0时证明无长按事件为单击事件
+		// 	}, 500); //1000即1秒
+		// 	if (i == 0) {
+		// 		minus();
+		// 	}
+		// }
+		// function minus() {
+		// 	if (input_num.value <= 1) {
+		// 		input_num.value = 1;
+		// 	} else {
+		// 		input_num.value = parseInt(input_num.value) - 1;
+		// 	}
+		// }
+		// num_jian.onmouseup = function () {
+		// 	clearInterval(mouseTime);
+		// }
+
+		// function()
+
 	</script>
-	
 </body>
+
 </html>

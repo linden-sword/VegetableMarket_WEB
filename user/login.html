@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>天天生鲜-登录</title>
 	<link rel="stylesheet" type="text/css" href="../css/reset.css">
 	<link rel="stylesheet" type="text/css" href="../css/main.css">
 </head>
+
 <body>
 	<div class="login_top clearfix">
-		<a href="index.html" class="login_logo"><img src="../images/logo02.png"></a>	
+		<a href="index.html" class="login_logo"><img src="../images/logo02.png"></a>
 	</div>
 
 	<div class="login_form_bg">
@@ -18,23 +23,22 @@
 			<div class="login_form fr">
 				<div class="login_title clearfix">
 					<h1>用户登录</h1>
-					<a href="../user/register.jsp">立即注册</a>
+					<a href="../user/register.html">立即注册</a>
 				</div>
 				<div class="form_input">
-				<!-- action  把表达的数据提交到哪    method 以什么样的方式提交  -->
-					<form action="../LoginSvl"  method="post">
-						<input type="text" name="username" class="name_input" placeholder="请输入用户名"><!-- name必须写 -->
+					<form>
+						<input type="text" name="username" class="name_input" id="username" placeholder="请输入用户名">
 						<div class="user_error">输入错误</div>
-						<input type="password" name="pwd" class="pass_input" placeholder="请输入密码">
+						<input type="password" name="pwd" class="pass_input" id="passwd" placeholder="请输入密码">
 						<div class="pwd_error">输入错误</div>
 						<div class="more_input clearfix">
 							<input type="checkbox" name="">
 							<label>记住用户名</label>
 							<!-- request.getAttribute("msg"); -->
-							<font style="color: red" >${msg}</font>
-							<a href="#">忘记密码</a>  
+							<!-- <font style="color: red" >${msg}</font> -->
+							<a href="change.html">忘记密码</a>
 						</div>
-						<input type="submit" name="" value="登录" class="input_submit">
+						<input type="button" name="" value="登录" class="input_submit" id="input_submit">
 					</form>
 				</div>
 			</div>
@@ -49,11 +53,48 @@
 			<span>|</span>
 			<a href="#">招聘人才</a>
 			<span>|</span>
-			<a href="#">友情链接</a>		
+			<a href="#">友情链接</a>
 		</div>
 		<p>CopyRight © 2020 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
-		<p>电话：010-****888    京ICP备*******8号</p>
+		<p>电话：010-****888 京ICP备*******8号</p>
 	</div>
-	
+	<script src="../js/jquery-3.6.0.js"></script>
+	<script>
+		// $("#input_submit").click(function () {
+		$("body").on("click", "#input_submit", function () {
+			var username = $("#username").val();
+			var passwd = $("#passwd").val();
+
+			var token = localStorage.getItem("token");
+
+			// alert(username);
+			$.ajax({
+				headers: {
+                    token: token
+                },
+				url: "http://localhost/VegetableMarket/User",
+				type: "get",
+				data: { username: username, passwd: passwd },
+				success: function (result,status,xhr) {
+					var respToken = xhr.getResponseHeader("token");
+                    if (!(respToken == null || respToken == "" || respToken == undefined)) {
+                        localStorage.setItem("token", respToken);
+                    }
+
+					if (result.code === 1000) {
+						alert(result.code+","+result.message+","+result.data);
+						location.href = "index.html";
+					} else {
+						alert(result.code+","+result.message+","+result.data);
+						return;
+					}
+				},
+				error: function (result) {
+					alert("登录失败");
+				}
+			});
+		});
+	</script>
 </body>
+
 </html>

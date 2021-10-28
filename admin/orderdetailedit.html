@@ -1,41 +1,141 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title></title>
-	<meta charset="utf-8">
+    <title></title>
+    <meta charset="utf-8">
     <link href="../css/admin_main.css" rel="stylesheet">
 </head>
-<body>
-<!-- 订单管理 -->
-            <div class="AccountManagement_c" id="NewsManagement_c">
-                <h3>订单详情管理 
-                    
-                </h3>
-                <div class="list" id="release_news">
-                    <ul class="list_h">
-                        <li class="b80"><label>订单详情编辑</label></li>
-                    </ul>
-                    <div class="list_b_c" id="release_news_in">
-                        <div class="release_news">
-                        <div class="news_title">
-                               <label class="text_center">商品名称：</label><input type="text" value="薯片">
-                            </div>
-                            <div class="news_title">
-                               <label class="text_center">口味：</label><select><option>麻辣</option><option>烧烤</option></select>
-                            </div>
-                            <div class="news_title">
-                               <label class="text_center">单价：</label><input type="text" value="22">
-                            </div>
-                            <div class="news_title">
-                               <label class="text_center">数量：</label><input type="text" value="3">
-                            </div>
-                        	
 
-                            <div class="release_news_ok_btn text_center">保存</div>
-                        </div>
+<body>
+    <!-- 订单管理 -->
+    <div class="AccountManagement_c" id="NewsManagement_c">
+        <h3>订单详情管理
+
+        </h3>
+        <div class="list" id="release_news">
+            <ul class="list_h">
+                <li class="b80"><label>订单详情编辑</label></li>
+            </ul>
+            <div class="list_b_c" id="release_news_in">
+                <div class="release_news">
+                    <div class="news_title">
+                        <label class="text_center">支付方式：</label>
+                        <select id="sel1">
+                            <option>支付宝</option>
+                            <option>微信</option>
+                            <option>其他</option>
+                        </select>
                     </div>
+                    <div class="news_title">
+                        <label class="text_center">商品：</label>
+                        <input type="text" id="good" value="默认">
+                    </div>
+                    <div class="news_title">
+                        <label class="text_center">总价：</label><input type="text" id="ototalPrice" value="默认">
+                    </div>
+                    <div class="news_title">
+                        <label class="text_center">重量：</label><input type="text" id="weight" value="默认">
+                    </div>
+
+
+                    <div class="release_news_ok_btn text_center" id="release_news_ok_btn">保存</div>
                 </div>
             </div>
+        </div>
+    </div>
+
+
+    <script src="../js/jquery-3.6.0.js"></script>
+    <script>
+        function getQueryString(name) {
+            //正则表达式，获取地址中的参数
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+
+            if (r != null) return unescape(r[2]);
+            return null;
+
+        }
+
+        $(function () {
+            //#解析URL获取Id
+            var url = location.href;
+            // var oid = url.substring(url.lastIndexOf("?first") + 6, url.lastIndexOf("?second"));
+            // var odName = url.substring(url.lastIndexOf("?second")+7, url.lastIndexOf("?third"));
+            // var odPrice = url.substring(url.lastIndexOf("?third")+6,url.lastIndexOf("?last"));
+            // var odWeight = url.substring(url.lastIndexOf("?last")+5);
+            var oid = getQueryString("oid");
+            var odName = getQueryString("odName");
+            var UTFodName = decodeURI(odName);
+            var odPrice = getQueryString("odPrice");
+            var odWeight = getQueryString("odWeight");
+            var token = localStorage.getItem("token")
+            $.ajax({
+                headers: {
+                    token: token
+                },
+                url: "http://localhost/VegetableMarket/orders/" + oid,
+                type: "get",
+                success: function (resp) {
+                    var select1 = $("#sel1");
+                    if (resp.opayType == 1) {
+                        resp.opayType = "支付宝"
+                    } else if (resp.opayType == 2) {
+                        resp.opayType = "微信"
+                    } else {
+                        resp.opayType = "其他"
+                    }
+                    select1.val(resp.opayType);
+                    $("#good").val(UTFodName);
+                    $("#ototalPrice").val(odPrice)
+                    $("#weight").val(odWeight)
+                    $("#good").attr("disabled","disabled");
+                    $("#ototalPrice").attr("disabled","disabled");
+                    $("#weight").attr("disabled","disabled");
+                }
+            })
+        })
+
+        $("#release_news_ok_btn").click(function () {
+            //#解析URL获取Id
+            var url = location.href;
+            var oid = url.substring(url.lastIndexOf("?") + 1);
+            var token = localStorage.getItem("token")
+            var opayType = $("#sel1").val();
+            if (opayType == "支付宝") {
+                opayType = 1;
+            } else if (opayType == "微信") {
+                opayType = 2;
+            } else {
+                opayType = 3;
+            }
+            opayType = Number(opayType);
+            // var ostatus = $("#sel2").val();
+            // var ototalPrice = $("#ototalPrice").val();
+            // var ofreightPrice = $("#ofreightPrice").val();
+            $.ajax({
+                headers: {
+                    token: token
+                },
+                url: "http://localhost/VegetableMarket/orders",
+                type: "POST",
+                data: {
+                    _method: "put",
+                    oId: oid,
+                    oPayType: opayType,
+                    // oStatus: ostatus,
+                    // oTotalPrice: ototalPrice,
+                    // oFreightPrice: ofreightPrice
+                },
+                success: function (resp) {
+                    if (resp != null) {
+                        location.href = "orderlist.html"
+                    }
+                }
+            })
+        })
+    </script>
 </body>
+
 </html>
