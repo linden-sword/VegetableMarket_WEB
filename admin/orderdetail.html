@@ -79,7 +79,7 @@
                 var url = location.href;
                 var oid = url.substring(url.lastIndexOf("?") + 1);
                 $.ajax({
-                    url: "http://localhost/VegetableMarket/orders",
+                    url: "http://localhost/VegetableMarket/orders/orders",
                     type: "POST",
                     data: {
                         _method: "put",
@@ -104,7 +104,7 @@
                     headers: {
                         token: token
                     },
-                    url: "http://localhost/VegetableMarket/orderdetails/oid/" + oid,
+                    url: "http://localhost/VegetableMarket/OrdersDetails/oid/" + oid,
                     type: "get",
                     data: {
                         pageNum: 1
@@ -118,7 +118,7 @@
 
                             $.ajax({
                                 // async: false,
-                                url: "http://localhost/VegetableMarket/orders/" + oid,
+                                url: "http://localhost/VegetableMarket/OrdersPage/" + oid,
                                 type: "get",
                                 success: function (resp2) {
                                     if (resp2.opayType == 1) {
@@ -159,7 +159,7 @@
 
                         $.ajax({
                             async: false,
-                            url: "http://localhost/VegetableMarket/orders/" + oid,
+                            url: "http://localhost/VegetableMarket/OrdersPage/" + oid,
                             type: "get",
                             success: function (resp) {
                                 $.ajax({

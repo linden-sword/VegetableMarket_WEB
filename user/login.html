@@ -76,7 +76,7 @@
 				url: "http://localhost/VegetableMarket/User",
 				type: "get",
 				data: { username: username, passwd: passwd },
-				success: function (result,status,xhr) {
+				success: function (respTxt,status,xhr) {
 
 					var respToken = xhr.getResponseHeader("token");
                     if (!(respToken == null || respToken == "" || respToken == undefined)) {

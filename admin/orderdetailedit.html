@@ -76,7 +76,7 @@
                 headers: {
                     token: token
                 },
-                url: "http://localhost/VegetableMarket/orders/" + oid,
+                url: "http://localhost/VegetableMarket/OrdersPage/" + oid,
                 type: "get",
                 success: function (resp) {
                     var select1 = $("#sel1");
@@ -119,7 +119,7 @@
                 headers: {
                     token: token
                 },
-                url: "http://localhost/VegetableMarket/orders",
+                url: "http://localhost/VegetableMarket/orders/orders",
                 type: "POST",
                 data: {
                     _method: "put",

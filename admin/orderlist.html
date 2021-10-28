@@ -79,7 +79,7 @@
             var oid = $(this).parent().parent().parent().children("#oid").children().html();
             // var div = $(this).parent().parent().parent();
             $.ajax({
-                url: "http://localhost/VegetableMarket/orders",
+                url: "http://localhost/VegetableMarket/orders/orders",
                 type: "POST",
                 data: {
                     _method: "put",
@@ -138,7 +138,7 @@
                 headers: {
                     token: token
                 },
-                url: "http://localhost/VegetableMarket/orders/orders",
+                url: "http://localhost/VegetableMarket/OrdersPage",
                 type: "get",
                 data: {
                     pageNum: pageNum
