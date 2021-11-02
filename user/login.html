@@ -13,7 +13,7 @@
 
 <body>
 	<div class="login_top clearfix">
-		<a href="index.html" class="login_logo"><img src="../images/logo02.png"></a>
+		<a href="index.html" class="login_logo"><img src="../images/logo.png" style="width: 100%;"></a>
 	</div>
 
 	<div class="login_form_bg">
@@ -56,7 +56,7 @@
 			<span>|</span>
 			<a href="#">友情链接</a>
 		</div>
-		<p>CopyRight © 2020 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+		<p>CopyRight © 2020 北京鲜生活信息技术有限公司 All Rights Reserved</p>
 		<p>电话：010-****888 京ICP备*******8号</p>
 	</div>
 	<script src="../js/jquery-3.6.0.js"></script>
@@ -89,9 +89,17 @@
 						localStorage.setItem("username", respTxt.data.username);
 						localStorage.setItem("uid", respTxt.data.uid);
 						//==SGP---Ended==//
-						location.href = "index.html";
+						if(respTxt.message==="0"){
+							alert("登陆成功")
+							location.href = "../admin/index.html";
+						}
+						if(respTxt.message==="1"){
+							alert("登陆成功")
+							location.href = "index.html";
+						}
+						
 					} else {
-						alert(respTxt.code + "," + respTxt.message + "," + respTxt.data);
+						alert(respTxt.message);
 						return;
 					}
 				},

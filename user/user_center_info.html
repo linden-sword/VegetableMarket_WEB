@@ -35,8 +35,17 @@
 		<a href="index.html" class="logo fl"><img src="../images/logo.png"></a>
 		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
 		<div class="search_con fr">
-			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
-			<input type="button" class="input_btn fr" name="" value="搜索">
+			<!-- <input type="text" class="input_text fl" name="" placeholder="搜索商品"> -->
+			<input type="button" class="input_btn fr" name="" id="logOut" value="退出登录">
+			<input type="button" class="input_btn fr" name="" id="logOut1" value="" style="margin-right: 6px;">
+			
+			<input type="button" class="input_btn fr" name="" id="logOut2" value="" style="margin-left: 6px;">
+			
+			<input type="button" class="input_btn fr" name="" id="logOut3" value="">
+			
+			<input type="button" class="input_btn fr" name="" id="logOut4" value="">
+			
+			<input type="button" class="input_btn fr" name="" id="logOut5" value="">
 		</div>
 	</div>
 
@@ -47,6 +56,7 @@
 				<li><a href="user_center_info.html" class="active">· 个人信息</a></li>
 				<li><a href="user_center_order.html">· 全部订单</a></li>
 				<li><a href="user_center_site.html">· 收货地址</a></li>
+				<li><a href="userInfoEdit.html">· 编辑信息</a></li>
 			</ul>
 		</div>
 		<div class="right_content clearfix">
@@ -58,7 +68,7 @@
 			<h3 class="common_title2">猜你想买</h3>
 			<div class="has_view_list">
 				<ul class="goods_type_list clearfix">
-					<li>
+					<!-- <li>
 						<a href="detail.html"><img src="../images/goods/goods003.jpg"></a>
 						<h4><a href="detail.html">大兴大棚草莓</a></h4>
 						<div class="operate">
@@ -106,7 +116,7 @@
 							<span class="unit">6.45/500g</span>
 							<a href="#" class="add_goods" title="加入购物车"></a>
 						</div>
-					</li>
+					</li> -->
 				</ul>
 			</div>
 		</div>
@@ -124,18 +134,23 @@
 			<span>|</span>
 			<a href="#">友情链接</a>
 		</div>
-		<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+		<p>CopyRight © 2016 北京鲜生活信息技术有限公司 All Rights Reserved</p>
 		<p>电话：010-****888 京ICP备*******8号</p>
 	</div>
 
 
 	<script src="../js/jquery-3.6.0.js"></script>
 	<script>
+		var token = localStorage.getItem("token");
 		$(function () {
+
 			var username = localStorage.getItem("username");
 
 			$("#hello").html("你好" + username);
 			$.ajax({
+				headers: {
+					token: token,
+				},
 				url: "http://localhost/VegetableMarket/Address",
 				type: "get",
 				data: { username: username },
@@ -155,9 +170,51 @@
 					localStorage.setItem("adTel", respTxt.data.adTel);
 					localStorage.setItem("adAddress", respTxt.data.adAddress);
 
+					$.ajax({
+						headers: {
+							token: token,
+						},
+						url: "http://localhost/VegetableMarket/goods/FreshTaste2",
+						type: "get",
+						success: function (respText) {
+							var goodsList = respText.data.list;
+							for (var goods of goodsList) {
+								var goods =
+									"<li><a href='detail.html?gId=" + goods.gid +
+									"'><img src='http://localhost:8080/images/" + goods.es1 + "'></a><h4><a href='detail.html'>" +
+									goods.gname +
+									"</a></h4><div class='operate'><span class='prize'>" +
+									goods.gprice +
+									"</span><span class='unit'>" +
+									goods.gprice + "/1kg"
+								"</span><a href='#' class='add_goods' title='加入购物车'></a></div></li>"
+								$(".goods_type_list").append(goods);
+							}
+						}
+					})
 				}
 			})
 		});
+
+		//退出登录
+		$("#logOut").click(function () {
+			$.ajax({
+				headers: {
+					token: token,
+				},
+				url: "http://localhost/VegetableMarket/User/logOut",
+				type: "get",
+				data: {},
+				success: function (respTxt) {
+					alert(respTxt.data);
+					location.href = "login.html";
+				}
+			})
+		})
+
+		$("#logOut1").click(function () {
+			location.href="userInfoEdit.html"
+		})
 	</script>
 </body>
 

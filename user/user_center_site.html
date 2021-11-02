@@ -12,7 +12,7 @@
 <body>
 	<div class="header_con">
 		<div class="header">
-			<div class="welcome fl">欢迎来到天天生鲜!</div>
+			<div class="welcome fl">欢迎来到鲜生活!</div>
 			<div class="fr">
 
 				<div class="user_link fl">
@@ -31,10 +31,10 @@
 	<div class="search_bar clearfix">
 		<a href="index.html" class="logo fl"><img src="../images/logo.png"></a>
 		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
-		<div class="search_con fr">
+		<!-- <div class="search_con fr">
 			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
 			<input type="button" class="input_btn fr" name="" value="搜索">
-		</div>
+		</div> -->
 	</div>
 
 	<div class="main_con clearfix">
@@ -44,6 +44,7 @@
 				<li><a href="user_center_info.html">· 个人信息</a></li>
 				<li><a href="user_center_order.html">· 全部订单</a></li>
 				<li><a href="user_center_site.html" class="active">· 收货地址</a></li>
+				<li><a href="userInfoEdit.html">· 编辑信息</a></li>
 			</ul>
 		</div>
 		<div class="right_content clearfix">
@@ -91,16 +92,15 @@
 			<span>|</span>
 			<a href="#">友情链接</a>
 		</div>
-		<p>CopyRight © 2020 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+		<p>CopyRight © 2020 北京鲜生活信息技术有限公司 All Rights Reserved</p>
 		<p>电话：010-****888 京ICP备*******8号</p>
 	</div>
 
 
 	<script src="../js/jquery-3.6.0.js"></script>
 	<script>
-
-
 		var username = localStorage.getItem("username");
+		var token = localStorage.getItem("token");
 		localStorage.setItem("username", username);
 		$(function () {
 			$("#hello").html("你好" + username);
@@ -112,6 +112,9 @@
 		var adTel = localStorage.getItem("adTel");
 		var adAddress = localStorage.getItem("adAddress");
 		$.ajax({
+			headers: {
+				token: token,
+			},
 			url: "http://localhost/VegetableMarket/Address",
 			type: "get",
 			data: { username: username },
@@ -122,6 +125,9 @@
 			}
 		});
 		$.ajax({
+			headers: {
+				token: token,
+			},
 			url: "http://localhost/VegetableMarket/Address",
 			type: "get",
 			data: { username: username },
@@ -143,6 +149,9 @@
 			var adZipcode = $("#ad_zipCode").val();
 			var adTel = $("#ad_tel").val();
 			$.ajax({
+				headers: {
+					token: token,
+				},
 				url: "http://localhost/VegetableMarket/AddressUpdate",
 
 				type: "post",

@@ -6,6 +6,8 @@
     <meta charset="utf-8">
     <link href="../css/admin_main.css" rel="stylesheet">
     <script src="../js/jquery-3.6.0.js"></script>
+    <!-- 引入 ECharts 文件 -->
+    <script src="../js/echarts.min.js"></script>
     <style>
         .b10 {
             width: 10%;
@@ -13,6 +15,12 @@
 
         .b60 {
             width: 25%;
+        }
+
+        #main1,
+        #main2,
+        #main3 {
+            display: inline-block;
         }
     </style>
 </head>
@@ -22,7 +30,7 @@
     <div class="AccountManagement_c" id="ColumnManagement_c">
         <h3>食品管理
             <div class="amcl fr">
-                <input type="text" placeholder="食品名" class="fl" name="">
+                <input type="text" placeholder="食品名" class="fl" name="" id="search11">
                 <div class="search fl"><img src="../images/search.png"></div>
             </div>
         </h3>
@@ -33,346 +41,143 @@
                 </a>
             </div>
         </div>
-
-        <div class="list">
-            <ul class="list_h">
-                <li class="b10"><label><input type="checkbox" name="newsId"><span>序号</span></label></li>
-                <li class="b20"><label>食品名称</label></li>
-                <li class="b20"><label>单价</label></li>
-                <li class="b20"><label>库存</label></li>
-                <li class="b20"><label>商品状态</label></li>
-                <li class="b60"><label>操作</label></li>
-            </ul>
-            <div class="list_b_c">
-
-
-            </div>
-        </div>
     </div>
 
-    <div class="pull_page">
-        <div class="fl pull_page_up">上一页</div>
-        <ul>
-            <li class="on"><a id="pageNow">第x页</a></li>
-            <li><a id="goodsTotal">共x个商品</a></li>
-            <li><a id="pageTotal">共x页</a></li>
-        </ul>
-        <div class="fl pull_page_down">下一页</div>
-    </div>
+    <br>
+    <h2 style="font-size: 25px; font-weight: border; ">销售统计表</h2>
+    <hr>
 
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main1" style="width: 400px;height:300px;"></div>
+    <script type="text/javascript">
 
-    </div>
-    </div>
-    <script src="../js/jquery-3.6.0.js"></script>
-
-    <script>
-        $("body").on("click", "#delete_btn", function (event) {
-            //取消默认行为
-            event.preventDefault();
-            var flag = window.confirm("真的要删除吗？");
-            if (!flag) {
-                return;
-            }
-            var gid = $(this).parent().parent().prevAll().last().children().last().children("span").html();
-            var div = $(this).parent().parent().parent();
-            $.ajax({
-                url: "http://localhost/VegetableMarket/goods/delete/" + gid,
-                type: "POST",
-                data: {
-                    _method: "delete"
-                },
-                success: function (resp) {
-                    if (resp == true) {
-                        alert("删除成功！");
-                        div.remove();
-                    } else {
-                        alert("删除出错");
-                    }
-                }
-            })
+        $(".search").click(function () {
+            var searchString = $("#search11").val();
+            // alert(searchString)
+            var url1 = encodeURI("goodslistSearch.html?searchString=" + searchString);
+            location.href = url1;
         })
 
-        $(function () {
-            var token = localStorage.getItem("token")
-            // alert(token)
-            var pageNumH = 1;
-            var isLastPage = false;
-
-            goods(1, 1);
-
-            //下一页
-            $(".pull_page_down").click(function (event) {
-                //取消默认行为
-                event.preventDefault();
-                if (isLastPage == true) {
-                    alert("已经是最后一页了！");
-                    return;
-                } else {
-                    pageNumH = pageNumH + 1;
-                    //删除上一页的行
-                    $(".list_b_c").remove();
-                    goods(cId, pageNumH);
-                }
-            });
-
-
-            //上一页
-            $(".pull_page_up").click(function (event) {
-                //取消默认行为
-                event.preventDefault();
-                if (pageNumH == 1) {
-                    alert("已经是第一页了！");
-                    return;
-                } else {
-                    pageNumH = pageNumH - 1;
-                    //删除上一页的行
-                    $(".list_b_c").remove();
-                    goods(cId, pageNumH);
-                }
-            });
-
-
-            function goods(cId, pageNum) {
-                $.ajax({
-                    headers: {
-                        token: token
-                    },
-                    url: "http://localhost/VegetableMarket/goods/cId/" + cId,
-                    type: "get",
-                    data: {
-                        pageNum: pageNum,
-                    },
-                    success: function (respText) {
-                        // alert(respText.code+" : "+respText.message+" : "+respText.data)
-                        $("#pageNow").html("第" + respText.data.pageNum + "页");
-                        $("#pageTotal").html("共" + respText.data.pages + "页");
-                        $("#goodsTotal").html("共" + respText.data.total + "个商品");
-
-                        isLastPage = respText.data.isLastPage;
-                        last = respText.data.pages;
-
-                        var goodsList = respText.data.list;
-                        for (var goods of goodsList) {
-                            if (goods.gstatus = 1) {
-                                goods.gstatus = "上架中"
-                            } else {
-                                goods.gstatus = "已下架"
-                            }
-                            var goods =
-                                "<ul class='list_b'>" +
-                                "<li class='b10'><label><input type='checkbox' name=''><span>" +
-                                goods.gid + "</span></label></li>" +
-                                //商品名称
-                                "<li class='b20'><label>" + goods.gname + "</label></li>" +
-                                //价格
-                                "<li class='b20'><label>" + goods.gprice + "</label></li>" +
-                                "<li class='b20'><label>" + goods.gstock + "</label></li>" +
-
-                                "<li class='b20'><label>" + goods.gstatus + "</label></li>" +
-                                "<li class='b60'>" +
-                                "<a href='goodsedit.html'>" +
-                                "<div class='edit_btn df_btn fl text_center'>编辑</div>" +
-                                "</a>" +
-                                "<a href='goodsdetail.html?" + goods.gid + "'>" +
-                                "<div class='edit_btn df_btn fl text_center' id='edit_btn'>详情</div>" +
-                                "</a>" +
-                                "<a href=''>" +
-                                "<div class='delete_btn df_btn fl text_center' id='delete_btn'>删除</div>" +
-                                "</a>" +
-                                "</li></ul>"
-                            $(".list_b_c").append(goods);
-                        }
-                    }
-                })
-            }
-        })
-    </script>
-
-    <script>
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main1'));
         var token = localStorage.getItem("token");
-
-        var pageNumH = 1;
-        var pageNumI = 1;
-        var isLastPage = false;
-
-        allGoods(1);
-
-        //全部商品的上下页
-        //下一页
-        // $("#nextPage1").click(function () {
-        $("body").on("click", "#nextPage1", function () {
-            if (isLastPage == true) {
-                alert("已经是最后一页了！");
-                return;
-            } else {
-                pageNumH = pageNumH + 1;
-                allGoods(pageNumH);
+        $.ajax({
+            headers: {
+                token: token,
+            },
+            url: "http://localhost/VegetableMarket/sales/all",
+            type: "get",
+            data: {},
+            success: function (respText) {
+                // alert(respText.data)
+                var sales = respText.data;
+                // 指定图表的配置项和数据
+                var option = {
+                    title: {
+                        text: '销量统计表'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data: ['销量']
+                    },
+                    xAxis: {
+                        data: ["新鲜水果", "海鲜水产", "猪肉牛羊", "禽类蛋品", "新鲜蔬菜", "速冻食品"]
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '销量/500g',
+                        type: 'bar',
+                        data: [sales[0].stotalWeight, sales[1].stotalWeight, sales[2].stotalWeight, sales[3].stotalWeight, sales[4].stotalWeight, sales[5].stotalWeight]
+                    }]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
             }
-        });
-        //上一页
-        // $("#prePage1").click(function () {
-        $("body").on("click", "#prePage1", function () {
-            if (pageNumH == 1) {
-                alert("已经是第一页了！");
-                return;
-            } else {
-                pageNumH = pageNumH - 1;
-                allGoods(pageNumH);
-            }
-        });
-
-        var goodsClass = 0;
-        //按分类筛选
-        $("#b21212").click(function () {
-            goodsClass = $('#goodsClass option:selected').val();
-            // alert(goodsClass);
-            goods(goodsClass, 1);
-
-
-
         })
-
-        //分类商品的上下页
-        //下一页
-        // $("#nextPage2").click(function () {
-        $("body").on("click", "#nextPage2", function () {
-            if (isLastPage == true) {
-                alert("已经是最后一页了！");
-                return;
-            } else {
-                pageNumI = pageNumI + 1;
-                // alert("goodsClass"+goodsClass)
-                goods(goodsClass, pageNumI);
-            }
-        });
-        //上一页
-        // $("#prePage2").click(function () {
-        $("body").on("click", "#prePage2", function () {
-            if (pageNumI == 1) {
-                alert("已经是第一页了！");
-                return;
-            } else {
-                pageNumI = pageNumI - 1;
-                alert("goodsClass" + goodsClass)
-                goods(goodsClass, pageNumI);
-            }
-        });
-
-
-        //全部商品分页查询
-        function allGoods(pageNum) {
-            $.ajax({
-                headers: {
-                    token: token
-                },
-                url: "http://localhost/VegetableMarket/goods/allGoods",
-                type: "get",
-                data: {
-                    pageNum: pageNum,
-                },
-                async: false,
-                success: function (respText) {
-                    // alert(respText.code+" : "+respText.message+" : "+respText.data)
-                    $(".pull_page").empty();
-                    var preNext = "<div class=\"fl pull_page_up\" id=\"prePage1\">上一页</div>" +
-                        "<ul>" +
-                        "<li>第" + respText.data.pageNum + "页</li>" +
-                        "<li>共" + respText.data.total + "个商品</li>" +
-                        "<li>共" + respText.data.pages + "页</li>" +
-                        "</ul>" +
-                        "<div class=\"fl pull_page_down\" id=\"nextPage1\">下一页</div>";
-                    $(".pull_page").append(preNext);
-
-                    isLastPage = respText.data.isLastPage;
-                    // last = respText.data.pages;
-
-                    $(".list_b").remove();
-                    var goodsList = respText.data.list;
-                    for (var goods of goodsList) {
-                        var goods = "<ul class=\"list_b\">" +
-                            "<li class=\"b10\"><label><input type=\"checkbox\" name=\"\"><span>" + goods.gid + "</span></label></li>" +
-                            "<li class=\"b20\"><label>" + goods.gname + "</label></li>" +
-                            "<li class=\"b20\"><label>￥" + goods.gprice + "</label></li>" +
-                            "<li class=\"b20\"><label>￥" + goods.gprice + "</label></li>" +
-                            "<li class=\"b20\"><label>" + goods.cid + "</label></li>" +
-                            "<li class=\"b60\">" +
-                            "<a href=\"goodsedit.html\">" +
-                            "<div class=\"edit_btn df_btn fl text_center\">编辑</div>" +
-                            "</a>" +
-                            "<a href=\"goodsdetail.html\">" +
-                            "<div class=\"edit_btn df_btn fl text_center\">详情</div>" +
-                            "</a>" +
-                            "<a href=\"\">" +
-                            "<div class=\"delete_btn df_btn fl text_center\">删除</div>" +
-                            "</a>" +
-                            "</li>" +
-                            "</ul>";
-                        $(".list_b_c").append(goods);
-                    }
-
-                }
-            })
-        }
-
-        //按分类分页查询
-        function goods(cId, pageNum) {
-            $.ajax({
-                headers: {
-                    token: token
-                },
-                url: "http://localhost/VegetableMarket/goods/cId/" + cId,
-                type: "get",
-                data: {
-                    pageNum: pageNum,
-                },
-                async: false,
-                success: function (respText) {
-                    // alert(respText.code+" : "+respText.message+" : "+respText.data)
-                    $(".pull_page").empty();
-                    $(".list_b_c").empty();
-                    if (respText.data == null) {
-                        $(".list_b").remove();
-                        $(".list_b_c").append("<h3 id='noneGoods'>【该分类没有商品】</h3>");
-                    }
-                    var preNext2 = "<div class=\"fl pull_page_up\" id=\"prePage2\">上一页</div>" +
-                        "<ul>" +
-                        "<li>第" + respText.data.pageNum + "页</li>" +
-                        "<li>共" + respText.data.total + "个商品</li>" +
-                        "<li>共" + respText.data.pages + "页</li>" +
-                        "</ul>" +
-                        "<div class=\"fl pull_page_down\" id=\"nextPage2\">下一页</div>";
-                    $(".pull_page").append(preNext2);
-
-                    isLastPage = respText.data.isLastPage;
-                    // last = respText.data.pages;
-
-                    $(".list_b").remove();
-                    var goodsList = respText.data.list;
-                    for (var goods of goodsList) {
-                        var goods = "<ul class=\"list_b\">" +
-                            "<li class=\"b10\"><label><input type=\"checkbox\" name=\"\"><span>" + goods.gid + "</span></label></li>" +
-                            "<li class=\"b20\"><label>" + goods.gname + "</label></li>" +
-                            "<li class=\"b20\"><label>￥" + goods.gprice + "</label></li>" +
-                            "<li class=\"b20\"><label>￥" + goods.gprice + "</label></li>" +
-                            "<li class=\"b20\"><label>" + goods.cid + "</label></li>" +
-                            "<li class=\"b60\">" +
-                            "<a href=\"goodsedit.html\">" +
-                            "<div class=\"edit_btn df_btn fl text_center\">编辑</div>" +
-                            "</a>" +
-                            "<a href=\"goodsdetail.html\">" +
-                            "<div class=\"edit_btn df_btn fl text_center\">详情</div>" +
-                            "</a>" +
-                            "<a href=\"\">" +
-                            "<div class=\"delete_btn df_btn fl text_center\">删除</div>" +
-                            "</a>" +
-                            "</li>" +
-                            "</ul>";
-                        $(".list_b_c").append(goods);
-                    }
-                }
-            })
-        }
     </script>
+
+
+    <div id="main2" style="width: 400px;height:300px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart1 = echarts.init(document.getElementById('main2'));
+        var token = localStorage.getItem("token");
+        $.ajax({
+            headers: {
+                token: token,
+            },
+            url: "http://localhost/VegetableMarket/sales/all",
+            type: "get",
+            data: {},
+            success: function (respText) {
+                // alert(respText.data)
+                var sales = respText.data;
+                // 指定图表的配置项和数据
+                var option = {
+                    title: {
+                        text: '销售金额统计表'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data: ['销量']
+                    },
+                    xAxis: {
+                        data: ["新鲜水果", "海鲜水产", "猪肉牛羊", "禽类蛋品", "新鲜蔬菜", "速冻食品"]
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '销售金额/元',
+                        type: 'bar',
+                        data: [sales[0].stotal, sales[1].stotal, sales[2].stotal, sales[3].stotal, sales[4].stotal, sales[5].stotal]
+                    }]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                myChart1.setOption(option);
+            }
+        })
+    </script>
+
+
+    <div id="main3" style="width: 400px;height:300px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart2 = echarts.init(document.getElementById('main3'));
+        var token = localStorage.getItem("token");
+        $.ajax({
+            headers: {
+                token: token,
+            },
+            url: "http://localhost/VegetableMarket/sales/all",
+            type: "get",
+            data: {},
+            success: function (respText) {
+                // alert(respText.data)
+                var sales = respText.data;
+                // 指定图表的配置项和数据
+                var option = {
+                    title: {
+                        text: '销售订单统计表'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data: ['销量']
+                    },
+                    xAxis: {
+                        data: ["新鲜水果", "海鲜水产", "猪肉牛羊", "禽类蛋品", "新鲜蔬菜", "速冻食品"]
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '订单数量',
+                        type: 'bar',
+                        data: [sales[0].sorderTotal, sales[1].sorderTotal, sales[2].sorderTotal, sales[3].sorderTotal, sales[4].sorderTotal, sales[5].sorderTotal]
+                    }]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                myChart2.setOption(option);
+            }
+        })
+    </script>
+
 
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>

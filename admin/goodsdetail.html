@@ -11,11 +11,11 @@
     <!-- 食品管理 -->
     <div class="AccountManagement_c" id="NewsManagement_c">
         <h3>食品管理
-            <div class="amcl fr">
+            <!-- <div class="amcl fr">
 
                 <input type="text" placeholder="食品名" class="fl" name="">
                 <div class="search fl"><img src="../images/search.png"></div>
-            </div>
+            </div> -->
         </h3>
         <div class="list" id="release_news">
             <ul class="list_h">
@@ -55,7 +55,8 @@
         $(function () {
             //#解析URL获取gId
             var url = location.href;
-            var gId = url.substring(url.lastIndexOf("?") + 1);
+            var gId = url.substring(url.lastIndexOf("=") + 1);
+            // alert(gId)
 
             $.ajax({
                 url: "http://localhost/VegetableMarket/goodsparameters/gid/" + gId,

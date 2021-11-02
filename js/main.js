@@ -14,9 +14,9 @@
     $(".categoryManagement").click(function () {
         $(".AccountManagement_c_iframe iframe").attr("src", "categorylist.html")
     })
-    // $(".goodsManagement").click(function () {
-        // $(".AccountManagement_c_iframe iframe").attr("src","goodslist.html")
-    // })
+    $(".goodsManagement").click(function () {
+        $(".AccountManagement_c_iframe iframe").attr("src","goodslist.html")
+    })
     //===============================手风琴菜单//===============================手风琴菜单
     $(".goodsManagementClass1").click(function () {
         $(".AccountManagement_c_iframe iframe").attr("src","goodslist1.html?cid=1")
@@ -58,7 +58,7 @@
     //===============================手风琴菜单//===============================手风琴菜单
 
     $(".BossManagement").click(function(){
-        $(".AccountManagement_c_iframe iframe").attr("src","bosslist.html")
+        $(".AccountManagement_c_iframe iframe").attr("src","bossPass.html")
     })
 
 

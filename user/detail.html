@@ -6,6 +6,23 @@
 	<link rel="stylesheet" type="text/css" href="../css/reset.css">
 	<link rel="stylesheet" type="text/css" href="../css/main.css">
 	<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+	<style>
+		#IMAGE {
+			width: 100%;
+			height: 100%;
+		}
+
+		#dt02 dd {
+			display: inline-block;
+			width: 200px;
+			height: 200px;
+		}
+
+		#dt02 img {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
 </head>
 
 <body>
@@ -16,13 +33,13 @@
 				<div class="login_info fl">
 					欢迎您：<em>张 山</em>
 				</div>
-				<div class="login_btn fl">
+				<!-- <div class="login_btn fl">
 					<a href="login.html">登录</a>
 					<span>|</span>
 					<a href="register.html">注册</a>
-				</div>
+				</div> -->
 				<div class="user_link fl">
-					<span>|</span>
+					<!-- <span>|</span> -->
 					<a href="user_center_info.html">用户中心</a>
 					<span>|</span>
 					<a href="cart.html">我的购物车</a>
@@ -35,10 +52,10 @@
 
 	<div class="search_bar clearfix">
 		<a href="index.html" class="logo fl"><img src="../images/logo.png"></a>
-		<div class="search_con fl">
+		<!-- <div class="search_con fl">
 			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
 			<input type="button" class="input_btn fr" name="" value="搜索">
-		</div>
+		</div> -->
 		<div class="guest_cart fr">
 			<a href="cart.html" class="cart_name fl">我的购物车</a>
 			<div class="goods_count fl" id="show_count">1</div>
@@ -51,20 +68,20 @@
 				<h1>全部商品分类</h1>
 				<span></span>
 				<ul class="subnav">
-					<li><a href="#" class="fruit">新鲜水果</a></li>
-					<li><a href="#" class="seafood">海鲜水产</a></li>
-					<li><a href="#" class="meet">猪牛羊肉</a></li>
-					<li><a href="#" class="egg">禽类蛋品</a></li>
-					<li><a href="#" class="vegetables">新鲜蔬菜</a></li>
-					<li><a href="#" class="ice">速冻食品</a></li>
+					<li><a href="list.html?c_id=1" class="fruit">新鲜水果</a></li>
+					<li><a href="list.html?c_id=2" class="seafood">海鲜水产</a></li>
+					<li><a href="list.html?c_id=3" class="meet">猪牛羊肉</a></li>
+					<li><a href="list.html?c_id=4" class="egg">禽类蛋品</a></li>
+					<li><a href="list.html?c_id=5" class="vegetables">新鲜蔬菜</a></li>
+					<li><a href="list.html?c_id=6" class="ice">速冻食品</a></li>
 				</ul>
 			</div>
 			<ul class="navlist fl">
-				<li><a href="">首页</a></li>
+				<li><a href="index.html">首页</a></li>
 				<li class="interval">|</li>
 				<li><a href="">手机生鲜</a></li>
-				<li class="interval">|</li>
-				<li><a href="">抽奖</a></li>
+				<!-- <li class="interval">|</li>
+				<li><a href="">抽奖</a></li> -->
 			</ul>
 		</div>
 	</div>
@@ -80,7 +97,7 @@
 	<div class="goods_detail_con clearfix">
 		<div class="goods_detail_pic fl">
 
-			<img src="../images/goods/goods005.jpg">
+
 
 		</div>
 
@@ -112,7 +129,7 @@
 		<div class="l_wrap fl clearfix">
 			<div class="new_goods">
 				<h3>新品推荐</h3>
-				<ul>
+				<!-- <ul>
 					<li>
 						<a href="#"><img src="../images/goods/goods001.jpg"></a>
 						<h4><a href="#">进口柠檬</a></h4>
@@ -123,14 +140,14 @@
 						<h4><a href="#">玫瑰香葡萄</a></h4>
 						<div class="prize">￥16.80</div>
 					</li>
-				</ul>
+				</ul> -->
 			</div>
 		</div>
 
 		<div class="r_wrap fr clearfix">
 			<ul class="detail_tab clearfix">
 				<li class="active">商品介绍</li>
-				<li>评论</li>
+				<!-- <li>评论</li> -->
 			</ul>
 
 			<div class="tab_content">
@@ -141,11 +158,11 @@
 
 				</dl>
 
-				<dl>
+				<dl id="dt02">
 					<dt>详细图片：</dt>
-					<c:forEach items="${goods.imgurls}" var="i">
+					<!-- <c:forEach items="${goods.imgurls}" var="i">
 						<dd> <img src="../images/goods/goods005.jpg"> </dd>
-					</c:forEach>
+					</c:forEach> -->
 
 				</dl>
 
@@ -165,12 +182,35 @@
 			<span>|</span>
 			<a href="#">友情链接</a>
 		</div>
-		<p>CopyRight © 2020 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+		<p>CopyRight © 2020 北京鲜生活信息技术有限公司 All Rights Reserved</p>
 		<p>电话：010-****888 京ICP备*******8号</p>
 	</div>
 	<div class="add_jump"></div>
 
 	<script>
+		var token = localStorage.getItem("token");
+		$.ajax({
+			headers: {
+				token: token
+			},
+			url: "http://localhost/VegetableMarket/goods/FreshTaste",
+			type: "get",
+			success: function (respText) {
+				var goodsList = respText.data.list;
+				var i = 0;
+				for (var goods of goodsList) {
+					var goods = "<ul><li>" +
+						"<a href=\"detail.html?g_id=" + goods.gid + "\"><img src=\"http://localhost:8080/images/" + goods.es1 + "\"></a>" +
+						"<h4><a href=\"#\">" + goods.gname + "</a></h4>" +
+						"<div class=\"prize\">￥" + goods.gprice + "</div>" +
+						"</li></ul>";
+					$(".new_goods").append(goods);
+					i++;
+					if (i >= 2) break;
+				}
+			}
+		})
+
 		function add() {
 			var num_show = $("#num_show").val();
 			num_show++;
@@ -226,10 +266,11 @@
 				headers: {
 					token: token
 				},
-				url: "http://localhost/VegetableMarket/goodsparameters/gid/"+gId,
+				url: "http://localhost/VegetableMarket/goodsparameters/gid/" + gId,
 				type: "get",
 				data: {},
 				success: function (respTxt) {
+					// alert(respTxt.code)
 					var dt1 = "<br>" +
 						"<p>产品类型：" + respTxt.data.ptype + "</p>" +
 						"<p>原料产地：" + respTxt.data.pmaterialOrigin + "</p>" +
@@ -243,6 +284,20 @@
 					$("#dt01").append(dt1);
 				}
 			});
+
+			//-== SGP_ShopCartNum
+			var username = localStorage.getItem("username");
+			$.ajax({
+				headers: {
+					token: token,
+				},
+				url: "http://localhost/VegetableMarket/ShoppingcartNumFind",
+				type: "get",
+				data: { username: username },
+				success: function (respTxt) {
+					$("#show_count").html(respTxt.data);
+				}
+			})
 
 			//buy_btn点击——立即购买
 			$(".buy_btn").click(function () {
@@ -290,6 +345,13 @@
 						$(".show_pirze").append(good.gprice);
 						$(".show_pirzes").append(good.gprice);
 						$(".good_gdescribe").append(good.gdescribe);
+
+						$(".goods_detail_pic").append("<img src='http://localhost:8080/images/" + good.es1 + "' id='IMAGE'>");
+						//详细图片
+						$("#dt02").append("<dd> <img src=\"http://localhost:8080/images/" + good.es1 + "\"> </dd>");
+						$("#dt02").append("<dd> <img src=\"http://localhost:8080/images/" + good.es1 + "\"> </dd>");
+						$("#dt02").append("<dd> <img src=\"http://localhost:8080/images/" + good.es1 + "\"> </dd>");
+						$("#dt02").append("<dd> <img src=\"http://localhost:8080/images/" + good.es1 + "\"> </dd>");
 					}
 				})
 			}

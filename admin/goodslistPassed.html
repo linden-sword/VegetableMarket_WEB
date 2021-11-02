@@ -20,11 +20,11 @@
 <body>
     <!-- 食品管理 -->
     <div class="AccountManagement_c" id="ColumnManagement_c">
-        <h3>食品管理
-            <div class="amcl fr">
+        <h3>食品管理 已下架
+            <!-- <div class="amcl fr">
                 <input type="text" placeholder="食品名" class="fl" name="">
                 <div class="search fl"><img src="../images/search.png"></div>
-            </div>
+            </div> -->
         </h3>
 
 
@@ -128,14 +128,15 @@
                             "<li class=\"b20\"><label>￥" + goods.gprice + "</label></li>" +
                             "<li class=\"b20\"><label>" + goods.cid + "</label></li>" +
                             "<li class=\"b60\">" +
-                            "<a href=\"goodsedit.html\">" +
-                            "<div class=\"edit_btn df_btn fl text_center\">编辑</div>" +
+                            "<a href=\"goodsedit.html?gid=" + goods.gid + "\">" +
+                            "<div class=\"edit_btn df_btn fl text_center\" id=\"editBTN\">编辑</div>" +
                             "</a>" +
-                            "<a href=\"goodsdetail.html\">" +
+                            "<a href=\"goodsdetail.html?gid=" + goods.gid + "\">" +
                             "<div class=\"edit_btn df_btn fl text_center\">详情</div>" +
                             "</a>" +
-                            "<a href=\"\">" +
-                            "<div class=\"delete_btn df_btn fl text_center\">删除</div>" +
+                            "<a href=''>" +
+                            "<div class=\"delete_btn df_btn fl text_center\">重新上架</div>" +
+                            "<input type='hidden' id='gid111' value='" + goods.gid + "'>" +
                             "</a>" +
                             "</li>" +
                             "</ul>";
@@ -144,6 +145,28 @@
                 }
             })
         }
+
+        //重新上架商品
+        $("body").on("click", ".delete_btn", function (event) {
+            event.preventDefault();
+            // alert($(this).parent().children("#gid111").val())
+            $.ajax({
+                headers: {
+                    token: token
+                },
+                url: "http://localhost/VegetableMarket/goods",
+                type: "post",
+                data: {
+                    _method: "put",
+                    gStatus:"1",
+                    gId:$(this).parent().children("#gid111").val(),
+                },
+                success: function (resp) {
+                    alert(resp.data);
+                    location.reload();
+                }
+            })
+        })
     </script>
 
 </body>

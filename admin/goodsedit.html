@@ -5,17 +5,23 @@
     <title></title>
     <meta charset="utf-8">
     <link href="../css/admin_main.css" rel="stylesheet">
+    <style>
+        #goodsImages1 img{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 
 <body>
     <!-- 商品管理 -->
     <div class="AccountManagement_c" id="NewsManagement_c">
         <h3>商品管理
-            <div class="amcl fr">
+            <!-- <div class="amcl fr">
 
                 <input type="text" placeholder="食品名" class="fl" name="">
-                <div class="search fl"><img src="images/search.png"></div>
-            </div>
+                <div class="search fl"><img src="../images/search.png"></div>
+            </div> -->
         </h3>
         <div class="list" id="release_news">
             <ul class="list_h">
@@ -23,50 +29,133 @@
             </ul>
             <div class="list_b_c" id="release_news_in">
                 <div class="release_news">
-                    <div class="news_title">
-                        <label class="text_center">名字</label>
-                        <input type="text" placeholder="填写食品名" name="" value="良品铺子 手剥松子218g 坚果炒货 巴西松子">
-                    </div>
-                    <br>
-                    <div class="news_title">
-                        <label class="text_center">原价</label>
-                        <input type="text" placeholder="填写单价" name="" value="54">
-                    </div>
-                    <div class="news_title">
-                        <label class="text_center">促销价</label>
-                        <input type="text" placeholder="填写单价" name="" value="54">
-                    </div>
-                    <div class="column_name">
-                        <label class="text_center">口味</label>
-                        <input type="checkbox" checked>麻辣 &nbsp; &nbsp;<input type="checkbox">番茄
-                    </div>
-                    <div class="column_name">
-                        <label class="text_center">类型</label>
-                        <select class="column_name_release">
-                            <option>休闲食品</option>
-                            <option></option>
-                            <option></option>
-                            <option></option>
-                            <option></option>
-                            <option></option>
-                        </select>
-                    </div>
+                    <form id="foo" method="post" enctype="multipart/form-data">
+                        <div class="news_title">
+                            <label class="text_center">名字</label>
+                            <input type="hidden" name="gId" id="g_id" value="">
+                            <input type="hidden" name="cId" id="c_id" value="">
+                            <input type="text" placeholder="填写食品名" id="g_name" name="gName" value="">
+                        </div>
+                        <br>
+                        <div class="news_title">
+                            <label class="text_center">单价</label>
+                            <input type="text" placeholder="填写单价" id="g_price" name="gPrice" value="">
+                        </div>
+                        <div class="news_title">
+                            <label class="text_center">库存</label>
+                            <input type="text" placeholder="填写库存" id="g_stock" name="gStock" value="">
+                        </div>
+                        <div class="news_title">
+                            <label class="text_center">描述</label>
+                            <input type="text" placeholder="填写描述" id="g_describe" name="gDescribe" value="">
+                        </div>
+                        <!-- <div class="column_name">
+                            <label class="text_center">口味</label>
+                            <input type="checkbox" checked>麻辣 &nbsp; &nbsp;<input type="checkbox">番茄
+                        </div> -->
+                        <!-- <div class="column_name">
+                            <label class="text_center">类型</label>
+                            <select class="column_name_release">
+                                <option>休闲食品</option>
+                                <option></option>
+                                <option></option>
+                                <option></option>
+                                <option></option>
+                                <option></option>
+                            </select>
+                        </div> -->
 
-                    <br>
-                    <div class="news_title">
-                        <label class="text_center">主图</label>
-                        <input type="file" placeholder="选择图片" name="">
-                    </div>
-                    <div class="news_title">
-                        <label class="text_center">图片</label>
-                        <input type="file" placeholder="选择图片" name="">
-                    </div>
+                        <br>
+                        <div class="news_title">
+                            <label class="text_center">主图</label>
+                            <input type="file" placeholder="选择图片" name="picture" id="image_M" value="">
+                        </div>
+                        <div id="goodsImages1" style="width: 200px;height: 160px;">
 
-                    <div class="release_news_ok_btn text_center">保存</div>
+                        </div>
+                        <div class="release_news_ok_btn text_center" id="release_news_ok_btn">保存</div>
+                        <br>
+                        
+                        <!-- <div class="news_title">
+                            <label class="text_center">图片1</label>
+                            <input type="file" placeholder="选择图片" name="picture" id="image_1" value="">
+                        </div>
+                        <div class="news_title">
+                            <label class="text_center">图片2</label>
+                            <input type="file" placeholder="选择图片" name="picture" id="image_2" value="">
+                        </div>
+
+                        <div class="release_news_ok_btn text_center" id="release_news_ok_btn1">保存</div> -->
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="../js/jquery-3.6.0.js"></script>
+    <script src="../js/jquery.form.min.js"></script>
+    <script>
+        //#解析URL获取gId
+        var url = location.href;
+        var gId = url.substring(url.lastIndexOf("=") + 1);
+        // alert(gId)
+
+        var token = localStorage.getItem("token");
+
+        //查询商品信息，回填
+        $.ajax({
+            headers: {
+                token: token
+            },
+            url: "http://localhost/VegetableMarket/goods/gId/" + gId,
+            type: "get",
+            success: function (resp) {
+                var goods = resp.data;
+                // alert(goods.gname)
+                $("#g_id").val(goods.gid);
+                $("#c_id").val(goods.cid);
+                $("#g_name").val(goods.gname);
+                $("#g_price").val(goods.gprice);
+                $("#g_stock").val(goods.gstock);
+                $("#g_describe").val(goods.gdescribe);
+                $("#goodsImages1").append("<img src='http://localhost:8080/images/" + goods.es1 + "'>");
+            }
+        })
+
+
+        //保存按钮点击
+        $("#release_news_ok_btn").click(function () {
+            //1、商品信息存入商品表、商品主图存入商品表备用字段1
+            var option = {
+                //## 不需要Form数据,post要在form表单元素的标签里面用method加 表单元素要加name属性 ##//
+                url: "http://localhost/VegetableMarket/goods",
+                success: function (resp) {
+                    alert(resp.code + " : " + resp.message + " : " + resp.data)
+                    location.href="goodslist1.html?cid="+$("#c_id").val();
+                }
+            }
+            $("#foo").ajaxSubmit(option);//表单提交
+
+
+            // $.ajax({
+            //     headers: {
+            //         token: token
+            //     },
+            //     url: "http://localhost/VegetableMarket/goods",
+            //     type: "post",
+            //     data: { _method: "put" },
+            //     success: function (resp) {
+            //         alert(resp.data)
+
+            //     }
+            // })
+            //2、商品附图传入商品图片表
+
+        })
+
+
+
+    </script>
 </body>
 
 </html>

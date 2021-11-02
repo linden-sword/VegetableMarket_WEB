@@ -71,23 +71,25 @@
             var u_tel = $("#u_tel").val();
             var username = $("#username").val();
             var u_sex = $("input[name='sex']:checked").val();
-            if (u_sex = 0) {
+            // alert(u_sex)
+            if (u_sex == 0) {
                 u_sex = "女";
             } else {
                 u_sex = "男";
             }
+            // alert(u_sex)
             var u_role = $("input[name='role']:checked").val();
-            if (u_role = 0) {
-                u_role = "管理員";
+            if (u_role == 0) {
+                u_role = "0";
             } else {
-                u_role = "用戶";
+                u_role = "1";
             }
 
             var u_status = $("input[name='status']:checked").val();
-            if (u_role = 0) {
-                u_role = "已凍結";
+            if (u_status == 0) {
+                u_status = "0";
             } else {
-                u_role = "未凍結";
+                u_status = "1";
             }
             $.ajax({
                 url: "http://localhost/VegetableMarket/UserAdd",

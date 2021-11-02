@@ -116,14 +116,30 @@
     <script type="text/javascript" src="../js/main.js"></script>
     <script src="../js/jquery-3.6.0.js"></script>
     <script>
+        var token = localStorage.getItem("token");
         $(function () {
             // var username=localStorage.getItem("username");
-            var username = "1";
+            var username = localStorage.getItem("username");
             $("#Boss").html("管理员:" + username);
 
 
 
         });
+
+        $(".quit").click(function () {
+            $.ajax({
+                headers: {
+                    token: token,
+                },
+                url: "http://localhost/VegetableMarket/User/logOut",
+                type: "get",
+                data: {},
+                success: function (respTxt) {
+                    alert(respTxt.data);
+                    location.href = "../user/login.html";
+                }
+            })
+        })
     </script>
 
 

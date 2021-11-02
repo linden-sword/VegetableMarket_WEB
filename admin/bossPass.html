@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <link href="../css/admin_main.css" rel="stylesheet">
+    <style>
+        #pass {
+            display: inline-block;
+            width: 300px;
+            height: 30px;
+        }
+
+        #btn {
+            display: inline-block;
+            width: 304px;
+            height: 30px;
+            font-size: 20px;
+            color: white;
+            background-color: #2980b6;
+            border: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="AccountManagement_c " id="AccountManagement_c">
+        <h3>管理员管理 - 验证root管理员密码
+
+        </h3>
+        <div class="AM_ct text_center" style="border-bottom: 0;">
+            <div class="AM_ct_in">
+                <input type="password" id="pass">
+                <br><br>
+            </div>
+        </div>
+
+        <div class="AM_ct text_center" style="border-top: 0;">
+            <div class="AM_ct_in">
+                <input type="button" value="确 认" id="btn">
+            </div>
+        </div>
+
+
+</body>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/main.js"></script>
+<script src="../js/jquery-3.6.0.js"></script>
+<script>
+    $("#btn").click(function () {
+        var passwd = $("#pass").val();
+        // alert(passwd)
+        if (passwd == "root") {
+            location.href = "bosslist.html";
+        } else {
+            alert("密码错误")
+        }
+    })
+</script>
+
+</html>

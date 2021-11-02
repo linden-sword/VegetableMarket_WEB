@@ -34,10 +34,10 @@
 	<div class="search_bar clearfix">
 		<a href="index.html" class="logo fl"><img src="../images/logo.png"></a>
 		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;购物车</div>
-		<div class="search_con fr">
+		<!-- <div class="search_con fr">
 			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
 			<input type="button" class="input_btn fr" name="" value="搜索">
-		</div>
+		</div> -->
 	</div>
 
 
@@ -88,7 +88,7 @@
 			<span>|</span>
 			<a href="#">友情链接</a>
 		</div>
-		<p>CopyRight © 2020 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+		<p>CopyRight © 2020 北京鲜生活信息技术有限公司 All Rights Reserved</p>
 		<p>电话：010-****888 京ICP备*******8号</p>
 	</div>
 
@@ -109,8 +109,12 @@
 		var total_money = 0;
 		var i = 0;
 		var username = localStorage.getItem("username");
+		var token = localStorage.getItem("token");
 		$("#hello").html("你好" + username);
 		$.ajax({
+			headers: {
+				token: token,
+			},
 			//async:false,
 			url: "http://localhost/VegetableMarket/ShoppingcartFind",
 			type: "get",
@@ -130,7 +134,7 @@
 					var li1 = "<ul class=\"cart_list_td clearfix\">" +
 						"<li class=\"col01\"><input type=\"checkbox\" name=\"OneOfGoodsList\" value=\"" + sc.scId + "\" checked></li>" +
 
-						"<li class=\"col02\"><img src=\"../images/goods/goods012.jpg\"></li>" +
+						"<li class=\"col02\"><img src=\"http://localhost:8080/images/" + sc.es1 + "\"></li>" +
 						"<li class=\"col03\">" + sc.g_name + "<br><em>" + sc.g_price + "元/500g</em></li>" +
 						"<li class=\"col04\">500g</li>" +
 						"<li class=\"col05\">" + sc.g_price + "元</li>" +
@@ -155,6 +159,9 @@
 		});
 		function deleteCount(scId) {
 			$.ajax({
+				headers: {
+					token: token,
+				},
 				url: "http://localhost/VegetableMarket/ShoppingcartDe",
 				type: "get",
 				data: { scId: scId },
@@ -169,6 +176,9 @@
 
 		function AddWeightCount(scId) {
 			$.ajax({
+				headers: {
+					token: token,
+				},
 				url: "http://localhost/VegetableMarket/ShoppingcartUp",
 				type: "get",
 				data: { scId: scId },
@@ -187,6 +197,9 @@
 		}
 		function MulWeightCount(scId) {
 			$.ajax({
+				headers: {
+					token: token,
+				},
 				url: "http://localhost/VegetableMarket/ShoppingcartDown",
 				type: "get",
 				data: { scId: scId },

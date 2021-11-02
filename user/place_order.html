@@ -18,11 +18,11 @@
 				<div class="login_info fl">
 					欢迎您：<em>张 山</em>
 				</div>
-				<div class="login_btn fl">
+				<!-- <div class="login_btn fl">
 					<a href="login.html">登录</a>
 					<span>|</span>
 					<a href="register.html">注册</a>
-				</div>
+				</div> -->
 				<div class="user_link fl">
 					<span>|</span>
 					<a href="user_center_info.html">用户中心</a>
@@ -38,10 +38,10 @@
 	<div class="search_bar clearfix">
 		<a href="index.html" class="logo fl"><img src="../images/logo.png"></a>
 		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;提交订单</div>
-		<div class="search_con fr">
+		<!-- <div class="search_con fr">
 			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
 			<input type="button" class="input_btn fr" name="" value="搜索">
-		</div>
+		</div> -->
 	</div>
 
 	<h3 class="common_title">确认收货地址</h3>
@@ -49,7 +49,7 @@
 	<div class="common_list_con clearfix">
 		<dl id="addressCheck">
 			<dt>寄送到：</dt>
-			<dd><input type="radio" name="address">北京市 海淀区 东北旺西路8号中关村软件园 （李思 收） 182****7528</dd>
+			<!-- <dd><input type="radio" name="address">北京市 海淀区 东北旺西路8号中关村软件园 （李思 收） 182****7528</dd> -->
 		</dl>
 		<a href="user_center_site.html" class="edit_site">编辑收货地址</a>
 
@@ -105,7 +105,7 @@
 			<span>|</span>
 			<a href="#">友情链接</a>
 		</div>
-		<p>CopyRight © 2020北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+		<p>CopyRight © 2020北京鲜生活信息技术有限公司 All Rights Reserved</p>
 		<p>电话：010-****888 京ICP备*******8号</p>
 	</div>
 
@@ -209,7 +209,8 @@
 						oPayType: $("input[name='pay_style']:checked").val(),
 					},
 					success: function (resp) {
-						alert("订单提交成功")
+						alert("订单提交成功");
+						location.href = "pay.html"
 					}
 				})
 			});
@@ -259,6 +260,7 @@
 				},
 				success: function (resp) {
 					alert("订单提交成功")
+					location.href = "pay.html"
 				}
 			})
 		}

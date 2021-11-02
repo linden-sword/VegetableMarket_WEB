@@ -18,11 +18,11 @@
 				<div class="login_info fl">
 					欢迎您：<em>张 山</em>
 				</div>
-				<div class="login_btn fl">
+				<!-- <div class="login_btn fl">
 					<a href="login.html">登录</a>
 					<span>|</span>
 					<a href="register.html">注册</a>
-				</div>
+				</div> -->
 				<div class="user_link fl">
 					<span>|</span>
 					<a href="user_center_info.html">用户中心</a>
@@ -42,7 +42,7 @@
 			<input type="button" class="input_btn fr" name="" id="searchBarBtn" value="搜索">
 		</div>
 		<div class="guest_cart fr">
-			<a href="#" class="cart_name fl">我的购物车</a>
+			<a href="cart.html" class="cart_name fl">我的购物车</a>
 			<div class="goods_count fl">1</div>
 		</div>
 	</div>
@@ -53,20 +53,20 @@
 				<h1>全部商品分类</h1>
 				<span></span>
 				<ul class="subnav">
-					<li><a href="#" class="fruit">新鲜水果</a></li>
-					<li><a href="#" class="seafood">海鲜水产</a></li>
-					<li><a href="#" class="meet">猪牛羊肉</a></li>
-					<li><a href="#" class="egg">禽类蛋品</a></li>
-					<li><a href="#" class="vegetables">新鲜蔬菜</a></li>
-					<li><a href="#" class="ice">速冻食品</a></li>
+					<li><a href="list.html?c_id=1" class="fruit">新鲜水果</a></li>
+					<li><a href="list.html?c_id=2" class="seafood">海鲜水产</a></li>
+					<li><a href="list.html?c_id=3" class="meet">猪牛羊肉</a></li>
+					<li><a href="list.html?c_id=4" class="egg">禽类蛋品</a></li>
+					<li><a href="list.html?c_id=5" class="vegetables">新鲜蔬菜</a></li>
+					<li><a href="list.html?c_id=6" class="ice">速冻食品</a></li>
 				</ul>
 			</div>
 			<ul class="navlist fl">
-				<li><a href="">首页</a></li>
+				<li><a href="index.html">首页</a></li>
 				<li class="interval">|</li>
 				<li><a href="">手机生鲜</a></li>
-				<li class="interval">|</li>
-				<li><a href="">抽奖</a></li>
+				<!-- <li class="interval">|</li>
+				<li><a href="">抽奖</a></li> -->
 			</ul>
 		</div>
 	</div>
@@ -81,7 +81,7 @@
 		<div class="l_wrap fl clearfix">
 			<div class="new_goods">
 				<h3>新品推荐</h3>
-				<ul>
+				<!-- <ul>
 					<li>
 						<a href="#"><img src="../images/goods/goods001.jpg"></a>
 						<h4><a href="#">进口柠檬</a></h4>
@@ -92,15 +92,15 @@
 						<h4><a href="#">玫瑰香葡萄</a></h4>
 						<div class="prize">￥16.80</div>
 					</li>
-				</ul>
+				</ul> -->
 			</div>
 		</div>
 
 		<div class="r_wrap fr clearfix">
 			<div class="sort_bar">
 				<a href="#" class="active">默认</a>
-				<a href="#">价格</a>
-				<a href="#">人气</a>
+				<!-- <a href="#">价格</a>
+				<a href="#">人气</a> -->
 			</div>
 
 			<ul class="goods_type_list clearfix" id="goods_type_list">
@@ -146,6 +146,29 @@
 			// alert(cId)
 
 			var token = localStorage.getItem("token")
+
+			$.ajax({
+				headers: {
+					token: token
+				},
+				url: "http://localhost/VegetableMarket/goods/FreshTaste",
+				type: "get",
+				success: function (respText) {
+					var goodsList = respText.data.list;
+					var i = 0;
+					for (var goods of goodsList) {
+						var goods = "<ul><li>" +
+							"<a href=\"detail.html?g_id=" + goods.gid + "\"><img src=\"http://localhost:8080/images/" + goods.es1 + "\"></a>" +
+							"<h4><a href=\"#\">" + goods.gname + "</a></h4>" +
+							"<div class=\"prize\">￥" + goods.gprice + "</div>" +
+							"</li></ul>";
+						$(".new_goods").append(goods);
+						i++;
+						if (i >= 2) break;
+					}
+				}
+			})
+
 			// alert(token)
 			var pageNumH = 1;
 			var isLastPage = false;
@@ -207,7 +230,7 @@
 						for (var goods of goodsList) {
 							var goods = "<li class='gooddd'>" +
 								//商品图片
-								"<a href='detail.html?g_id=" + goods.gid + "'><img src='../images/goods/goods008.jpg'></a>" +
+								"<a href='detail.html?g_id=" + goods.gid + "'><img src='http://localhost:8080/images/" + goods.es1 + "'></a>" +
 								//商品名称
 								"<h4><a href='#'>" + goods.gname + "</a></h4>" +
 								"<div class='operate'>" +

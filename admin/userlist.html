@@ -175,13 +175,16 @@
                 data: { username: username },
                 success: function (respTxt) {
                     if (respTxt.code == 1000) {
+
+                        $(".pagenation").empty();
+
                         var i = 0;
                         var div = "<div id=\"AddP\"></div>";
                         $("#list_b_c").append(div);
                         var cus = respTxt.data;
-                        alert(cus)
+                        // alert(cus)
                         for (var c of cus) {
-                            alert(c)
+                            // alert(c)
                             var li = "<ul class=\"list_b\" id=\"list_b\">" +
                                 "<li class=\"b20\"><label><input type=\"checkbox\"><span>" + c.username + "</span></label></li>" +
                                 "<li class=\"b20\"><label>" + c.usex + "</label></li>" +

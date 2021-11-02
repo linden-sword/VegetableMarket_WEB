@@ -24,7 +24,7 @@
 					<a href="register.html">注册</a>
 				</div> -->
 				<div class="user_link fl">
-					<!-- <span>|</span> -->
+					<span>|</span>
 					<a href="user_center_info.html">用户中心</a>
 					<span>|</span>
 					<a href="cart.html">我的购物车</a>
@@ -37,10 +37,10 @@
 
 	<div class="search_bar clearfix">
 		<a href="index.html" class="logo fl"><img src="../images/logo.png"></a>
-		<div class="search_con fl">
+		<!-- <div class="search_con fl">
 			<input type="text" class="input_text fl" name="" id="searchBar" placeholder="搜索商品">
 			<input type="button" class="input_btn fr" name="" id="searchBarBtn" value="搜索">
-		</div>
+		</div> -->
 		<div class="guest_cart fr">
 			<a href="cart.html" class="cart_name fl">我的购物车</a>
 			<div class="goods_count fl">1</div>
@@ -50,9 +50,31 @@
 	<div class="navbar_con">
 		<div class="navbar clearfix">
 			<div class="subnav_con fl">
-				<h1>搜索结果</h1>
+				<h1>全部商品分类</h1>
+				<span></span>
+				<ul class="subnav">
+					<li><a href="list.html?c_id=1" class="fruit">新鲜水果</a></li>
+					<li><a href="list.html?c_id=2" class="seafood">海鲜水产</a></li>
+					<li><a href="list.html?c_id=3" class="meet">猪牛羊肉</a></li>
+					<li><a href="list.html?c_id=4" class="egg">禽类蛋品</a></li>
+					<li><a href="list.html?c_id=5" class="vegetables">新鲜蔬菜</a></li>
+					<li><a href="list.html?c_id=6" class="ice">速冻食品</a></li>
+				</ul>
 			</div>
+			<ul class="navlist fl">
+				<li><a href="index.html">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="">手机生鲜</a></li>
+				<!-- <li class="interval">|</li>
+				<li><a href="">抽奖</a></li> -->
+			</ul>
 		</div>
+	</div>
+
+	<div class="breadcrumb">
+		<a href="#">全部分类</a>
+		<span>></span>
+		<a href="#" id="doodsClass">新鲜水果</a>
 	</div>
 
 	<div class="main_wrap clearfix">
@@ -84,14 +106,6 @@
 			<ul class="goods_type_list clearfix" id="goods_type_list">
 
 			</ul>
-
-			<div class="pagenation">
-				<a href="" id="prePage" class="active">上一页</a>
-				<a id="pageNow">第x页</a>
-				<a id="goodsTotal">共x个商品</a>
-				<a id="pageTotal">共x页</a>
-				<a href="" id="nextPage" class="active">下一页</a>
-			</div>
 		</div>
 	</div>
 
@@ -110,6 +124,7 @@
 	</div>
 
 	<script>
+
 		$("body").on("click", "#searchBarBtn", function () {
 			var url1 = encodeURI("searchList.html?searchString=" + $("#searchBar").val())
 			location.href = url1;
@@ -117,14 +132,7 @@
 		})
 
 		$(function () {
-			//#解析URL获取cId
-			var url = location.href;
-			// alert(url)
-			var searchString = decodeURI(url.substring(url.lastIndexOf("=") + 1));
-			// alert(searchString)
-
-			var token = localStorage.getItem("token")
-
+			var token = localStorage.getItem("token");
 			$.ajax({
 				headers: {
 					token: token
@@ -146,64 +154,18 @@
 					}
 				}
 			})
-			// alert(token)
-			var pageNumH = 1;
-			var isLastPage = false;
 
-			goods(searchString, 1);
-
-			//下一页
-			$("#nextPage").click(function (event) {
-				//取消默认行为
-				event.preventDefault();
-				if (isLastPage == true) {
-					alert("已经是最后一页了！");
-					return;
-				} else {
-					pageNumH = pageNumH + 1;
-					//删除上一页的行
-					$(".gooddd").remove();
-					goods(cId, pageNumH);
-				}
-			});
+			goods();
 
 
-			//上一页
-			$("#prePage").click(function (event) {
-				//取消默认行为
-				event.preventDefault();
-				if (pageNumH == 1) {
-					alert("已经是第一页了！");
-					return;
-				} else {
-					pageNumH = pageNumH - 1;
-					//删除上一页的行
-					$(".gooddd").remove();
-					goods(cId, pageNumH);
-				}
-			});
-
-
-			function goods(searchString, pageNum) {
+			function goods() {
 				$.ajax({
 					headers: {
 						token: token
 					},
-					url: "http://localhost/VegetableMarket/goods",
+					url: "http://localhost/VegetableMarket/goods/FreshTaste",
 					type: "get",
-					data: {
-						searchString: searchString,
-						pageNum: pageNum,
-					},
 					success: function (respText) {
-						// alert(respText.code+" : "+respText.message+" : "+respText.data)
-						$("#pageNow").html("第" + respText.data.pageNum + "页");
-						$("#pageTotal").html("共" + respText.data.pages + "页");
-						$("#goodsTotal").html("共" + respText.data.total + "个商品");
-
-						isLastPage = respText.data.isLastPage;
-						last = respText.data.pages;
-
 						var goodsList = respText.data.list;
 						for (var goods of goodsList) {
 							var goods = "<li class='gooddd'>" +

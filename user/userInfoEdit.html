@@ -1,0 +1,194 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>天天生鲜-用户中心</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link href="../css/admin_main.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="header_con">
+        <div class="header1" style="width: 1200px;margin: 0 auto;">
+            <div class="welcome fl">欢迎来到鲜生活!</div>
+            <div class="fr">
+
+                <div class="user_link fl">
+
+                    <a href="user_center_info.html">用户中心</a>
+                    <span>|</span>
+                    <a href="cart.html">我的购物车</a>
+                    <span>|</span>
+                    <a href="user_center_order.html">我的订单</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search_bar clearfix">
+        <a href="index.html" class="logo fl"><img src="../images/logo.png"></a>
+        <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
+
+    </div>
+
+    <div class="main_con clearfix">
+        <div class="left_menu_con clearfix">
+            <h3>用户中心</h3>
+            <ul>
+                <li><a href="user_center_info.html">· 个人信息</a></li>
+                <li><a href="user_center_order.html">· 全部订单</a></li>
+                <li><a href="user_center_site.html">· 收货地址</a></li>
+                <li><a href="userInfoEdit.html" class="active">· 编辑信息</a></li>
+            </ul>
+        </div>
+        <div class="right_content clearfix">
+            <div class="list" id="release_news">
+                <ul class="list_h">
+                    <li class="b80"><label>编辑</label>
+                        资料</li>
+                </ul>
+                <div class="list_b_c" id="release_news_in">
+                    <div class="release_news">
+                        <!-- <div class="news_title">
+                            <label class="text_center">用户ID</label> -->
+                        <span id="span1">
+                            <input type="hidden" id="id">
+                        </span>
+                        <!-- </div> -->
+                        <div class="news_title">
+                            <label class="text_center">用户名</label>
+                            <span id="span2">
+                                <input type="text" id="username">
+                            </span>
+                        </div>
+                        <div class="news_title">
+                            <label class="text_center">密码</label>
+                            <span id="span3">
+                                <input type="password" id="passwd">
+                            </span>
+                        </div>
+                        <div class="news_title">
+                            <label class="text_center">确认密码</label>
+                            <span id="span3">
+                                <input type="password" id="passwd1">
+                            </span>
+                        </div>
+                        <div class="news_title">
+                            <label class="text_center">邮箱</label>
+                            <span id="span4">
+                                <input type="text" id="mail">
+                            </span>
+                        </div>
+                        <div class="news_title">
+                            <label class="text_center">手机号</label>
+                            <span id="span5">
+                                <input type="text" id="tel">
+                            </span>
+                        </div>
+                        <div class="news_title">
+                            <label class="text_center">性别</label>
+                            <span id="span6">
+                                <input type="radio" class="sex" name="sex" style="width: 50px;" id="tradeType0"
+                                    value="男">男
+                                <input type="radio" class="sex" name="sex" style="width: 50px;" id="tradeType1"
+                                    value="女">女
+                            </span>
+                        </div>
+                        <div class="news_title">
+                            <label class="text_center">生日</label>
+                            <span id="span7">
+                                <input type="datetime" id="birth" style="width: 150px;">
+                            </span>
+                        </div>
+                        <div class="release_news_ok_btn text_center"><a href="javaScript:;">确认</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="foot_link">
+            <a href="#">关于我们</a>
+            <span>|</span>
+            <a href="#">联系我们</a>
+            <span>|</span>
+            <a href="#">招聘人才</a>
+            <span>|</span>
+            <a href="#">友情链接</a>
+        </div>
+        <p>CopyRight © 2020 北京鲜生活信息技术有限公司 All Rights Reserved</p>
+        <p>电话：010-****888 京ICP备*******8号</p>
+    </div>
+
+
+    <script src="../js/jquery-3.6.0.js"></script>
+    <script>
+        $(function () {
+            var token = localStorage.getItem("token");
+            var uid = localStorage.getItem("uId");
+            $.ajax({
+                headers: {
+                    token: token,
+                },
+                url: "http://localhost/VegetableMarket/UserFindID",
+                type: "get",
+                data: { uId: uid },
+                success: function (respTxt) {
+                    //  alert(respTxt.message);
+                    var re = respTxt.data;
+                    if (respTxt.code == 1000) {
+                        $("#id").val(re.uid);
+                        $("#username").val(re.username);
+                        $("#passwd").val(re.passwd);
+                        $("#mail").val(re.uemail);
+                        $("#tel").val(re.utel);
+                        if (re.usex == "男") {
+                            $("#tradeType0").attr("checked", "checked");
+                            $("#tradeType1").attr("checked", false);
+                        } else if (re.usex == "女") {
+                            $("#tradeType1").attr("checked", "checked");
+                            $("#tradeType0").attr("checked", false);
+                        }
+                        $("#birth").val(re.uDatetime);
+                    }
+                }
+            });
+
+            //修改
+            $(".release_news_ok_btn").click(function () {
+                // alert($('input:radio[name="sex"]:checked').val())
+                if ($("#passwd").val() != $("#passwd1").val()) {
+                    alert("两次输入密码不一样")
+                    return;
+                } else {
+                    $.ajax({
+                        headers: {
+                            token: token,
+                        },
+                        url: "http://localhost/VegetableMarket/UserUpPsw",
+                        type: "post",
+                        data: {
+                            uId: uid,
+                            username: $("#username").val(),
+                            passwd: $("#passwd").val(),
+                            uEmail: $("#mail").val(),
+                            uTel: $("#tel").val(),
+                            uSex: $('input:radio[name="sex"]:checked').val(),
+                        },
+                        success: function (respTxt) {
+                            if (respTxt.code == 1000) {
+                                alert("修改成功");
+                            }
+                        }
+                    });
+                }
+
+            })
+        });
+    </script>
+</body>
+
+</html>

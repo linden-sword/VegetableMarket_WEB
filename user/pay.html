@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <script src="../js/jquery-1.12.4.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            font-weight: bolder;
+        }
+
+        #img1 {
+            width: 640px;
+            height: 300px;
+            border-radius: 30px;
+            box-shadow: darkgray 10px 10px 10px;
+            margin-bottom: 80px;
+        }
+
+        #img1:hover {
+            box-shadow: gray 10px 10px 10px;
+        }
+
+        .ZFCG {
+            width: 400px;
+            height: 70px;
+            background-color: gray;
+            box-shadow: white 10px 10px 10px;
+            border: 1px solid black;
+            margin: 0 auto;
+            position: absolute;
+            left: 575px;
+            top: 350px;
+            font-size: 50px;
+            color: black;
+            border-radius: 20px;
+        }
+
+        .disnon {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header_con">
+        <div class="header">
+            <div class="welcome fl">欢迎来到天天生鲜!</div>
+            <div class="fr">
+                <div class="user_link fl">
+                    <span>|</span>
+                    <a href="user_center_info.html">用户中心</a>
+                    <span>|</span>
+                    <a href="cart.html">我的购物车</a>
+                    <span>|</span>
+                    <a href="user_center_order.html">我的订单</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search_bar clearfix">
+        <a href="index.html" class="logo fl"><img src="../images/logo.png"></a>
+        <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;支付</div>
+    </div>
+    <hr>
+
+    <h1>点击下方卡片进行人脸识别支付</h1>
+    <a href="" id="pay_btn">
+        <img src="../images/faceID.jpg" id="img1">
+    </a>
+
+    <div class="footer">
+        <div class="foot_link">
+            <a href="#">关于我们</a>
+            <span>|</span>
+            <a href="#">联系我们</a>
+            <span>|</span>
+            <a href="#">招聘人才</a>
+            <span>|</span>
+            <a href="#">友情链接</a>
+        </div>
+        <p>CopyRight © 2020北京鲜生活信息技术有限公司 All Rights Reserved</p>
+        <p>电话：010-****888 京ICP备*******8号</p>
+    </div>
+
+    <div class="ZFCG disnon" id="end">
+        人脸支付成功
+    </div>
+
+    <script type="text/javascript" src="../js/jquery-1.12.2.js"></script>
+    <script type="text/javascript">
+        $('#pay_btn').click(function (event) {
+            event.preventDefault();
+            var token = localStorage.getItem("token");
+            $("#end").removeClass("disnon");
+            //提交后端，待支付改为待发货
+            // $.ajax({
+            //     headers: {
+            //         token: token
+            //     },
+            //     url: "http://localhost/VegetableMarket/orders/orders",
+            //     type: "post",
+            //     data: {
+            //         _method:"put",
+                    
+            //     },
+            //     success: function (respText) {
+                    
+            //     }
+            // })
+
+            $(document).ready(function () {
+                function jump(count) {
+                    window.setTimeout(function () {
+                        count--;
+                        if (count > 0) {
+                            $('#num').attr('innerHTML', count);
+                            jump(count);
+                        } else {
+                            location.href = "index.html"
+                        }
+                    }, 1000);
+                }
+                jump(3);
+            });
+
+        });
+
+
+    </script>
+</body>
+
+</html>

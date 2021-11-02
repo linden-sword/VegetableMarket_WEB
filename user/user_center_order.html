@@ -19,7 +19,7 @@
 				</div>
 
 				<div class="user_link fl">
-					<span>|</span>
+					<!-- <span>|</span> -->
 					<a href="user_center_info.html">用户中心</a>
 					<span>|</span>
 					<a href="cart.html">我的购物车</a>
@@ -33,10 +33,10 @@
 	<div class="search_bar clearfix">
 		<a href="index.html" class="logo fl"><img src="../images/logo.png"></a>
 		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
-		<div class="search_con fr">
+		<!-- <div class="search_con fr">
 			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
 			<input type="button" class="input_btn fr" name="" value="搜索">
-		</div>
+		</div> -->
 	</div>
 
 	<div class="main_con clearfix">
@@ -46,6 +46,7 @@
 				<li><a href="user_center_info.html">· 个人信息</a></li>
 				<li><a href="user_center_order.html" class="active">· 全部订单</a></li>
 				<li><a href="user_center_site.html">· 收货地址</a></li>
+				<li><a href="userInfoEdit.html">· 编辑信息</a></li>
 			</ul>
 		</div>
 		<div class="right_content clearfix">
@@ -132,7 +133,7 @@
 			<span>|</span>
 			<a href="#">友情链接</a>
 		</div>
-		<p>CopyRight © 2020 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+		<p>CopyRight © 2020 北京鲜生活信息技术有限公司 All Rights Reserved</p>
 		<p>电话：010-****888 京ICP备*******8号</p>
 	</div>
 	<script src="../js/jquery-3.6.0.js"></script>
@@ -144,6 +145,7 @@
 
 		// alert(2);
 		var username = localStorage.getItem("username");
+		var token = localStorage.getItem("token");
 		Find();
 
 		$("#hello").html("你好" + username);
@@ -178,6 +180,9 @@
 		//alert(username);
 		function Find() {
 			$.ajax({
+				headers: {
+					token: token,
+				},
 				async: false,
 				url: "http://localhost/VegetableMarket/OrdersPageByUid",
 				type: "get",
@@ -206,11 +211,11 @@
 							"<ul class=\"order_list_th w978 clearfix\">" +
 							"<li style=\"margin-left:110px\">名称</li>" +
 							"<li  style=\"margin-left:10px\">单价</li>" +
-							"<li style=\"margin-left:230px\">数量</li>" +
-							"<li style=\"margin-left:45px\">共计</li>" +
-							"<li style=\"margin-left:110px\">总计</li>" +
-							"<li style=\"margin-left:110px\">订单状态</li>" +
-							"<li style=\"margin-left:110px\">操作</li>" +
+							"<li style=\"margin-left:295px\">数量</li>" +
+							"<li style=\"margin-left:70px\">共计</li>" +
+							"<li style=\"margin-left:130px\">总计</li>" +
+							"<li style=\"margin-left:130px\">订单状态</li>" +
+							// "<li style=\"margin-left:110px\">操作</li>" +
 
 							"</ul>" +
 							"<table class=\"order_list_table w980\">" +
@@ -222,23 +227,32 @@
 							"</td>" +
 							"<td width=\"15%\">" + o.ototalPrice + "元</td>" +
 							"<td width=\"15%\">" + o.ostatus + "</td>" +
-							"<td width=\"15%\"><a href=\"#\" class=\"oper_btn\" id=\"payMoney\">查看物流</a></td>" +
+							// "<td width=\"15%\"><a href=\"#\" class=\"oper_btn\" id=\"payMoney\">查看详情</a></td>" +
 							"</tr>" +
 							"</tbody>" +
 							"</table>";
 						//console.log(o.ostatus);
-						if (o.ostatus == "待支付") {
-							$("#payMoney").html("去支付");
-							//	location.href = "user_center_info.html";
-						} else {
-							$("#payMoney").html("查看详情");
-							//		location.href = "cart.html";
-						}
+						// if (o.ostatus == "待支付") {
+						// 	$("#payMoney").html("待支付");
+						// 	//	location.href = "user_center_info.html";
+						// } else if (o.ostatus == "待发货") {
+						// 	$("#payMoney").html("待发货");
+						// 	//	location.href = "user_center_info.html";
+						// } else if (o.ostatus == "待收货") {
+						// 	$("#payMoney").html("待收货");
+						// 	//	location.href = "user_center_info.html";
+						// } else {
+						// 	$("#payMoney").html("查看详情");
+						// 	//		location.href = "cart.html";
+						// }
 
 						$("#AddP").append(li);
 						var oId = o.oid;
 
 						$.ajax({
+							headers: {
+								token: token,
+							},
 							async: false,
 							url: "http://localhost/VegetableMarket/OrdersDetails",
 							type: "get",
@@ -254,8 +268,12 @@
 									var gname = 0;
 									var gprice = 0;
 									var gId = od.gid;
+									var es1 = null;
 									console.log(gId);
 									$.ajax({
+										headers: {
+											token: token,
+										},
 										async: false,
 										url: "http://localhost/VegetableMarket/goods/gId/" + gId,
 										type: "get",
@@ -263,12 +281,13 @@
 											console.log(respTxt.data.gname);
 											gname = respTxt.data.gname;
 											gprice = respTxt.data.gprice;
+											es1 = respTxt.data.es1;
 										}
 									});
 
 									var li2 =
 										"<ul class=\"order_goods_list clearfix\">" +
-										"<li class=\"col01\"><img src=\"../images/goods02.jpg\"></li>" +
+										"<li class=\"col01\"><img src=\"http://localhost:8080/images/" + es1 + "\"></li>" +
 										"<li class=\"col02\">" + gname + "<em>" + gprice + "元/kg</em></li>" +
 										"<li class=\"col03\">" + od.odWeight + "</li>" +
 										"<li class=\"col04\">" + od.odPrice.toFixed(2) + "元</li>" +

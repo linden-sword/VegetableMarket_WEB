@@ -20,11 +20,11 @@
 <body>
     <!-- 食品管理 -->
     <div class="AccountManagement_c" id="ColumnManagement_c">
-        <h3>食品管理
-            <!-- <div class="amcl fr">
-                <input type="text" placeholder="食品名" class="fl" name="">
+        <h3>食品管理 - 搜索结果
+            <div class="amcl fr">
+                <input type="text" placeholder="食品名" class="fl" name="" id="search11">
                 <div class="search fl"><img src="../images/search.png"></div>
-            </div> -->
+            </div>
         </h3>
 
         <div class="AM_ct text_center">
@@ -62,15 +62,22 @@
 
 
     <script>
-        //#解析URL获取cId
+        //#解析URL获取searchString
         var url = location.href;
-        var cId = url.substring(url.lastIndexOf("=") + 1);
-        // alert(cId)
+        var searchString = decodeURI(url.substring(url.lastIndexOf("=") + 1));
+        // alert(searchString)
 
         var token = localStorage.getItem("token");
         var pageNumI = 1;
 
-        goods(1);
+        goods(searchString, pageNumI);
+
+        $(".search").click(function () {
+            var searchString1 = $("#search11").val();
+            // alert(searchString)
+            goods(searchString1, pageNumI);
+        })
+
 
         //下一页
         $("#nextPage2").click(function () {
@@ -98,18 +105,18 @@
 
 
 
-        //按分类分页查询
-        function goods(pageNum) {
+        //按搜索分页查询
+        function goods(searchString, pageNum) {
             $.ajax({
                 headers: {
                     token: token
                 },
-                url: "http://localhost/VegetableMarket/goods/cId/" + cId,
+                url: "http://localhost/VegetableMarket/goods",
                 type: "get",
                 data: {
+                    searchString: searchString,
                     pageNum: pageNum,
                 },
-                async: false,
                 success: function (respText) {
                     // alert(respText.code+" : "+respText.message+" : "+respText.data)
                     if (respText.data == null) {
@@ -120,8 +127,12 @@
                     $("#goodsTotal").html("共" + respText.data.total + "个商品");
                     $("#pageTotal").html("共" + respText.data.pages + "页");
 
+                    // $("#pageNow").html("第" + respText.data.pageNum + "页");
+                    // $("#pageTotal").html("共" + respText.data.pages + "页");
+                    // $("#goodsTotal").html("共" + respText.data.total + "个商品");
+
                     isLastPage = respText.data.isLastPage;
-                    // last = respText.data.pages;
+                    last = respText.data.pages;
 
                     $(".list_b").remove();
                     var goodsList = respText.data.list;
@@ -133,22 +144,91 @@
                             "<li class=\"b20\"><label>￥" + goods.gprice + "</label></li>" +
                             "<li class=\"b20\"><label>" + goods.cid + "</label></li>" +
                             "<li class=\"b60\">" +
-                            "<a href=\"goodsedit.html?gid="+goods.gid+"\">" +
+                            "<a href=\"goodsedit.html?gid=" + goods.gid + "\">" +
                             "<div class=\"edit_btn df_btn fl text_center\" id=\"editBTN\">编辑</div>" +
                             "</a>" +
-                            "<a href=\"goodsdetail.html?gid="+goods.gid+"\">" +
+                            "<a href=\"goodsdetail.html?gid=" + goods.gid + "\">" +
                             "<div class=\"edit_btn df_btn fl text_center\">详情</div>" +
                             "</a>" +
                             "<a href=''>" +
                             "<div class=\"delete_btn df_btn fl text_center\">下架</div>" +
-                            "<input type='hidden' id='gid111' value='"+goods.gid+"'>"+
+                            "<input type='hidden' id='gid111' value='" + goods.gid + "'>" +
                             "</a>" +
                             "</li>" +
                             "</ul>";
                         $(".list_b_c").append(goods);
                     }
+                    // for (var goods of goodsList) {
+                    //     var goods = "<li class='gooddd'>" +
+                    //         //商品图片
+                    //         "<a href='detail.html?g_id=" + goods.gid + "'><img src='http://localhost:8080/images/" + goods.es1 + "'></a>" +
+                    //         //商品名称
+                    //         "<h4><a href='#'>" + goods.gname + "</a></h4>" +
+                    //         "<div class='operate'>" +
+                    //         //价格
+                    //         "<span class='prize'>￥" + goods.gprice + "</span>" +
+                    //         "<span class='unit'>" + goods.gprice + "/500g</span>" +
+                    //         "<a href='#' class='add_goods' title='加入购物车'></a>" +
+                    //         "</div>" +
+                    //         "</li>"
+                    //     $("#goods_type_list").append(goods);
+                    // }
                 }
             })
+
+
+
+
+
+            // $.ajax({
+            //     headers: {
+            //         token: token
+            //     },
+            //     url: "http://localhost/VegetableMarket/goods/cId/" + cId,
+            //     type: "get",
+            //     data: {
+            //         pageNum: pageNum,
+            //     },
+            //     async: false,
+            //     success: function (respText) {
+            //         // alert(respText.code+" : "+respText.message+" : "+respText.data)
+            //         if (respText.data == null) {
+            //             $(".list_b").remove();
+            //             $(".list_b_c").append("<h3 id='noneGoods'>【该分类没有商品】</h3>");
+            //         }
+            //         $("#pageNow").html("第" + respText.data.pageNum + "页");
+            //         $("#goodsTotal").html("共" + respText.data.total + "个商品");
+            //         $("#pageTotal").html("共" + respText.data.pages + "页");
+
+            //         isLastPage = respText.data.isLastPage;
+            //         // last = respText.data.pages;
+
+            //         $(".list_b").remove();
+            //         var goodsList = respText.data.list;
+            //         for (var goods of goodsList) {
+            //             var goods = "<ul class=\"list_b\">" +
+            //                 "<li class=\"b10\"><label><input type=\"checkbox\" name=\"\"><span>" + goods.gid + "</span></label></li>" +
+            //                 "<li class=\"b20\"><label>" + goods.gname + "</label></li>" +
+            //                 "<li class=\"b20\"><label>￥" + goods.gprice + "</label></li>" +
+            //                 "<li class=\"b20\"><label>￥" + goods.gprice + "</label></li>" +
+            //                 "<li class=\"b20\"><label>" + goods.cid + "</label></li>" +
+            //                 "<li class=\"b60\">" +
+            //                 "<a href=\"goodsedit.html?gid=" + goods.gid + "\">" +
+            //                 "<div class=\"edit_btn df_btn fl text_center\" id=\"editBTN\">编辑</div>" +
+            //                 "</a>" +
+            //                 "<a href=\"goodsdetail.html?gid=" + goods.gid + "\">" +
+            //                 "<div class=\"edit_btn df_btn fl text_center\">详情</div>" +
+            //                 "</a>" +
+            //                 "<a href=''>" +
+            //                 "<div class=\"delete_btn df_btn fl text_center\">下架</div>" +
+            //                 "<input type='hidden' id='gid111' value='" + goods.gid + "'>" +
+            //                 "</a>" +
+            //                 "</li>" +
+            //                 "</ul>";
+            //             $(".list_b_c").append(goods);
+            //         }
+            //     }
+            // })
         }
 
         //下架商品
@@ -163,8 +243,8 @@
                 type: "post",
                 data: {
                     _method: "put",
-                    gStatus:"0",
-                    gId:$(this).parent().children("#gid111").val(),
+                    gStatus: "0",
+                    gId: $(this).parent().children("#gid111").val(),
                 },
                 success: function (resp) {
                     alert(resp.data);

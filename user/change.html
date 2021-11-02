@@ -10,7 +10,7 @@
 
 <body>
     <div class="login_top clearfix">
-        <a href="index.html" class="login_logo"><img src="../images/logo02.png"></a>
+        <a href="index.html" class="login_logo"><img src="../images/logo.png" style="width: 100%;"></a>
     </div>
 
     <div class="login_form_bg">
@@ -43,23 +43,27 @@
             <span>|</span>
             <a href="#">友情链接</a>
         </div>
-        <p>CopyRight © 2020 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+        <p>CopyRight © 2020 北京鲜生活信息技术有限公司 All Rights Reserved</p>
         <p>电话：010-****888 京ICP备*******8号</p>
     </div>
 
     <script src="../js/jquery-3.6.0.js"></script>
     <script>
+        var token = localStorage.getItem("token");
         $(".input_submit").click(function () {
             let username = $(".name_input").val();
             let passwd = $(".pass_input").val();
             $.ajax({
+				headers: {
+					token: token,
+				},
                 url: "http://localhost/VegetableMarket/change",
                 type: "post",
                 data: { _method: "PUT", username: username, passwd: passwd },
                 success: function (respTxt) {
                     if (respTxt.code == 1000) {
                         alert(respTxt.data);
-                        location.href = "index.html";
+                        location.href = "login.html";
                     }
                 }
             })
